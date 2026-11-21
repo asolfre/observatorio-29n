@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Observatorio 29-N | Comparador de Programas Electorales (Noviembre 2026)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+  <div id="root"></div>
+
+  <script>
+    // ==================== DATOS DE PARTIDOS Y PROGRAMAS ====================
+    const PARTIES = [
+      {
+        id: 'pp',
+        name: 'PP',
+        fullName: 'Partido Popular (Programa 10-N)',
+        leader: 'Alberto Núñez Feijóo',
+        color: '#0056A3',
+        bgLight: 'bg-blue-50',
+        border: 'border-blue-200',
+        text: 'text-blue-800',
+        badge: 'bg-blue-600 text-white',
+        seatsEst: 137,
+        seatsRange: '132 - 143',
+        voteShare: '33,2%',
+        axis: 'Centro-derecha / Reformismo liberal',
+        motto: 'Más empleo, menos impuestos y seguridad jurídica',
+      },
+      {
+        id: 'psoe',
+        name: 'PSOE',
+        fullName: 'Partido Socialista Obrero Español',
+        leader: 'Pedro Sánchez',
+        color: '#E30613',
+        bgLight: 'bg-red-50',
+        border: 'border-red-200',
+        text: 'text-red-800',
+        badge: 'bg-red-600 text-white',
+        seatsEst: 112,
+        seatsRange: '108 - 118',
+        voteShare: '27,8%',
+        axis: 'Socialdemocracia / Estado del Bienestar',
+        motto: 'Avanzar en derechos, reindustrialización y cohesión',
+      },
+      {
+        id: 'vox',
+        name: 'Vox',
+        fullName: 'Vox',
+        leader: 'Santiago Abascal',
+        color: '#63BE21',
+        bgLight: 'bg-lime-50',
+        border: 'border-lime-300',
+        text: 'text-lime-900',
+        badge: 'bg-lime-600 text-white',
+        seatsEst: 48,
+        seatsRange: '44 - 53',
+        voteShare: '14,6%',
+        axis: 'Derecha soberanista / Conservadurismo nacional',
+        motto: 'Sentido común, fronteras seguras y soberanía nacional',
+      },
+      {
+        id: 'frente',
+        name: 'Frente Amplio',
+        fullName: 'Frente Amplio (Sumar · IU · Más Madrid · Comuns)',
+        leader: 'Yolanda Díaz / Candidatura de Unidad',
+        color: '#E51C55',
+        bgLight: 'bg-rose-50',
+        border: 'border-rose-200',
+        text: 'text-rose-900',
+        badge: 'bg-rose-600 text-white',
+        seatsEst: 18,
+        seatsRange: '15 - 22',
+        voteShare: '8,4%',
+        axis: 'Izquierda verde, laborista y plurinacional',
+        motto: 'Tiempo de vida, vivienda garantizada y transición justa',
+      },
+      {
+        id: 'podemos',
+        name: 'Podemos',
+        fullName: 'Podemos',
+        leader: 'Irene Montero / Ione Belarra',
+        color: '#6B21A8',
+        bgLight: 'bg-purple-50',
+        border: 'border-purple-200',
+        text: 'text-purple-900',
+        badge: 'bg-purple-700 text-white',
+        seatsEst: 6,
+        seatsRange: '4 - 8',
+        voteShare: '4,3%',
+        axis: 'Izquierda transformadora y antimilitarista',
+        motto: 'Intervenir los mercados para proteger a la mayoría',
+      },
+      {
+        id: 'bng',
+        name: 'BNG',
+        fullName: 'Bloque Nacionalista Galego ("Máis forza para Galiza")',
+        leader: 'Ana Pontón · Néstor Rego (A Coruña)',
+        color: '#0095D9',
+        bgLight: 'bg-sky-50',
+        border: 'border-sky-300',
+        text: 'text-sky-900',
+        badge: 'bg-sky-600 text-white',
+        seatsEst: 2,
+        seatsRange: '2 - 3',
+        voteShare: '0,9%',
+        axis: 'Soberanismo gallego / Izquierda nacionalista',
+        motto: 'Máis forza para Galiza: concerto económico, AP-9 galega e pensións dignas',
+        isGalician: true,
+      },
+      {
+        id: 'territorial',
+        name: 'Resto Territorial',
+        fullName: 'Resto Bloque Territorial (ERC · Junts · EH Bildu · PNV · CC)',
+        leader: 'Fuerzas autonómicas y nacionalistas',
+        color: '#0D9488',
+        bgLight: 'bg-teal-50',
+        border: 'border-teal-200',
+        text: 'text-teal-900',
+        badge: 'bg-teal-700 text-white',
+        seatsEst: 27,
+        seatsRange: '25 - 30',
+        voteShare: '10,8%',
+        axis: 'Soberanismo, concierto fiscal y agenda territorial',
+        motto: 'Capacidad de decisión propia e inversión en el territorio',
+      },
+    ];
+
+    const TOPICS = [
+      { id: 'pensiones', label: 'Pensiones y Jubilación', desc: 'Revalorización IPC, edad de jubilación, MEI, pensiones mínimas y sostenibilidad' },
+      { id: 'vivienda', label: 'Vivienda y Alquiler', desc: 'Precios del alquiler, construcción de VPO, ocupación y fiscalidad inmobiliaria' },
+      { id: 'economia', label: 'Economía, Empleo e Impuestos', desc: 'IRPF, Sociedades, SMI, jornada laboral de 37,5h y deuda pública' },
+      { id: 'social', label: 'Sanidad y Educación', desc: 'Listas de espera, financiación autonómica sanitaria y modelo educativo' },
+      { id: 'territorio', label: 'Modelo Territorial y Justicia', desc: 'Financiación autonómica, renovación del CGPJ y descentralización' },
+      { id: 'derechos', label: 'Inmigración y Derechos', desc: 'Control fronterizo, regularización, igualdad y conciliación' },
+      { id: 'energia', label: 'Energía, Clima y Exterior', desc: 'Nucleares, renovables, PAC agraria, defensa y política europea' },
+    ];
+
+    const PROGRAMS = {
+      pensiones: {
+        pp: {
+          headline: 'Blindaje del poder adquisitivo, "mochila austríaca" y compatibilidad plena pensión-trabajo',
+          bullets: [
+            'Revalorización garantizada con el IPC anual (apoyó el RDL 3/2026) con auditoría independiente de la AIReF sobre cuentas de la Seguridad Social.',
+            'Incentivos a la jubilación demorada: permitir compatibilizar el 100% de la pensión con el salario activo sin penalizaciones.',
+            'Implantación gradual de cuentas individuales ("mochila austríaca") y planes de empleo de empresa para complementar la pensión pública.',
+          ],
+          tag: 'Sostenibilidad e incentivos',
+        },
+        psoe: {
+          headline: 'Consolidación del pacto de Toledo 2021-2023, MEI al 0,9% y hucha de las pensiones',
+          bullets: [
+            'Blindaje constitucional de la revalorización automática según el IPC interanual (+2,7% en 2026 y +11,4% en mínimas y no contributivas).',
+            'Despliegue del Mecanismo de Equidad Intergeneracional (0,90% en 2026 hacia el 1,2% en 2029) para nutrir el Fondo de Reserva.',
+            'Jubilación parcial y activa flexible mediante acuerdo con patronal y sindicatos, sin recortar la tasa de reemplazo.',
+          ],
+          tag: 'Pacto de Toledo y MEI',
+        },
+        vox: {
+          headline: 'Auditoría integral, reducción del gasto político y libertad de ahorro individual',
+          bullets: [
+            'Único partido que votó contra el RDL 3/2026: denuncia la insostenibilidad actuarial del sistema actual de reparto sin reformas estructurales.',
+            'Financiar las pensiones recortando subvenciones políticas, duplicidades autonómicas y gasto ideológico, y fomentando la natalidad.',
+            'Deducciones fiscales máximas en IRPF para planes de pensiones privados y ahorro familiar voluntario.',
+          ],
+          tag: 'Reforma estructural y ahorro',
+        },
+        frente: {
+          headline: 'Jubilación anticipada sin recortes en sectores penosos y subida de pensiones mínimas',
+          bullets: [
+            'Equiparar las pensiones mínimas y no contributivas al 60% de la renta mediana (por encima del SMI) y eliminar la brecha de género.',
+            'Coeficientes reductores para jubilación anticipada a los 60-61 años en profesiones penosas o peligrosas (construcción, cuidados, industria, transporte).',
+            'Destope completo de las cotizaciones máximas con aportación creciente de solidaridad y transferencia directa desde Presupuestos.',
+          ],
+          tag: 'Equidad y penosidad laboral',
+        },
+        podemos: {
+          headline: 'Derogación de reformas que retrasan la edad a 67 años y vuelta a los 65 años',
+          bullets: [
+            'Restablecer la edad ordinaria de jubilación en los 65 años y el cómputo de los 15 mejores años cotizados (frente a los 25-29 actuales).',
+            'Subida por ley de todas las pensiones mínimas hasta igualar el Salario Mínimo Interprofesional (SMI) en una sola legislatura.',
+            'Prohibición de los planes de pensiones privados de empresa incentivados fiscalmente y financiación con impuestos a rentas altas y banca.',
+          ],
+          tag: 'Jubilación a los 65 y SMI',
+        },
+        bng: {
+          headline: 'Subida de las pensiones mínimas galegas (las más bajas del Estado) y jubilación a los 65 años',
+          bullets: [
+            'Equiparación inmediata de las pensiones mínimas al 60% del salario medio (SMI) para corregir la brecha histórica de Galiza.',
+            'Retorno de la edad legal de jubilación a los 65 años (y jubilación ordinaria sin penalización con 35 años cotizados) y coeficientes reductores para naval, pesca, conserva y cuidados.',
+            'Transferencia de la gestión del régimen económico de la Seguridad Social a Galiza y cálculo de la base reguladora sobre los 15 mejores años.',
+          ],
+          tag: 'Pensiones mínimas y 35 años cotizados',
+        },
+        territorial: {
+          headline: 'Gestión autonómica de la Seguridad Social y respeto a las mutualidades profesionales',
+          bullets: [
+            'PNV y EH Bildu: culminar la transferencia de la gestión del régimen económico de la Seguridad Social al País Vasco; Bildu pide además complementar pensiones mínimas.',
+            'ERC y Junts: traspaso de la gestión de pensiones a Cataluña; Junts exige ajustar la revalorización al coste real de la vida (IPC catalán).',
+            'Consenso transversal en facilitar una pasarela voluntaria y justa al RETA para mutualistas alternativos (abogados, arquitectos, médicos).',
+          ],
+          tag: 'Traspaso de gestión y pasarela RETA',
+        },
+      },
+      vivienda: {
+        pp: {
+          headline: 'Más oferta de suelo, avales hipotecarios y desalojo exprés en 24 horas',
+          bullets: [
+            'Derogación de los topes al alquiler de la Ley de Vivienda y bonificación fiscal del 100% en IRPF a propietarios que alquilen a jóvenes.',
+            'Aval público de hasta el 100% de la hipoteca para menores de 40 años y reducción del ITP al 4% en compra de primera vivienda.',
+            'Reforma penal y procesal para permitir el desalojo de ocupaciones ilegales en 24-48 horas y cortar suministros sin delito de coacciones.',
+          ],
+          tag: 'Liberalización y seguridad jurídica',
+        },
+        psoe: {
+          headline: 'Parque público permanente, regulación del alquiler turístico y ayuda a jóvenes',
+          bullets: [
+            'Consolidar un parque público de 184.000 viviendas protegidas con blindaje permanente para que no puedan venderse a fondos privados.',
+            'Ventanilla única digital para limitar pisos turísticos en zonas tensionadas y reforma de la Ley de Propiedad Horizontal para vetarlos.',
+            'Ampliación del Bono Alquiler Joven y línea de avales ICO para compra en municipios pequeños y áreas urbanas.',
+          ],
+          tag: 'Parque público y regulación',
+        },
+        vox: {
+          headline: 'Liberalización total del suelo, bajada de IVA y prioridad nacional en ayudas',
+          bullets: [
+            'Declarar urbanizable todo el suelo que no esté expresamente protegido por razones ambientales o estratégicas.',
+            'Reducción del IVA al tipo superreducido (4%) en la adquisición de primera vivienda habitual y eliminación de impuestos autonómicos.',
+            'Prioridad nacional en el acceso a viviendas de protección oficial y expulsión inmediata de okupas e inquiokupas.',
+          ],
+          tag: 'Suelo libre y rebaja fiscal',
+        },
+        frente: {
+          headline: 'Regulación estatal de precios de alquiler y límite a la compra especulativa',
+          bullets: [
+            'Aplicación obligatoria de los índices de precios del alquiler en todas las comunidades autónomas, sancionando a quienes lo incumplan.',
+            'Prohibición de compra de vivienda a fondos buitre y no residentes en zonas tensionadas, y movilización de pisos vacíos de la Sareb.',
+            'Impuesto progresivo sobre grandes tenedores (a partir de 5 inmuebles) para financiar alquiler social asequible.',
+          ],
+          tag: 'Intervención de precios',
+        },
+        podemos: {
+          headline: 'Bajada por ley del 40% en los alquileres y expropiación de uso a grandes tenedores',
+          bullets: [
+            'Reducción obligatoria por decreto de todos los contratos de alquiler vigentes y prohibición de subidas vinculadas al IPC.',
+            'Cesión forzosa del usufructo del 50% de las viviendas vacías en manos de bancos y fondos de inversión para alquiler social.',
+            'Prohibición total de los pisos turísticos en ciudades con déficit habitacional y prohibición de desahucios sin alternativa.',
+          ],
+          tag: 'Control estricto de mercado',
+        },
+        bng: {
+          headline: 'Transferencia de las viviendas de la Sareb al IGVS y freno a los pisos turísticos',
+          bullets: [
+            'Cesión gratuita al Instituto Galego da Vivenda e Solo (IGVS) de todas las viviendas y solares de la Sareb en Galiza para alquiler social.',
+            'Regulación estatal que permita a los concellos gallegos limitar las viviendas de uso turístico y gravar los pisos vacíos de grandes tenedores.',
+            'Deducciones fiscales específicas para rehabilitación de vivienda en cascos históricos y núcleos rurales gallegos.',
+          ],
+          tag: 'Sareb galega y control turístico',
+        },
+        territorial: {
+          headline: 'Plena competencia autonómica sin invasión estatal y control del turismo',
+          bullets: [
+            'PNV y Junts rechazan la invasión competencial de la Ley de Vivienda estatal y defienden incentivos fiscales propios.',
+            'ERC y EH Bildu impulsan el control de alquileres con índices propios y el gravamen a pisos vacíos de grandes tenedores.',
+            'Coalición Canaria reclama limitar la compra de vivienda por extranjeros no residentes en las islas.',
+          ],
+          tag: 'Competencia autonómica',
+        },
+      },
+      economia: {
+        pp: {
+          headline: 'Deflactación del IRPF, rebaja de cotizaciones y mochila austríaca',
+          bullets: [
+            'Deflactación inmediata de la tarifa del IRPF para rentas inferiores a 40.000 euros y bajada del tipo mínimo.',
+            'Reducción del Impuesto de Sociedades para pymes y exención de cotizaciones durante dos años a nuevos autónomos.',
+            'Flexibilización del mercado laboral frente a la reducción rígida de jornada por ley, primando la negociación colectiva sectorial.',
+          ],
+          tag: 'Alivio fiscal y pymes',
+        },
+        psoe: {
+          headline: 'Jornada de 37,5 horas, fiscalidad verde y permanente a banca y energéticas',
+          bullets: [
+            'Culminación de la reducción de la jornada laboral máxima a 37,5 horas semanales sin merma salarial y registro horario digital.',
+            'Consolidación de los gravámenes extraordinarios a grandes entidades financieras y compañías energéticas.',
+            'Mantener la senda de reducción del déficit público por debajo del 3% compatible con la subida del SMI al 60% del salario medio.',
+          ],
+          tag: '37,5 horas y consolidación fiscal',
+        },
+        vox: {
+          headline: 'IRPF simplificado en dos tramos, fin de subvenciones y cuota cero de autónomos',
+          bullets: [
+            'Reforma radical del IRPF con solo dos tramos (15% hasta 70.000 € y 25% a partir de esa cifra) con fuertes deducciones por hijo.',
+            'Eliminación de cuota de autónomos cuando los ingresos netos no alcancen el Salario Mínimo Interprofesional.',
+            'Recorte drástico del gasto político, subvenciones a sindicatos, patronal y estructuras duplicadas.',
+          ],
+          tag: 'Recorte fiscal y gasto político',
+        },
+        frente: {
+          headline: 'Rumbo a las 35 horas, reforma fiscal de rentas del capital y herencia universal',
+          bullets: [
+            'Tras las 37,5 horas, iniciar el calendario hacia las 35 horas semanales en 2028 y reforma del despido improcedente para hacerlo disuasorio.',
+            'Equiparación de la tributación de las rentas del capital con las del trabajo e impuesto permanente a las grandes fortunas.',
+            'Despliegue de una herencia universal de 20.000 euros al cumplir 23 años para formación o emprendimiento.',
+          ],
+          tag: '35 horas y justicia fiscal',
+        },
+        podemos: {
+          headline: 'SMI en 1.800 euros, jornada de 32 horas y empresa pública de alimentación',
+          bullets: [
+            'Subida progresiva del Salario Mínimo hasta los 1.800 euros mensuales en 14 pagas y jornada laboral de 32 horas (4 días).',
+            'Creación de una cadena pública de supermercados y una banca pública a partir de participación estatal para topar márgenes.',
+            'Impuesto extraordinario a grandes patrimonios y endurecimiento de penas contra el fraude fiscal corporativo.',
+          ],
+          tag: '32 horas y sector público',
+        },
+        bng: {
+          headline: 'Concierto económico gallego, tarifa eléctrica propia y freno a Altri',
+          bullets: [
+            'Nuevo sistema de financiación con Concierto Económico para que Galiza recaude y gestione el 100% de sus impuestos, más quita de 4.000 M€ de deuda.',
+            'Creación de una Tarifa Eléctrica Galega que abarate la luz a familias e industria electrointensiva al ser Galiza excedentaria en generación.',
+            'Reindustrialización sostenible: veto a proyectos de alto impacto como la macrocelulosa de Altri en Palas de Rei y apoyo al naval y automoción.',
+          ],
+          tag: 'Concierto económico y tarifa propia',
+        },
+        territorial: {
+          headline: 'Financiación singular, blindaje del concierto y apoyo a la industria local',
+          bullets: [
+            'ERC y Junts exigen el despliegue efectivo de la recaudación del 100% de impuestos en Cataluña con cuota de solidaridad pactada.',
+            'PNV y EH Bildu defienden la actualización del Cupo Vasco y el Convenio Navarro, además de incentivos industriales de I+D+i.',
+            'Coalición Canaria prioriza el blindaje del Régimen Económico y Fiscal (REF) y bonificaciones al transporte de mercancías.',
+          ],
+          tag: 'Soberanía fiscal territorial',
+        },
+      },
+      social: {
+        pp: {
+          headline: 'Plan de choque contra listas de espera, MIR extraordinario y EBAU única',
+          bullets: [
+            'Convocatoria extraordinaria de 1.000 plazas MIR adicionales de Medicina Familiar y homologación ágil de médicos extracomunitarios.',
+            'Gratuidad universal de la educación infantil de 0 a 3 años cofinanciada al 50% por el Estado y las comunidades autónomas.',
+            'Prueba de acceso a la universidad (EBAU) común en toda España, libertad de elección de centro y refuerzo de la concertada.',
+          ],
+          tag: 'Choque sanitario y EBAU común',
+        },
+        psoe: {
+          headline: 'Tiempos máximos de espera por ley y ampliación de cartera dental y óptica',
+          bullets: [
+            'Ley de Tiempos Máximos de Atención Sanitaria: garantía por ley de espera máxima de 30 días para intervenciones oncológicas y 60 para cirugía general.',
+            'Incorporación progresiva de la salud bucodental, óptica (gafas y lentillas para menores y rentas bajas) y salud mental a la cartera pública.',
+            'Aumento de becas universitarias y creación de 250.000 nuevas plazas públicas de Formación Profesional dual.',
+          ],
+          tag: 'Garantía de tiempos y cartera pública',
+        },
+        vox: {
+          headline: 'Devolución de competencias al Estado, tarjeta sanitaria única y cheque escolar',
+          bullets: [
+            'Recuperación de las competencias de Sanidad y Educación para el Estado central, eliminando 17 sistemas distintos.',
+            'Tarjeta sanitaria única válida en todo el territorio nacional y centralización de compras de medicamentos y tecnología.',
+            'Implantación del cheque escolar para que las familias elijan libremente centro público, concertado o privado y PIN parental.',
+          ],
+          tag: 'Centralización y cheque escolar',
+        },
+        frente: {
+          headline: 'Blindaje del 7% del PIB en sanidad, dentista y psicólogo en atención primaria',
+          bullets: [
+            'Inversión mínima blindada por ley del 7% del PIB para la sanidad pública y derogación de la Ley 15/97 que permite privatizaciones.',
+            'Incorporación de odontólogos, fisioterapeutas, nutricionistas y psicólogos clínicos en todos los centros de atención primaria.',
+            'Reducción de ratios en las aulas (máximo 15-20 alumnos) y eliminación progresiva de conciertos educativos donde haya oferta pública.',
+          ],
+          tag: '100% pública y atención primaria',
+        },
+        podemos: {
+          headline: 'Farmacéutica pública, eliminación de conciertos y blindaje de lo público',
+          bullets: [
+            'Creación de una empresa farmacéutica pública para fabricar medicamentos esenciales y reducir la factura farmacéutica.',
+            'Fin de las derivaciones a la sanidad privada y absorción de hospitales concesionados hacia gestión pública directa.',
+            'Eliminación gradual de todos los conciertos educativos privados y gratuidad completa de las tasas universitarias.',
+          ],
+          tag: 'Desprivatización integral',
+        },
+        bng: {
+          headline: 'Transferencia de formación MIR, rescate de sanidad pública e inmersión en galego',
+          bullets: [
+            'Traspaso a Galiza de la gestión y acreditación de plazas MIR y creación de 2.000 plazas estructurales para acabar con la precariedad del SERGAS.',
+            'Plan de choque contra listas de espera hospitalarias, apertura de PAC cerrados en el rural y blindaje de la Atención Primaria.',
+            'Derogación del decreto que limita el gallego en las aulas, gratuidad de libros de texto y financiación suficiente para las tres universidades gallegas.',
+          ],
+          tag: 'MIR galego, SERGAS y lengua',
+        },
+        territorial: {
+          headline: 'Blindaje competencial, inmersión lingüística y financiación sanitaria insular',
+          bullets: [
+            'ERC, Junts y EH Bildu blindan los modelos propios de inmersión lingüística en las aulas y rechazan cualquier prueba estatal única.',
+            'PNV reclama transferencias pendientes en homologación de títulos universitarios y financiación per cápita ajustada al envejecimiento.',
+            'Coalición Canaria pide un fondo específico por sobrecoste de la doble insularidad en hospitales y medicamentos.',
+          ],
+          tag: 'Blindaje lingüístico y competencial',
+        },
+      },
+      territorio: {
+        pp: {
+          headline: 'Financiación multilateral sin privilegios, elección judicial por jueces y sedición',
+          bullets: [
+            'Reforma del sistema de financiación autonómica negociada en el Consejo de Política Fiscal y Financiera con todos los territorios a la vez.',
+            'Reforma de la LOPJ para que los 12 vocales jueces del CGPJ sean elegidos directamente por los propios jueces y magistrados.',
+            'Recuperación del delito de sedición en el Código Penal y tipificación del referéndum ilegal.',
+          ],
+          tag: 'Multilateralidad y reforma judicial',
+        },
+        psoe: {
+          headline: 'España federal, quita parcial de deuda autonómica y justicia digital',
+          bullets: [
+            'Nuevo modelo de financiación autonómica que combine multilateralidad con el reconocimiento de singularidades y la asunción estatal de parte de la deuda.',
+            'Consolidación de los Tribunales de Instancia, digitalización judicial y acceso mediante becas públicas a la carrera judicial y fiscal.',
+            'Impulso a la cogobernanza mediante Conferencias de Presidentes semestrales y descentralización de sedes institucionales.',
+          ],
+          tag: 'Cogobernanza y alivio de deuda',
+        },
+        vox: {
+          headline: 'Supresión de autonomías, ilegalización de partidos separatistas y tribunal único',
+          bullets: [
+            'Promoción de una reforma constitucional para sustituir el Estado de las Autonomías por un Estado unitario administrativamente descentralizado.',
+            'Ilegalización de los partidos políticos que persigan la ruptura de la unidad nacional y supresión de policías autonómicas.',
+            'Elección directa por los jueces del órgano de gobierno judicial y endurecimiento de penas por delitos contra la Constitución.',
+          ],
+          tag: 'Estado unitario',
+        },
+        frente: {
+          headline: 'Estado plurinacional, democratización de la judicatura y reforma del Senado',
+          bullets: [
+            'Reconocimiento constitucional de la plurinacionalidad del Estado y reforma del Senado como verdadera cámara de representación territorial.',
+            'Reforma profunda del acceso a la carrera judicial mediante oposición pública sin memorización arcaica y escuela judicial abierta.',
+            'Suelo fiscal común entre comunidades autónomas para evitar el dumping fiscal en Patrimonio y Sucesiones.',
+          ],
+          tag: 'Plurinacionalidad y armonización',
+        },
+        podemos: {
+          headline: 'Referéndums pactados, elección popular del CGPJ y república plurinacional',
+          bullets: [
+            'Reconocimiento del derecho a decidir mediante referéndums acordados en Cataluña y Euskadi dentro de un marco plurinacional.',
+            'Reforma del sistema de elección del CGPJ para abrirlo a la participación ciudadana y fin de los aforamientos políticos.',
+            'Derogación de la Ley Mordaza y reforma de los delitos de opinión en el Código Penal.',
+          ],
+          tag: 'Derecho a decidir y fin aforamientos',
+        },
+        bng: {
+          headline: 'Galiza como nación, traspaso de competencias pendientes y deuda cero',
+          bullets: [
+            'Reconocimiento de Galiza como nación con capacidad de decisión propia y estatus equiparable al de Cataluña y Euskadi.',
+            'Transferencia inmediata de competencias recogidas en el Estatuto: tráfico y seguridad vial, salvamento marítimo, dominio público marítimo-terrestre y puertos.',
+            'Quita de al menos 4.000 millones de euros de la deuda pública gallega y reforma del sistema de financiación basado en población envejecida y dispersa.',
+          ],
+          tag: 'Nación galega y traspasos',
+        },
+        territorial: {
+          headline: 'Reconocimiento nacional, referéndum acordado y traspaso integral de Cercanías',
+          bullets: [
+            'ERC y Junts sitúan la celebración de un referéndum de autodeterminación pactado y el traspaso integral de Rodalies como ejes centrales.',
+            'EH Bildu y PNV reclaman un nuevo estatus político para Euskadi basado en la bilateralidad y el reconocimiento nacional.',
+            'Todos exigen el blindaje del uso oficial de las lenguas cooficiales en el Congreso, la justicia y las instituciones de la UE.',
+          ],
+          tag: 'Bilateralidad y autodeterminación',
+        },
+      },
+      derechos: {
+        pp: {
+          headline: 'Inmigración ordenada vinculada a contrato, Ley de Conciliación y custodia compartida',
+          bullets: [
+            'Control estricto de fronteras exteriores con refuerzo de Frontex, contratación en origen y retorno ágil de quienes cometan delitos.',
+            'Ley Nacional de Conciliación: ampliación de permisos por nacimiento para familias monoparentales y deducciones fiscales por hijo.',
+            'Reforma de la Ley del "Solo sí es sí" y garantía de igualdad efectiva sin cuotas obligatorias en consejos privados.',
+          ],
+          tag: 'Control de flujos y natalidad',
+        },
+        psoe: {
+          headline: 'Vías legales seguras, reforma de extranjería y abolición de la prostitución',
+          bullets: [
+            'Aplicación del nuevo Reglamento de Extranjería para agilizar permisos de arraigo y trabajo en sectores con vacantes.',
+            'Aprobación definitiva de la Ley Orgánica para la abolición del proxenetismo y la prostitución y blindaje del derecho al aborto en la Constitución.',
+            'Ampliación de permisos retribuidos de cuidados y equiparación plena de familias monoparentales.',
+          ],
+          tag: 'Integración y derechos feministas',
+        },
+        vox: {
+          headline: 'Deportación de inmigrantes irregulares, fin de subvenciones a ONG y ley de familia',
+          bullets: [
+            'Expulsión inmediata de todos los inmigrantes en situación irregular y de los residentes legales que cometan delitos graves o reincidan.',
+            'Derogación de la Ley Integral contra la Violencia de Género y de la Ley Trans, sustituyéndolas por una Ley de Violencia Intrafamiliar.',
+            'Cierre de centros de menores extranjeros no acompañados (menas) y repatriación con sus familias en países de origen.',
+          ],
+          tag: 'Fronteras cerradas y familia tradicional',
+        },
+        frente: {
+          headline: 'Regularización extraordinaria, permisos de cuidados pagados y ley LGTBI+',
+          bullets: [
+            'Aprobación de la Iniciativa Legislativa Popular (ILP) para la regularización extraordinaria de personas migrantes residentes en España.',
+            'Remuneración al 100% de las 8 semanas de permiso parental para el cuidado de hijos hasta los 8 años.',
+            'Pacto de Estado contra los discursos de odio y despliegue de protocolos LGTBI+ en todas las empresas.',
+          ],
+          tag: 'Regularización ILP y permisos pagados',
+        },
+        podemos: {
+          headline: 'Cierre de los CIE, derecho a voto de residentes y renta básica feminista',
+          bullets: [
+            'Cierre definitivo de los Centros de Internamiento de Extranjeros (CIE), fin de las devoluciones en caliente y papeles para todos.',
+            'Reconocimiento del derecho al sufragio activo y pasivo en todas las elecciones para personas residentes de larga duración.',
+            'Prestación universal por crianza de 200 euros mensuales por hijo hasta los 18 años sin requisitos previos.',
+          ],
+          tag: 'Cierre de CIE y renta crianza',
+        },
+        bng: {
+          headline: 'Acogida digna, retorno de la emigración joven galega y memoria democrática',
+          bullets: [
+            'Política migratoria basada en derechos humanos, agilización de homologación de títulos y lucha contra la explotación laboral.',
+            'Plan de retorno para la juventud galega emigrada con incentivos de empleo estable, investigación y acceso a vivienda.',
+            'Devolución al patrimonio público gallego de bienes expoliados por el franquismo (Casa Cornide, Pazo de Meirás) y ley de memoria.',
+          ],
+          tag: 'Retorno joven y derechos humanos',
+        },
+        territorial: {
+          headline: 'Traspaso de competencias de inmigración y acogida humanitaria corresponsable',
+          bullets: [
+            'Junts y ERC exigen la delegación integral de las competencias de gestión migratoria y permisos de residencia a la Generalitat.',
+            'Coalición Canaria demanda un mecanismo permanente y obligatorio de reparto solidario de menores migrantes entre todas las CCAA.',
+            'PNV y EH Bildu apuestan por itinerarios propios de acogida, aprendizaje lingüístico e inserción sociolaboral.',
+          ],
+          tag: 'Gestión autonómica y reparto solidario',
+        },
+      },
+      energia: {
+        pp: {
+          headline: 'Prórroga de centrales nucleares, apoyo a la PAC y compromiso OTAN',
+          bullets: [
+            'Extensión de la vida útil de las centrales nucleares operativas (Almaraz, Ascó, Vandellòs) como respaldo clave del mix eléctrico.',
+            'Flexibilización de las exigencias ambientales de la PAC europea y bajada del IVA en insumos agrarios y ganaderos.',
+            'Cumplimiento estricto del compromiso de inversión en defensa del 2% del PIB en el marco de la OTAN y la UE.',
+          ],
+          tag: 'Mix nuclear-renovable y OTAN',
+        },
+        psoe: {
+          headline: '81% de electricidad renovable en 2030, hidrógeno verde y autonomía estratégica UE',
+          bullets: [
+            'Mantener el calendario acordado de cierre ordenado de nucleares (2027-2035) sustituyéndolas por almacenamiento, eólica marina e hidrógeno verde.',
+            'Liderazgo español en la transición ecológica europea, leyes de restauración de la naturaleza y cláusulas espejo en acuerdos comerciales.',
+            'Refuerzo de la industria europea de defensa, apoyo continuado a Ucrania y reconocimiento efectivo del Estado de Palestina.',
+          ],
+          tag: 'Transición verde y europeísmo',
+        },
+        vox: {
+          headline: 'Derogación del Pacto Verde Europeo, soberanía energética y defensa nacional',
+          bullets: [
+            'Derogación de la Ley de Cambio Climático y oposición frontal al Pacto Verde Europeo por encarecer el campo y la industria.',
+            'Exploración y aprovechamiento de recursos nacionales propios (gas, tierras raras) y construcción de nuevos reactores nucleares.',
+            'Aumento de la inversión en Fuerzas Armadas y control nacional de infraestructuras críticas frente a capital extranjero.',
+          ],
+          tag: 'Soberanía energética y anti-Pacto Verde',
+        },
+        frente: {
+          headline: 'Empresa pública de energía, bono transporte único y diplomacia de paz',
+          bullets: [
+            'Creación de una comercializadora pública de electricidad para ofrecer energía renovable a precio de coste a hogares y pymes.',
+            'Billete único mensual de 30 euros para todo el transporte público estatal y reducción drástica de vuelos cortos con alternativa ferroviaria.',
+            'Freno a la escalada del gasto militar, embargo de compraventa de armas a zonas en conflicto y fortalecimiento de la ONU.',
+          ],
+          tag: 'Energía pública y transporte 30€',
+        },
+        podemos: {
+          headline: 'Nacionalización de eléctricas estratégicas, salida de la OTAN y decrecimiento',
+          bullets: [
+            'Recuperación para el sector público de las concesiones hidroeléctricas caducadas y nacionalización de redes estratégicas.',
+            'Referéndum sobre la permanencia de España en la OTAN, cierre de bases militares extranjeras y recorte del presupuesto de Defensa.',
+            'Moratoria a macroplantas renovables especulativas que destruyan suelo agrario y apuesta por autoconsumo comunitario.',
+          ],
+          tag: 'Nacionalización y antimilitarismo',
+        },
+        bng: {
+          headline: 'Gratuidad de la AP-9 y AP-53, freno al espolio eólico y no al acuerdo UE-Mercosur',
+          bullets: [
+            'Rescate inmediato y gratuidad total de las autopistas AP-9 y AP-53, más despliegue real del tren de cercanías galego y conexión Vigo-Oporto.',
+            'Ordenación eólica con participación pública gallega y moratoria contra macroparques que invadan espacios naturales o tierras agrarias.',
+            'Oposición frontal al acuerdo UE-Mercosur y defensa de la flota pesquera y el sector lácteo galego frente a cuotas injustas de Bruselas.',
+          ],
+          tag: 'AP-9 gratuita, eólica y pesca',
+        },
+        territorial: {
+          headline: 'Corredores ferroviarios, gestión de puertos/aeropuertos y sector primario local',
+          bullets: [
+            'PNV, ERC y Junts priorizan la ejecución acelerada del Corredor Atlántico y el Corredor Mediterráneo con conexión europea.',
+            'Junts y PNV reclaman la gestión descentralizada de puertos y aeropuertos de interés general (El Prat, Bilbao).',
+            'Coalición Canaria pide exenciones en los derechos de emisión de CO2 para el transporte aéreo y marítimo con el archipiélago.',
+          ],
+          tag: 'Infraestructuras y conectividad',
+        },
+      },
+    };
+
+    const DUEL_INSIGHTS = {
+      'pp-psoe': {
+        agreements: [
+          'Ambas formaciones respaldaron en febrero de 2026 la subida del +2,7% de las pensiones contributivas con el IPC (RDL 3/2026).',
+          'Respaldo compartido a los compromisos de España dentro de la Unión Europea, la OTAN y el apoyo a Ucrania.',
+          'Voluntad declarada de agilizar la homologación de médicos extracomunitarios para paliar el déficit sanitario.',
+        ],
+        clashes: [
+          'Modelo fiscal y laboral: rebaja de IRPF y flexibilización (PP) frente a jornada de 37,5h e impuestos a banca y energéticas (PSOE).',
+          'Vivienda: libertad de precios y desalojo exprés (PP) frente a topes en zonas tensionadas y parque público blindado (PSOE).',
+          'Energía: prórroga de centrales nucleares (PP) frente a calendario de cierre y apuesta 100% renovable (PSOE).',
+        ],
+      },
+      'pp-vox': {
+        agreements: [
+          'Rebaja fiscal generalizada, reducción del gasto político y eliminación de regulaciones ambientales consideradas excesivas.',
+          'Endurecimiento penal contra la ocupación ilegal de viviendas y reforma de leyes ideológicas aprobadas en la última legislatura.',
+          'Defensa de la prórroga nuclear, apoyo al sector primario frente a las restricciones del Pacto Verde y control estricto de fronteras.',
+        ],
+        clashes: [
+          'Pensiones: el PP votó a favor de subir las pensiones +2,7% con el IPC (RDL 3/2026), mientras Vox fue el único partido en votar en contra.',
+          'Modelo de Estado: el PP defiende el Estado autonómico constitucional, mientras Vox propone suprimir las autonomías.',
+          'Política europea: el PP forma parte del núcleo institucional del PPE en Bruselas, frente al euroescepticismo soberanista de Vox.',
+        ],
+      },
+      'psoe-frente': {
+        agreements: [
+          'Consolidación de la subida del Salario Mínimo, revalorización de pensiones con el IPC y defensa de la jornada máxima de 37,5 horas.',
+          'Regulación del mercado del alquiler, limitación de pisos turísticos y ampliación de permisos de conciliación.',
+          'Impulso a la transición ecológica, las energías renovables y ampliación de prestaciones de salud bucodental y mental.',
+        ],
+        clashes: [
+          'Defensa y política exterior: cumplimiento de compromisos OTAN (PSOE) frente al freno al gasto militar y diplomacia de paz (Frente Amplio).',
+          'Alcance de la intervención económica: incentivos mixtos (PSOE) frente a tope obligatorio de alquileres en todas las CCAA y herencia universal (Frente Amplio).',
+          'Horizonte laboral: consolidar las 37,5 horas (PSOE) frente a fijar por ley el camino inmediato a las 35 horas (Frente Amplio).',
+        ],
+      },
+      'frente-podemos': {
+        agreements: [
+          'Fuerte intervención pública en vivienda, impuestos permanentes a grandes fortunas y banca, y defensa de lo 100% público.',
+          'Oposición al incremento del gasto militar y defensa de la regularización extraordinaria de personas migrantes.',
+          'Reducción de la jornada laboral por debajo de las 37,5 horas semanales y blindaje de derechos feministas y LGTBI+.',
+        ],
+        clashes: [
+          'Estrategia y ritmos: reformas graduales desde el gobierno de coalición (Frente Amplio) frente a ruptura y nacionalizaciones directas (Podemos).',
+          'Política internacional: europeísmo crítico (Frente Amplio) frente a salida de la OTAN y cierre de bases militares (Podemos).',
+          'Medidas de choque: índice de precios del alquiler y transporte a 30€ (Frente Amplio) frente a bajada por decreto del 40% y supermercados públicos (Podemos).',
+        ],
+      },
+      'bng-psoe': {
+        agreements: [
+          'Revalorización automática de las pensiones con el IPC (ambos votaron sí al RDL 3/2026) y defensa de los servicios públicos.',
+          'Apoyo a la reducción de jornada laboral a 37,5 horas, subida del SMI y ampliación de derechos laborales y feministas.',
+          'Quita parcial de deuda autonómica y necesidad de reformar el modelo de financiación caducado.',
+        ],
+        clashes: [
+          'Financiación y estatus: Concierto Económico propio y reconocimiento de Galiza como nación (BNG) frente a modelo multilateral común (PSOE).',
+          'Infraestructuras gallegas: rescate y gratuidad inmediata de la AP-9 y AP-53 y cercanías ferroviarias (BNG) frente a bonificaciones parciales (PSOE).',
+          'Modelo energético y agrario: freno a macroeólicos, veto a Altri y rechazo al acuerdo UE-Mercosur (BNG) frente al respaldo de Bruselas (PSOE).',
+        ],
+      },
+      'bng-pp': {
+        agreements: [
+          'Preocupación por la escasez de médicos en Atención Primaria y necesidad de ampliar plazas de formación MIR.',
+          'Defensa del sector pesquero y agroganadero gallego frente a cuotas restrictivas y exigencias burocráticas.',
+          'Necesidad de mejorar las conexiones ferroviarias de alta velocidad y mercancías en el noroeste peninsular.',
+        ],
+        clashes: [
+          'Modelo territorial y lengua: Concierto Económico, nación gallega e inmersión en galego (BNG) frente a financiación común y trilingüismo (PP).',
+          'Vivienda e industria: cesión de pisos de la Sareb al IGVS y veto a Altri (BNG) frente a desregulación y respaldo industrial (PP).',
+          'Pensiones y trabajo: vuelta a la jubilación a los 65 años y 35 años cotizados (BNG) frente a mochila austríaca e incentivos de demora (PP).',
+        ],
+      },
+    };
+
+    const QUIZ_QUESTIONS = [
+      {
+        id: 'q0',
+        topic: 'Pensiones y Jubilación',
+        question: '¿Cómo debe garantizarse el futuro y la cuantía de las pensiones públicas?',
+        options: [
+          { label: 'Revalorizar con el IPC, fomentar la jubilación demorada voluntaria y crear cuentas individuales tipo "mochila austríaca"', weights: { pp: 3, vox: 1, territorial: 1 } },
+          { label: 'Mantener el Pacto de Toledo 2021-2023: revalorización con IPC y nutrir la hucha con el MEI (0,9%-1,2%)', weights: { psoe: 3, frente: 1, bng: 1, territorial: 1 } },
+          { label: 'Volver a la jubilación ordinaria a los 65 años (o con 35 cotizados), subir mínimas al SMI y jubilar antes en sectores penosos', weights: { bng: 3, podemos: 3, frente: 2 } },
+          { label: 'Auditar el sistema, recortar gasto político y autonómico para financiarlas y dar exenciones máximas al ahorro privado', weights: { vox: 3, pp: 1 } },
+        ],
+      },
+      {
+        id: 'q1',
+        topic: 'Vivienda y Alquiler',
+        question: '¿Cuál es la mejor receta para frenar la subida de los alquileres en España?',
+        options: [
+          { label: 'Eliminar los topes al alquiler, dar incentivos fiscales a propietarios y agilizar el desalojo de okupas', weights: { pp: 3, vox: 2, territorial: 1 } },
+          { label: 'Construir un parque público permanente, limitar pisos turísticos y dar avales a jóvenes', weights: { psoe: 3, bng: 1, territorial: 1 } },
+          { label: 'Aplicar topes obligatorios al alquiler en toda España, movilizar pisos de la Sareb y gravar a grandes tenedores', weights: { frente: 3, bng: 3, podemos: 2 } },
+          { label: 'Bajar por ley un 40% los alquileres actuales y expropiar el uso de pisos vacíos a fondos', weights: { podemos: 3, frente: 1 } },
+        ],
+      },
+      {
+        id: 'q2',
+        topic: 'Impuestos y Economía',
+        question: '¿Qué política fiscal debería aplicarse en la próxima legislatura?',
+        options: [
+          { label: 'Bajar el IRPF a rentas medias, reducir Sociedades y eliminar impuestos extraordinarios', weights: { pp: 3, vox: 2 } },
+          { label: 'Recorte radical del IRPF en dos tramos (15% y 25%) y eliminación masiva del gasto político', weights: { vox: 3, pp: 1 } },
+          { label: 'Consolidar la reducción de déficit manteniendo impuestos permanentes a banca, energéticas y grandes fortunas', weights: { psoe: 3, frente: 2, bng: 1 } },
+          { label: 'Concierto económico o soberanía fiscal territorial para gestionar el 100% de los impuestos recaudados en el territorio', weights: { bng: 3, territorial: 3, frente: 1 } },
+        ],
+      },
+      {
+        id: 'q3',
+        topic: 'Jornada Laboral y Empleo',
+        question: '¿Qué debe hacerse con la duración de la jornada laboral y el Salario Mínimo?',
+        options: [
+          { label: 'Dejar que la jornada se pacte en negociación colectiva por sectores sin imposiciones legales', weights: { pp: 3, vox: 3 } },
+          { label: 'Consolidar las 37,5 horas semanales y mantener el SMI en el 60% del salario medio', weights: { psoe: 3, bng: 2, territorial: 1 } },
+          { label: 'Avanzar por ley hacia las 35 horas semanales y endurecer el coste del despido improcedente', weights: { frente: 3, bng: 2, podemos: 2 } },
+          { label: 'Implantar la semana laboral de 32 horas (4 días) y subir el SMI a 1.800 euros', weights: { podemos: 3, frente: 1 } },
+        ],
+      },
+      {
+        id: 'q4',
+        topic: 'Energía y Transición Ecológica',
+        question: '¿Cuál debe ser el papel de la energía nuclear y el Pacto Verde Europeo?',
+        options: [
+          { label: 'Prorrogar las centrales nucleares operativas y flexibilizar las exigencias ambientales al campo', weights: { pp: 3, vox: 2 } },
+          { label: 'Derogar la Ley de Cambio Climático, rechazar el Pacto Verde y construir nuevas nucleares', weights: { vox: 3, pp: 1 } },
+          { label: 'Mantener el cierre ordenado de nucleares y acelerar renovables, hidrógeno verde y autoconsumo', weights: { psoe: 3, frente: 2, territorial: 1 } },
+          { label: 'Tarifa eléctrica propia en territorios excedentarios, freno a macroparques especulativos y empresa pública energética', weights: { bng: 3, podemos: 3, frente: 2 } },
+        ],
+      },
+      {
+        id: 'q5',
+        topic: 'Modelo Territorial',
+        question: '¿Cómo debe organizarse la relación entre el Estado y las Comunidades Autónomas?',
+        options: [
+          { label: 'Sustituir el Estado autonómico por un Estado unitario con sanidad y educación centralizadas', weights: { vox: 3, pp: 1 } },
+          { label: 'Financiación autonómica negociada entre todas las CCAA por igual, sin acuerdos bilaterales', weights: { pp: 3, psoe: 1 } },
+          { label: 'Cogobernanza federal, quita parcial de deuda autonómica y reconocimiento de singularidades', weights: { psoe: 3, frente: 2 } },
+          { label: 'Reconocimiento plurinacional, traspaso integral de competencias (AP-9, Rodalies, MIR) y bilateralidad fiscal', weights: { bng: 3, territorial: 3, podemos: 2, frente: 1 } },
+        ],
+      },
+      {
+        id: 'q6',
+        topic: 'Inmigración',
+        question: '¿Qué enfoque debe seguir España en política migratoria?',
+        options: [
+          { label: 'Deportación inmediata de inmigrantes irregulares y cierre de centros de menores extranjeros', weights: { vox: 3 } },
+          { label: 'Control estricto de fronteras, contratación exclusivamente en origen y retorno de delincuentes', weights: { pp: 3, vox: 1 } },
+          { label: 'Vías legales y seguras vinculadas al empleo, reforma de extranjería y reparto solidario', weights: { psoe: 3, territorial: 2, bng: 1 } },
+          { label: 'Aprobar la regularización extraordinaria (ILP), cerrar los CIE y ampliar derechos de ciudadanía', weights: { frente: 3, podemos: 3, bng: 2 } },
+        ],
+      },
+      {
+        id: 'q7',
+        topic: 'Defensa y Política Exterior',
+        question: '¿Qué posición debe mantener España ante la OTAN, el gasto en defensa y acuerdos comerciales?',
+        options: [
+          { label: 'Cumplir el 2% del PIB en defensa dentro de la OTAN y reforzar la alianza atlántica y europea', weights: { pp: 3, psoe: 2, vox: 2 } },
+          { label: 'Aumentar el presupuesto militar nacional priorizando la soberanía de fronteras frente a Bruselas', weights: { vox: 3, pp: 1 } },
+          { label: 'Frenar la escalada militar, exigir cláusulas espejo en acuerdos agrarios y defender una diplomacia de paz', weights: { frente: 3, bng: 3, psoe: 1 } },
+          { label: 'Convocar un referéndum para salir de la OTAN, cerrar bases militares y vetar tratados como UE-Mercosur', weights: { podemos: 3, bng: 2 } },
+        ],
+      },
+    ];
+
+    const PENSION_PROFILES = {
+      years: [
+        { id: 'menos35', label: 'Menos de 35 años cotizados', desc: 'Carreras intermitentes o tardías' },
+        { id: '35a38', label: 'Entre 35 y 38,5 años cotizados', desc: 'Tramo afectado por el salto a 67 años' },
+        { id: 'mas38', label: 'Más de 38,5 años cotizados', desc: 'Carreras largas con derecho a 65 años' },
+      ],
+      sector: [
+        { id: 'general', label: 'Régimen General / Servicios / Oficina' },
+        { id: 'penoso', label: 'Alta penosidad (Naval, Pesca, Construcción, Cuidados, Kellys)' },
+        { id: 'autonomo', label: 'Autónomo / Profesional mutualista (Médico, Abogado)' },
+      ],
+      bracket: [
+        { id: 'minima', label: 'Pensión mínima o no contributiva' },
+        { id: 'media', label: 'Pensión media (1.250 € - 1.600 €/mes)' },
+        { id: 'maxima', label: 'Base máxima / Renta alta' },
+      ],
+    };
+
+    const PENSION_MATRIX = [
+      {
+        axis: 'Revalorización y poder adquisitivo',
+        pp: 'Sí por ley con el IPC (votó sí al RDL 3/2026) + auditoría AIReF cada 3 años.',
+        psoe: 'Blindaje constitucional del IPC anual (+2,7% en 2026) como eje central.',
+        vox: 'Votó NO al RDL 3/2026: cuestiona la sostenibilidad actual y pide reforma integral.',
+        frente: 'IPC garantizado + revalorización extra por encima del IPC para rentas bajas.',
+        podemos: 'IPC blindado por ley y prohibición de cualquier congelación o factor de recorte.',
+        bng: 'IPC garantizado + subida adicional para acabar con la brecha de las pensiones gallegas.',
+      },
+      {
+        axis: 'Edad legal de jubilación',
+        pp: 'Mantiene la senda hacia 67 años (2027) pero premia demorarla voluntariamente.',
+        psoe: '66 años y 10 meses en 2026 (67 años en 2027 si se cotizan menos de 38,5 años).',
+        vox: 'Flexibilidad ligada a años cotizados y reducción de penalizaciones por trabajar.',
+        frente: 'Jubilación anticipada sin recortes a los 60-61 años en profesiones penosas.',
+        podemos: 'Derogación de la reforma de 2011: vuelta a los 65 años como edad ordinaria.',
+        bng: 'Vuelta a los 65 años y jubilación al 100% con 35 años cotizados sin penalización.',
+      },
+      {
+        axis: 'Pensiones mínimas y no contributivas',
+        pp: 'Complementos focalizados y compatibilidad con rentas del ahorro.',
+        psoe: 'Senda de convergencia hacia el umbral de pobreza (+11,4% aprobado en 2026).',
+        vox: 'Exención total de IRPF para pensionistas y mejora financiada recortando gasto político.',
+        frente: 'Equiparación inmediata al 60% de la renta mediana (por encima del SMI).',
+        podemos: 'Igualar por ley todas las pensiones mínimas al Salario Mínimo (SMI).',
+        bng: 'Subida inmediata al 60% del salario medio (SMI) y complemento autonómico gallego.',
+      },
+      {
+        axis: 'Financiación, MEI y ahorro privado',
+        pp: 'Cuentas individuales ("mochila austríaca") y planes de empleo de empresa.',
+        psoe: 'Mecanismo de Equidad Intergeneracional (MEI al 0,9% en 2026) para nutrir la hucha.',
+        vox: 'Deducciones máximas en IRPF para planes privados y ahorro familiar.',
+        frente: 'Destope total de cotizaciones máximas con cuota de solidaridad y vía Presupuestos.',
+        podemos: 'Fin de incentivos fiscales a planes privados; financiación vía impuestos a banca y fortunas.',
+        bng: 'Transferencia de la gestión económica de la Seguridad Social a Galiza y destope.',
+      },
+    ];
+
+    const TERRITORIAL_PENSION_DETAILS = [
+      {
+        party: 'BNG (Programa 3-N)',
+        badge: 'bg-sky-600 text-white',
+        border: 'border-sky-200',
+        bg: 'bg-sky-50/70',
+        points: [
+          'Galiza registra la pensión media más baja del Estado (~1.160 € frente a los 1.360 € de media estatal): el BNG exige equiparar las mínimas al SMI.',
+          'Jubilación ordinaria a los 65 años o con 35 años cotizados sin coeficientes reductores, y aplicación inmediata de coeficientes en naval, pesca, conserva y cuidados.',
+          'Traspaso de la gestión del régimen económico de la Seguridad Social a Galiza y cálculo de la pensión sobre los 15 mejores años cotizados.',
+        ],
+      },
+      {
+        party: 'ERC y Junts (Cataluña)',
+        badge: 'bg-amber-600 text-white',
+        border: 'border-amber-200',
+        bg: 'bg-amber-50/60',
+        points: [
+          'Ambas formaciones votaron a favor del RDL 3/2026 de revalorización de pensiones y reclaman el traspaso de la gestión a la Generalitat.',
+          'Junts exige que el cálculo de las pensiones y el SMI tenga en cuenta el diferencial del coste de la vida (IPC catalán).',
+          'ERC prioriza el incremento de las pensiones no contributivas y la pasarela voluntaria al RETA para mutualistas.',
+        ],
+      },
+      {
+        party: 'EAJ-PNV y EH Bildu (Euskadi / Navarra)',
+        badge: 'bg-emerald-700 text-white',
+        border: 'border-emerald-200',
+        bg: 'bg-emerald-50/60',
+        points: [
+          'Consenso en culminar la transferencia estatutaria de la gestión del régimen económico de la Seguridad Social al País Vasco.',
+          'EH Bildu defiende complementar con fondos propios las pensiones mínimas hasta alcanzar el umbral de suficiencia en Hego Euskal Herria.',
+          'El PNV impulsa las Entidades de Previsión Social Voluntaria (EPSV) como segundo pilar complementario negociado en empresa.',
+        ],
+      },
+      {
+        party: 'Coalición Canaria',
+        badge: 'bg-yellow-600 text-white',
+        border: 'border-yellow-200',
+        bg: 'bg-yellow-50/60',
+        points: [
+          'Apoyó el RDL 3/2026 y reclama coeficientes reductores de jubilación anticipada para sectores de alta penosidad en el archipiélago (camareras de piso / "kellys" y hostelería).',
+          'Exige un complemento específico por el sobrecoste de la cesta de la compra y la doble insularidad para pensionistas con rentas bajas.',
+        ],
+      },
+    ];
+
+    // ==================== ESTADO DE LA APLICACIÓN ====================
+    const state = {
+      activeTab: 'comparador',
+      selectedTopic: 'pensiones',
+      searchQuery: '',
+      visibleParties: ['pp', 'psoe', 'vox', 'frente', 'podemos', 'bng', 'territorial'],
+      viewMode: 'cards',
+      pactParties: ['psoe', 'frente', 'bng', 'territorial'],
+      showBngCard: false,
+      pensionSim: { years: '35a38', sector: 'penoso', bracket: 'minima' },
+      duelA: 'bng',
+      duelB: 'psoe',
+      profile: { age: 'joven', housing: 'alquiler', work: 'asalariado', family: 'sin_hijos', territory: 'galicia' },
+      answers: {},
+    };
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // ==================== RENDERIZADO PRINCIPAL ====================
+    function renderApp() {
+      const root = document.getElementById('root');
+
+      const pactTotalSeats = state.pactParties.reduce((sum, id) => {
+        const p = PARTIES.find((item) => item.id === id);
+        return sum + (p ? p.seatsEst : 0);
+      }, 0);
+
+      root.innerHTML = `
+        <div class="min-h-screen bg-slate-50 text-slate-900">
+          <!-- CABECERA PRINCIPAL Y CONTEXTO 29-N -->
+          <header class="bg-slate-950 text-white border-b border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+              <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <div>
+                  <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-semibold tracking-wide uppercase mb-2">
+                    📅 Elecciones Generales · Domingo 29 de Noviembre de 2026
+                  </div>
+                  <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-2.5">
+                    Observatorio 29-N
+                    <span class="text-slate-400 font-normal text-lg sm:text-xl hidden sm:inline">
+                      | Comparador de Programas Electorales
+                    </span>
+                  </h1>
+                  <p class="text-slate-300 text-sm mt-1 max-w-2xl">
+                    Analiza, cruza y filtra las propuestas verificadas de las principales candidaturas al Congreso de los Diputados (incluyendo el programa del <strong>BNG</strong> y el <strong>Especial Pensiones 29-N</strong>).
+                  </p>
+                </div>
+
+                <!-- Hitos clave del calendario -->
+                <div class="grid grid-cols-3 gap-2 sm:gap-3 bg-slate-900/90 border border-slate-800 p-3 rounded-xl text-xs">
+                  <div class="px-2">
+                    <span class="text-slate-400 block">Convocatoria BOE</span>
+                    <span class="font-bold text-white">6 Oct 2026</span>
+                  </div>
+                  <div class="px-2 border-l border-slate-800">
+                    <span class="text-slate-400 block">Inicio Campaña</span>
+                    <span class="font-bold text-white">13 Nov 2026</span>
+                  </div>
+                  <div class="px-2 border-l border-slate-800">
+                    <span class="text-slate-400 block">Urnas (350 esc.)</span>
+                    <span class="font-bold text-amber-400">29 Nov 2026</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BARRA DE PANORAMA ELECTORAL Y CALCULADORA DE PACTOS -->
+              <div class="mt-6 bg-slate-900/80 border border-slate-800 rounded-2xl p-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-amber-400 font-bold">📊</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-200">
+                      Media de Sondeos y Calculadora de Investidura (Mayoría absoluta: 176 escaños)
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button
+                      onclick="toggleBngCard()"
+                      class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg border transition-colors ${
+                        state.showBngCard
+                          ? 'bg-sky-500/20 border-sky-400 text-sky-200'
+                          : 'bg-slate-800 border-slate-700 text-sky-300 hover:border-sky-500'
+                      }"
+                    >
+                      📍 ${state.showBngCard ? 'Ocultar Ficha BNG' : 'Ficha BNG (11 Ejes)'}
+                    </button>
+                    <span class="text-xs text-slate-400 hidden sm:inline">
+                      Pulsa en los partidos para simular pactos
+                    </span>
+                  </div>
+                </div>
+
+                ${state.showBngCard ? `
+                  <div class="mb-4 p-4 rounded-xl bg-sky-950/60 border border-sky-700/60 text-xs text-slate-200">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-sky-800/60">
+                      <div>
+                        <span class="inline-block px-2 py-0.5 rounded bg-sky-600 text-white font-bold uppercase text-[10px] mr-2">
+                          Bloque Nacionalista Galego · Programa 3-N
+                        </span>
+                        <span class="font-bold text-white text-sm">«Máis forza para Galiza» (11 ejes estratégicos)</span>
+                      </div>
+                      <span class="text-sky-300 font-semibold">Portavoz Nacional: Ana Pontón</span>
+                    </div>
+                    <p class="text-slate-300 mb-2">
+                      <strong>Candidaturas por circunscripción:</strong> Néstor Rego (A Coruña), Carme da Silva (Pontevedra), Olalla Rodil (Lugo) y Noa Presas (Ourense).
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-[11px]">
+                      <div class="bg-slate-900/80 p-2 rounded-lg border border-sky-800/50">
+                        <strong class="text-sky-300 block">1. Financiación y Deuda</strong>
+                        Concierto económico gallego (100% recaudación) y quita de 4.000 M€ de deuda.
+                      </div>
+                      <div class="bg-slate-900/80 p-2 rounded-lg border border-sky-800/50">
+                        <strong class="text-sky-300 block">2. Movilidad y Peajes</strong>
+                        Rescate y gratuidad inmediata de la AP-9 y AP-53, cercanías y tren Vigo-Oporto.
+                      </div>
+                      <div class="bg-slate-900/80 p-2 rounded-lg border border-sky-800/50">
+                        <strong class="text-sky-300 block">3. Pensiones y Salarios</strong>
+                        Subida de mínimas al SMI, jubilación a los 65 años y coeficientes en naval/pesca.
+                      </div>
+                      <div class="bg-slate-900/80 p-2 rounded-lg border border-sky-800/50">
+                        <strong class="text-sky-300 block">4. Energía y Territorio</strong>
+                        Tarifa Eléctrica Galega, veto a Altri, pisos Sareb al IGVS y no a UE-Mercosur.
+                      </div>
+                    </div>
+                  </div>
+                ` : ''}
+
+                <!-- Hemiciclo en barra proporcional -->
+                <div class="w-full h-4 bg-slate-800 rounded-full overflow-hidden flex mb-3">
+                  ${PARTIES.map((p) => `
+                    <div
+                      style="width: ${(p.seatsEst / 350) * 100}%; background-color: ${p.color};"
+                      title="${p.name}: ${p.seatsEst} escaños (${p.voteShare})"
+                      class="h-full transition-all duration-300 border-r border-slate-950/40"
+                    ></div>
+                  `).join('')}
+                </div>
+
+                <!-- Selector interactivo de pactos -->
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <div class="flex flex-wrap gap-1.5">
+                    ${PARTIES.map((p) => {
+                      const active = state.pactParties.includes(p.id);
+                      return `
+                        <button
+                          onclick="togglePactParty('${p.id}')"
+                          class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all ${
+                            active
+                              ? 'bg-slate-800 border-amber-400 text-white shadow-sm'
+                              : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                          }"
+                        >
+                          <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${p.color}"></span>
+                          ${p.name}
+                          <span class="text-slate-400 font-normal">(${p.seatsEst})</span>
+                        </button>
+                      `;
+                    }).join('')}
+                  </div>
+
+                  <!-- Resultado de la suma de escaños -->
+                  <div
+                    class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl border text-xs font-bold ${
+                      pactTotalSeats >= 176
+                        ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
+                        : 'bg-slate-800 border-slate-700 text-slate-300'
+                    }"
+                  >
+                    <span>Suma seleccionada:</span>
+                    <span class="text-base">${pactTotalSeats} / 350</span>
+                    ${pactTotalSeats >= 176
+                      ? '<span class="inline-flex items-center gap-1 text-emerald-400 ml-1">✓ Mayoría Absoluta</span>'
+                      : `<span class="text-slate-400 font-normal ml-1">(Faltan ${176 - pactTotalSeats})</span>`
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- NAVEGACIÓN DE MODOS DE EXPLORACIÓN -->
+            <div class="bg-slate-900 border-t border-slate-800">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto no-scrollbar">
+                ${[
+                  { id: 'comparador', label: '1. Comparador por Temas' },
+                  { id: 'pensiones_hub', label: '2. Especial Pensiones 29-N', highlight: true },
+                  { id: 'duelo', label: '3. Duelo Cara a Cara' },
+                  { id: 'simulador', label: '4. ¿Cómo te afecta?' },
+                  { id: 'test', label: '5. Test de Afinidad (8 Dilemas)' },
+                ].map((tab) => {
+                  const isActive = state.activeTab === tab.id;
+                  return `
+                    <button
+                      onclick="setActiveTab('${tab.id}')"
+                      class="flex items-center gap-2 px-5 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors ${
+                        isActive
+                          ? 'border-amber-400 text-amber-400 bg-slate-950/50'
+                          : tab.highlight
+                          ? 'border-transparent text-amber-200 hover:text-amber-300 hover:border-slate-700'
+                          : 'border-transparent text-slate-400 hover:text-white hover:border-slate-700'
+                      }"
+                    >
+                      ${tab.label}
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </header>
+
+          <!-- CONTENIDO PRINCIPAL -->
+          <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            ${renderTabContent()}
+          </main>
+
+          <!-- PIE DE PÁGINA -->
+          <footer class="bg-white border-t border-slate-200 mt-12 py-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+              <div>
+                <strong>Observatorio 29-N</strong> · Herramienta cívica e imparcial de análisis programático · Elecciones Generales de España (29 de noviembre de 2026).
+              </div>
+              <div>
+                Síntesis elaborada a partir de los programas marco oficiales (incluyendo PP 10-N, BNG 3-N y votaciones parlamentarias del RDL 3/2026).
+              </div>
+            </div>
+          </footer>
+        </div>
+      `;
+
+      // Restaurar foco en el buscador si estaba escribiendo
+      if (state.activeTab === 'comparador' && document.activeElement?.id === 'search-input') {
+        const input = document.getElementById('search-input');
+        if (input) {
+          input.focus();
+          input.setSelectionRange(input.value.length, input.value.length);
+        }
+      }
+    }
+
+    function renderTabContent() {
+      if (state.activeTab === 'comparador') return renderComparador();
+      if (state.activeTab === 'pensiones_hub') return renderPensionesHub();
+      if (state.activeTab === 'duelo') return renderDuelo();
+      if (state.activeTab === 'simulador') return renderSimulador();
+      if (state.activeTab === 'test') return renderTest();
+      return '';
+    }
+
+    function renderComparador() {
+      const q = state.searchQuery.trim().toLowerCase();
+      let groups = [];
+
+      if (!q) {
+        groups = TOPICS.filter((t) => t.id === state.selectedTopic).map((topic) => ({
+          topic,
+          entries: PARTIES.filter((p) => state.visibleParties.includes(p.id)).map((party) => ({
+            party,
+            data: PROGRAMS[topic.id][party.id],
+          })),
+        }));
+      } else {
+        groups = TOPICS.map((topic) => {
+          const entries = PARTIES.filter((p) => state.visibleParties.includes(p.id))
+            .map((party) => ({
+              party,
+              data: PROGRAMS[topic.id][party.id],
+            }))
+            .filter(
+              ({ party, data }) =>
+                party.name.toLowerCase().includes(q) ||
+                party.fullName.toLowerCase().includes(q) ||
+                data.headline.toLowerCase().includes(q) ||
+                data.tag.toLowerCase().includes(q) ||
+                data.bullets.some((b) => b.toLowerCase().includes(q))
+            );
+          return { topic, entries };
+        }).filter((g) => g.entries.length > 0);
+      }
+
+      return `
+        <div class="space-y-6">
+          <!-- Controles de búsqueda y filtros -->
+          <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <div class="flex flex-col md:flex-row gap-3 justify-between">
+              <div class="relative flex-1">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
+                <input
+                  id="search-input"
+                  type="text"
+                  value="${escapeHtml(state.searchQuery)}"
+                  oninput="handleSearchInput(this.value)"
+                  placeholder="Busca en todos los programas: 'IPC', '65 años', 'Sareb', 'AP-9', 'IRPF', '37,5 horas', 'nucleares'..."
+                  class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white"
+                />
+                ${state.searchQuery ? `
+                  <button
+                    onclick="clearSearch()"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 font-bold text-sm"
+                  >✕</button>
+                ` : ''}
+              </div>
+
+              <div class="flex items-center gap-2 self-end md:self-auto">
+                <span class="text-xs font-medium text-slate-500 mr-1">Vista:</span>
+                <button
+                  onclick="setViewMode('cards')"
+                  class="px-3 py-2 rounded-lg text-xs font-semibold border transition-colors ${
+                    state.viewMode === 'cards'
+                      ? 'bg-slate-900 text-white border-slate-900'
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                  }"
+                >Tarjetas Detalladas</button>
+                <button
+                  onclick="setViewMode('table')"
+                  class="px-3 py-2 rounded-lg text-xs font-semibold border transition-colors ${
+                    state.viewMode === 'table'
+                      ? 'bg-slate-900 text-white border-slate-900'
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                  }"
+                >Matriz Sinóptica</button>
+              </div>
+            </div>
+
+            <!-- Etiquetas rápidas -->
+            <div class="flex flex-wrap items-center gap-1.5 text-xs">
+              <span class="text-slate-400 mr-1">Búsquedas rápidas:</span>
+              ${['IPC', 'MEI', '65 años', '35 años cotizados', 'Sareb', 'AP-9', 'MIR', '37,5 horas', 'IRPF'].map((tag) => `
+                <button
+                  onclick="applyQuickSearch('${tag}')"
+                  class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-colors"
+                >${tag}</button>
+              `).join('')}
+            </div>
+
+            <!-- Filtro de partidos -->
+            <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs font-semibold text-slate-500 mr-1">Candidaturas:</span>
+                ${PARTIES.map((party) => {
+                  const isSelected = state.visibleParties.includes(party.id);
+                  return `
+                    <button
+                      onclick="togglePartyVisibility('${party.id}')"
+                      class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all ${
+                        isSelected
+                          ? `${party.bgLight} ${party.border} ${party.text}`
+                          : 'bg-slate-50 border-slate-200 text-slate-400 opacity-60 hover:opacity-100'
+                      }"
+                    >
+                      <span class="w-2 h-2 rounded-full" style="background-color: ${party.color}"></span>
+                      ${party.name}
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+              <button
+                onclick="showAllParties()"
+                class="text-xs text-slate-500 hover:text-slate-900 underline"
+              >Mostrar todos</button>
+            </div>
+          </div>
+
+          <!-- Selector de bloques temáticos -->
+          ${!state.searchQuery ? `
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2.5">
+              ${TOPICS.map((topic) => {
+                const active = state.selectedTopic === topic.id;
+                return `
+                  <button
+                    onclick="selectTopic('${topic.id}')"
+                    class="flex flex-col items-start p-3.5 rounded-2xl border text-left transition-all ${
+                      active
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-md'
+                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                    }"
+                  >
+                    <span class="font-bold text-xs sm:text-sm leading-tight">${topic.label}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          ` : ''}
+
+          <!-- Resultados -->
+          ${groups.length === 0 ? `
+            <div class="bg-white rounded-2xl border border-slate-200 p-12 text-center">
+              <p class="text-slate-500 font-medium">No se han encontrado medidas que coincidan con "${escapeHtml(state.searchQuery)}".</p>
+              <button onclick="clearSearch()" class="mt-3 px-4 py-2 bg-slate-900 text-white text-xs font-semibold rounded-lg">Limpiar búsqueda</button>
+            </div>
+          ` : groups.map(({ topic, entries }) => `
+            <section class="space-y-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
+                <div>
+                  <h2 class="text-xl font-extrabold text-slate-900">${topic.label}</h2>
+                  <p class="text-xs text-slate-500">${topic.desc}</p>
+                </div>
+                ${topic.id === 'pensiones' ? `
+                  <button
+                    onclick="setActiveTab('pensiones_hub')"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold hover:bg-amber-200 transition-colors self-start sm:self-auto"
+                  >Abrir Simulador y Tabla Especial Pensiones →</button>
+                ` : ''}
+              </div>
+
+              ${state.viewMode === 'cards' ? `
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  ${entries.map(({ party, data }) => `
+                    <article class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col overflow-hidden">
+                      <div class="h-2 w-full" style="background-color: ${party.color}"></div>
+                      <div class="p-5 flex-1 flex flex-col">
+                        <div class="flex items-start justify-between gap-2 mb-3">
+                          <div>
+                            <span class="inline-block px-2.5 py-0.5 rounded-md text-xs font-bold ${party.badge}">${party.name}</span>
+                            <p class="text-[11px] text-slate-400 mt-1">${party.leader}</p>
+                          </div>
+                          <span class="text-[11px] font-semibold px-2 py-1 rounded-md bg-slate-100 text-slate-600 text-right">${data.tag}</span>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base leading-snug mb-3">${data.headline}</h3>
+                        <ul class="space-y-2.5 text-sm text-slate-600 flex-1">
+                          ${data.bullets.map((bullet) => `
+                            <li class="flex items-start gap-2">
+                              <span class="w-1.5 h-1.5 rounded-full mt-2 shrink-0" style="background-color: ${party.color}"></span>
+                              <span class="leading-relaxed">${bullet}</span>
+                            </li>
+                          `).join('')}
+                        </ul>
+                      </div>
+                    </article>
+                  `).join('')}
+                </div>
+              ` : `
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+                  <table class="w-full text-left border-collapse">
+                    <thead>
+                      <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                        <th class="p-4 w-44">Candidatura</th>
+                        <th class="p-4 w-48">Enfoque</th>
+                        <th class="p-4">Eje Principal</th>
+                        <th class="p-4">Medidas Clave</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-sm">
+                      ${entries.map(({ party, data }) => `
+                        <tr class="hover:bg-slate-50">
+                          <td class="p-4 align-top font-bold">
+                            <div class="flex items-center gap-2">
+                              <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${party.color}"></span>
+                              <span>${party.name}</span>
+                            </div>
+                            <span class="block text-xs font-normal text-slate-400 mt-0.5">${party.seatsEst} esc. est.</span>
+                          </td>
+                          <td class="p-4 align-top">
+                            <span class="inline-block px-2 py-1 rounded bg-slate-100 text-slate-700 text-xs font-semibold">${data.tag}</span>
+                          </td>
+                          <td class="p-4 align-top font-semibold text-slate-900">${data.headline}</td>
+                          <td class="p-4 align-top text-slate-600">
+                            <ul class="list-disc pl-4 space-y-1 text-xs">
+                              ${data.bullets.map((b) => `<li>${b}</li>`).join('')}
+                            </ul>
+                          </td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                  </table>
+                </div>
+              `}
+            </section>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderPensionesHub() {
+      return `
+        <div class="space-y-8">
+          <!-- Radiografía del Sistema en 2026 -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+            <div class="pb-5 border-b border-slate-100">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase mb-1.5">
+                🏛️ Radiografía Legislativa 2026
+              </span>
+              <h2 class="text-2xl font-extrabold text-slate-900">¿De dónde partimos en noviembre de 2026?</h2>
+              <p class="text-sm text-slate-500 mt-1">
+                Hitos aprobados en el Congreso durante 2026 que marcan el debate electoral sobre el sistema público de pensiones.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="text-xs font-bold uppercase text-slate-400 block">Revalorización 2026 (RDL 3/2026)</span>
+                <span class="text-2xl font-black text-slate-900 mt-1 block">+2,7% <span class="text-sm font-semibold text-emerald-700">(+11,4% mínimas)</span></span>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Aprobado el 26/02/2026 con <strong>317 síes</strong> (PSOE, PP, Sumar, Podemos, BNG, ERC, Junts, PNV, Bildu, CC) y <strong>33 noes (Vox)</strong> tras caer el decreto ómnibus el 27 de enero.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="text-xs font-bold uppercase text-slate-400 block">Edad Legal Ordinaria 2026</span>
+                <span class="text-2xl font-black text-slate-900 mt-1 block">66 años y 10 meses</span>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Exige <strong>38 años y 3 meses</strong> cotizados para jubilarse a los 65 años. En 2027 culmina el calendario llegando a los <strong>67 años</strong>.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="text-xs font-bold uppercase text-slate-400 block">Mecanismo Equidad (MEI 2026)</span>
+                <span class="text-2xl font-black text-slate-900 mt-1 block">0,90% <span class="text-sm font-semibold text-slate-500">cotización</span></span>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Sobrecotización finalista (0,75% empresa / 0,15% trabajador) para nutrir la «hucha de las pensiones» ante la jubilación del <em>baby boom</em>.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-sky-50 border border-sky-200">
+                <span class="text-xs font-bold uppercase text-sky-700 block">Brecha Territorial (Dato Galiza)</span>
+                <span class="text-2xl font-black text-sky-950 mt-1 block">~200 €/mes menos</span>
+                <p class="text-xs text-sky-900 mt-1.5 leading-relaxed">
+                  Galiza registra la pensión media más baja del Estado (~1.160 € frente a 1.360 € estatal), eje central de la propuesta de pensiones del <strong>BNG</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Simulador Interactivo de Jubilación -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+            <h3 class="text-xl font-extrabold text-slate-900">
+              Simulador de Jubilación 29-N: ¿Cómo te jubilarías con cada partido?
+            </h3>
+            <p class="text-xs text-slate-500 mt-1">
+              Selecciona tus años cotizados, tu sector laboral y tu nivel de pensión para ver el impacto directo de cada programa.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-5">
+              <div>
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">1. Carrera de cotización</label>
+                <div class="space-y-1.5">
+                  ${PENSION_PROFILES.years.map((opt) => `
+                    <button
+                      onclick="setPensionSim('years', '${opt.id}')"
+                      class="w-full text-left px-3 py-2 rounded-xl text-xs border transition-all ${
+                        state.pensionSim.years === opt.id
+                          ? 'bg-slate-900 text-white border-slate-900 font-semibold'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                      }"
+                    >
+                      <span class="block">${opt.label}</span>
+                      <span class="text-[11px] ${state.pensionSim.years === opt.id ? 'text-slate-300' : 'text-slate-400'}">${opt.desc}</span>
+                    </button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">2. Sector o régimen laboral</label>
+                <div class="space-y-1.5">
+                  ${PENSION_PROFILES.sector.map((opt) => `
+                    <button
+                      onclick="setPensionSim('sector', '${opt.id}')"
+                      class="w-full text-left px-3 py-2.5 rounded-xl text-xs border transition-all ${
+                        state.pensionSim.sector === opt.id
+                          ? 'bg-slate-900 text-white border-slate-900 font-semibold'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                      }"
+                    >${opt.label}</button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">3. Tramo de pensión / base</label>
+                <div class="space-y-1.5">
+                  ${PENSION_PROFILES.bracket.map((opt) => `
+                    <button
+                      onclick="setPensionSim('bracket', '${opt.id}')"
+                      class="w-full text-left px-3 py-2.5 rounded-xl text-xs border transition-all ${
+                        state.pensionSim.bracket === opt.id
+                          ? 'bg-slate-900 text-white border-slate-900 font-semibold'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                      }"
+                    >${opt.label}</button>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-slate-100">
+              ${PARTIES.filter((p) => p.id !== 'territorial').map((party) => {
+                let customOutcome = '';
+                const { years, sector, bracket } = state.pensionSim;
+                if (sector === 'penoso') {
+                  if (party.id === 'bng') customOutcome = 'Coeficientes reductores inmediatos para naval, pesca, conserva y cuidados + jubilación al 100% con 35 años cotizados.';
+                  else if (party.id === 'frente') customOutcome = 'Jubilación anticipada a los 60-61 años sin penalización económica mediante coeficientes de penosidad.';
+                  else if (party.id === 'podemos') customOutcome = 'Retorno general a la jubilación ordinaria a los 65 años y anticipada sin recortes en trabajos duros.';
+                  else if (party.id === 'psoe') customOutcome = 'Activación caso a caso del procedimiento aprobado con agentes sociales para reconocer coeficientes reductores.';
+                  else if (party.id === 'pp') customOutcome = 'Evaluación técnica por sectores e incentivo de compatibilidad salario-pensión si decides prolongar la actividad.';
+                  else customOutcome = 'Revisión actuarial de coeficientes y libertad de retiro ligada a años efectivos cotizados.';
+                } else if (sector === 'autonomo') {
+                  if (party.id === 'pp') customOutcome = 'Pasarela voluntaria al RETA para mutualistas, exención de cuotas 2 años a nuevos autónomos y mochila austríaca.';
+                  else if (party.id === 'psoe') customOutcome = 'Pasarela al RETA para mutualistas vulnerables, cotización por ingresos reales y cobertura de cese.';
+                  else if (party.id === 'vox') customOutcome = 'Cuota cero si tus ingresos no llegan al SMI y deducción máxima en IRPF para ahorro privado de jubilación.';
+                  else if (party.id === 'bng') customOutcome = 'Pasarela justa al RETA para mutualistas, subida de pensiones mínimas de autónomos al SMI y gestión gallega.';
+                  else if (party.id === 'frente') customOutcome = 'Pasarela integral al RETA con reconocimiento de años cotizados en mutualidades y mejora de base mínima.';
+                  else customOutcome = 'Equiparación de derechos de jubilación con el régimen general y pasarela voluntaria al RETA.';
+                } else if (bracket === 'minima') {
+                  if (party.id === 'bng' || party.id === 'podemos') customOutcome = 'Subida inmediata por ley de tu pensión mínima hasta igualar el Salario Mínimo Interprofesional (SMI).';
+                  else if (party.id === 'frente') customOutcome = 'Equiparación al 60% de la renta mediana (por encima del SMI) y revalorización superior al IPC.';
+                  else if (party.id === 'psoe') customOutcome = 'Subidas por encima del IPC (+11,4% en 2026) hasta converger con el umbral de pobreza.';
+                  else if (party.id === 'pp') customOutcome = 'Revalorización garantizada con el IPC y complementos focalizados manteniendo el equilibrio presupuestario.';
+                  else customOutcome = 'Exención total de IRPF y mejora financiada mediante el recorte del gasto político y autonómico.';
+                } else if (years === '35a38') {
+                  if (party.id === 'bng' || party.id === 'podemos') customOutcome = 'Podrías jubilarte a los 65 años con el 100% de la pensión sin tener que esperar a los 67 años en 2027.';
+                  else if (party.id === 'psoe') customOutcome = 'Tu edad ordinaria sube a 67 años en 2027 (66 y 10 meses en 2026), con opción de jubilación parcial o activa.';
+                  else if (party.id === 'pp') customOutcome = 'Si demoras tu retiro más allá de la edad legal, podrás cobrar el 100% de la pensión compatible con tu sueldo.';
+                  else if (party.id === 'frente') customOutcome = 'Jubilación parcial flexible con contrato de relevo y cálculo favorable para carreras con lagunas de cotización.';
+                  else customOutcome = 'Supresión de penalizaciones por trabajar tras la edad de retiro y fomento del ahorro individual.';
+                } else {
+                  customOutcome = PROGRAMS.pensiones[party.id].headline;
+                }
+
+                return `
+                  <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center justify-between mb-2">
+                        <span class="px-2.5 py-0.5 rounded-md text-xs font-bold ${party.badge}">${party.name}</span>
+                        <span class="text-[11px] font-semibold text-slate-400">${PROGRAMS.pensiones[party.id].tag}</span>
+                      </div>
+                      <p class="text-xs text-slate-700 leading-relaxed font-medium">${customOutcome}</p>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Tabla Comparativa Multidimensional -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-slate-200">
+              <h3 class="text-lg font-extrabold text-slate-900">Matriz Comparativa: Los 4 Ejes del Debate de Pensiones</h3>
+              <p class="text-xs text-slate-500">Contraste directo entre las seis candidaturas estatales y el Bloque Nacionalista Galego (BNG).</p>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse min-w-[900px]">
+                <thead>
+                  <tr class="bg-slate-900 text-white text-xs uppercase">
+                    <th class="p-3.5 w-44">Eje de Reforma</th>
+                    <th class="p-3.5">PP</th>
+                    <th class="p-3.5">PSOE</th>
+                    <th class="p-3.5">Vox</th>
+                    <th class="p-3.5">Frente Amplio</th>
+                    <th class="p-3.5">Podemos</th>
+                    <th class="p-3.5 bg-sky-900">BNG (Galiza)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-xs">
+                  ${PENSION_MATRIX.map((row) => `
+                    <tr class="hover:bg-slate-50">
+                      <td class="p-3.5 font-bold text-slate-900 bg-slate-50/60 align-top">${row.axis}</td>
+                      <td class="p-3.5 text-slate-700 align-top">${row.pp}</td>
+                      <td class="p-3.5 text-slate-700 align-top">${row.psoe}</td>
+                      <td class="p-3.5 text-slate-700 align-top">${row.vox}</td>
+                      <td class="p-3.5 text-slate-700 align-top">${row.frente}</td>
+                      <td class="p-3.5 text-slate-700 align-top">${row.podemos}</td>
+                      <td class="p-3.5 text-sky-950 font-medium bg-sky-50/40 align-top">${row.bng}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Desglose de Fuerzas Territoriales -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-extrabold text-slate-900">Posición de las Fuerzas Territoriales (BNG, ERC, Junts, PNV, EH Bildu y CC)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${TERRITORIAL_PENSION_DETAILS.map((item) => `
+                <div class="p-5 rounded-2xl border ${item.border} ${item.bg}">
+                  <span class="inline-block px-2.5 py-0.5 rounded-md text-xs font-bold mb-3 ${item.badge}">${item.party}</span>
+                  <ul class="space-y-2 text-xs text-slate-800">
+                    ${item.points.map((pt) => `
+                      <li class="flex items-start gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-slate-700 mt-1.5 shrink-0"></span>
+                        <span class="leading-relaxed">${pt}</span>
+                      </li>
+                    `).join('')}
+                  </ul>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDuelo() {
+      const key1 = `${state.duelA}-${state.duelB}`;
+      const key2 = `${state.duelB}-${state.duelA}`;
+      const pA = PARTIES.find((p) => p.id === state.duelA);
+      const pB = PARTIES.find((p) => p.id === state.duelB);
+
+      const insight = DUEL_INSIGHTS[key1] || DUEL_INSIGHTS[key2] || {
+        agreements: [
+          `Tanto ${pA.name} como ${pB.name} reconocen la urgencia de ampliar la oferta de vivienda asequible y reforzar la atención sanitaria primaria.`,
+          'Coincidencia en la necesidad de modernizar el tejido productivo y proteger las rentas del sector primario.',
+        ],
+        clashes: [
+          `Visión opuesta sobre el peso del sector público y la fiscalidad: ${pA.axis} frente a ${pB.axis}.`,
+          'Discrepancia en el grado de descentralización territorial y el reparto competencial entre el Estado y las Comunidades Autónomas.',
+        ],
+      };
+
+      return `
+        <div class="space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h2 class="text-lg font-extrabold text-slate-900 mb-1">Confrontación Directa de Programas</h2>
+            <p class="text-xs text-slate-500 mb-5">
+              Elige dos candidaturas para comparar sus propuestas lado a lado en los 7 bloques y detectar sus puntos de encuentro o choque.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-11 gap-4 items-center">
+              <div class="md:col-span-5">
+                <label class="block text-xs font-bold uppercase text-slate-400 mb-1.5">Candidatura A</label>
+                <select
+                  onchange="setDuel('A', this.value)"
+                  class="w-full p-3 rounded-xl border-2 border-slate-200 font-bold text-slate-900 bg-slate-50 focus:border-slate-900 focus:outline-none"
+                >
+                  ${PARTIES.map((p) => `
+                    <option value="${p.id}" ${p.id === state.duelA ? 'selected' : ''} ${p.id === state.duelB ? 'disabled' : ''}>
+                      ${p.fullName} (${p.seatsEst} esc. est.)
+                    </option>
+                  `).join('')}
+                </select>
+              </div>
+
+              <div class="md:col-span-1 flex justify-center pt-4">
+                <button
+                  onclick="swapDuel()"
+                  title="Intercambiar candidaturas"
+                  class="p-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors"
+                >⇄</button>
+              </div>
+
+              <div class="md:col-span-5">
+                <label class="block text-xs font-bold uppercase text-slate-400 mb-1.5">Candidatura B</label>
+                <select
+                  onchange="setDuel('B', this.value)"
+                  class="w-full p-3 rounded-xl border-2 border-slate-200 font-bold text-slate-900 bg-slate-50 focus:border-slate-900 focus:outline-none"
+                >
+                  ${PARTIES.map((p) => `
+                    <option value="${p.id}" ${p.id === state.duelB ? 'selected' : ''} ${p.id === state.duelA ? 'disabled' : ''}>
+                      ${p.fullName} (${p.seatsEst} esc. est.)
+                    </option>
+                  `).join('')}
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pt-6 border-t border-slate-100">
+              <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl p-4">
+                <h3 class="text-xs font-extrabold uppercase tracking-wider text-emerald-800 mb-2.5">
+                  ✓ Puntos de posible acuerdo
+                </h3>
+                <ul class="space-y-2 text-xs text-emerald-950">
+                  ${insight.agreements.map((item) => `
+                    <li class="flex items-start gap-2">
+                      <span class="font-bold text-emerald-600">•</span>
+                      <span>${item}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+
+              <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-4">
+                <h3 class="text-xs font-extrabold uppercase tracking-wider text-rose-800 mb-2.5">
+                  ⚠ Principales choques programáticos
+                </h3>
+                <ul class="space-y-2 text-xs text-rose-950">
+                  ${insight.clashes.map((item) => `
+                    <li class="flex items-start gap-2">
+                      <span class="font-bold text-rose-600">•</span>
+                      <span>${item}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            ${TOPICS.map((topic) => {
+              const dataA = PROGRAMS[topic.id][state.duelA];
+              const dataB = PROGRAMS[topic.id][state.duelB];
+              return `
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                  <div class="bg-slate-100 px-5 py-3 border-b border-slate-200">
+                    <h3 class="font-bold text-sm text-slate-900">${topic.label}</h3>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+                    <div class="p-5">
+                      <div class="flex items-center justify-between mb-2">
+                        <span class="px-2.5 py-0.5 rounded text-xs font-bold ${pA.badge}">${pA.name}</span>
+                        <span class="text-xs text-slate-400 font-medium">${dataA.tag}</span>
+                      </div>
+                      <h4 class="font-bold text-slate-900 text-sm mb-2.5">${dataA.headline}</h4>
+                      <ul class="space-y-1.5 text-xs text-slate-600">
+                        ${dataA.bullets.map((b) => `
+                          <li class="flex items-start gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style="background-color: ${pA.color}"></span>
+                            <span>${b}</span>
+                          </li>
+                        `).join('')}
+                      </ul>
+                    </div>
+
+                    <div class="p-5">
+                      <div class="flex items-center justify-between mb-2">
+                        <span class="px-2.5 py-0.5 rounded text-xs font-bold ${pB.badge}">${pB.name}</span>
+                        <span class="text-xs text-slate-400 font-medium">${dataB.tag}</span>
+                      </div>
+                      <h4 class="font-bold text-slate-900 text-sm mb-2.5">${dataB.headline}</h4>
+                      <ul class="space-y-1.5 text-xs text-slate-600">
+                        ${dataB.bullets.map((b) => `
+                          <li class="flex items-start gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style="background-color: ${pB.color}"></span>
+                            <span>${b}</span>
+                          </li>
+                        `).join('')}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSimulador() {
+      const { age, housing, work, family, territory } = state.profile;
+      const cards = PARTIES.map((party) => {
+        const impacts = [];
+        const pId = party.id;
+
+        if (housing === 'alquiler') impacts.push({ area: 'Vivienda (Alquiler)', text: PROGRAMS.vivienda[pId].bullets[0] });
+        else if (housing === 'compra') impacts.push({ area: 'Vivienda (Compra)', text: PROGRAMS.vivienda[pId].bullets[1] });
+        else impacts.push({ area: 'Vivienda (Propiedad)', text: PROGRAMS.vivienda[pId].bullets[2] });
+
+        if (age === 'jubilado') {
+          impacts.push({ area: 'Pensiones y Jubilación', text: PROGRAMS.pensiones[pId].bullets[0] });
+        } else if (work === 'autonomo') {
+          impacts.push({
+            area: 'Autónomos e Impuestos',
+            text:
+              pId === 'vox' ? 'Cuota cero de autónomos si los ingresos netos no alcanzan el SMI y rebaja de IRPF al 15%-25%.' :
+              pId === 'pp' ? 'Exención de cotizaciones durante 2 años a nuevos autónomos y deflactación del IRPF.' :
+              pId === 'bng' ? 'Cotización por ingresos reales adaptada al rural galego y Tarifa Eléctrica Galega para pymes.' :
+              'Cotización por ingresos reales, deducción de gastos afectos y acceso a prestaciones de cese.',
+          });
+        } else {
+          impacts.push({ area: 'Salario y Jornada', text: PROGRAMS.economia[pId].bullets[0] });
+        }
+
+        if (family === 'con_hijos') {
+          impacts.push({
+            area: 'Familia y Conciliación',
+            text:
+              pId === 'pp' ? 'Gratuidad universal de educación infantil 0-3 años y deducciones fiscales por hijo.' :
+              pId === 'frente' ? 'Remuneración al 100% de las 8 semanas de permiso parental para cuidado hasta los 8 años.' :
+              pId === 'podemos' ? 'Prestación universal por crianza de 200 euros al mes por hijo hasta los 18 años.' :
+              pId === 'vox' ? 'Fuertes deducciones en IRPF por cada hijo y cheque escolar de libre elección.' :
+              pId === 'bng' ? 'Gratuidad de libros de texto, refuerzo de escuelas infantiles públicas y plan de retorno joven.' :
+              'Ampliación de permisos retribuidos de cuidados y cobertura óptica y bucodental infantil.',
+          });
+        } else {
+          impacts.push({ area: 'Servicios Públicos', text: PROGRAMS.social[pId].bullets[0] });
+        }
+
+        if (territory === 'galicia') {
+          impacts.push({
+            area: 'Impacto en Galiza',
+            text:
+              pId === 'bng' ? 'Gratuidad total de AP-9 y AP-53, concierto económico gallego, cesión de pisos Sareb al IGVS y veto a Altri.' :
+              pId === 'psoe' ? 'Bonificaciones de peajes en la AP-9, quita parcial de deuda autonómica y despliegue de fondos europeos.' :
+              pId === 'pp' ? 'Financiación autonómica multilateral con peso del envejecimiento y dispersión, e impulso al corredor noroeste.' :
+              pId === 'frente' ? 'Suelo fiscal común, defensa de los servicios públicos del SERGAS y apoyo al sector naval y eólico marino.' :
+              pId === 'podemos' ? 'Intervención pública de autopistas y eléctricas y moratoria a macroparques eólicos en suelo agrario.' :
+              pId === 'vox' ? 'Centralización de competencias sanitarias y educativas y rebaja de impuestos al sector primario.' :
+              'Agenda centrada en sus respectivos territorios (Cataluña, Euskadi, Canarias) sin representación gallega.',
+          });
+        }
+
+        return { party, impacts };
+      });
+
+      return `
+        <div class="space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h2 class="text-xl font-extrabold text-slate-900">¿Cómo te afectan los programas del 29-N?</h2>
+            <p class="text-sm text-slate-500 mt-1 mb-6">
+              Configura tu situación personal, laboral y territorial para filtrar las propuestas concretas que tendrían impacto directo en tu día a día.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">1. Tramo de Edad</label>
+                <div class="space-y-1.5">
+                  ${[
+                    { id: 'joven', label: 'Menor de 35 años' },
+                    { id: 'adulto', label: '35 a 64 años' },
+                    { id: 'jubilado', label: '65 años o más / Pensionista' },
+                  ].map((opt) => `
+                    <button
+                      onclick="setProfile('age', '${opt.id}')"
+                      class="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                        age === opt.id ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                      }"
+                    >${opt.label}</button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">2. Situación de Vivienda</label>
+                <div class="space-y-1.5">
+                  ${[
+                    { id: 'alquiler', label: 'Vivo de alquiler' },
+                    { id: 'compra', label: 'Busco comprar primera vivienda' },
+                    { id: 'propietario', label: 'Propietario / Arrendador' },
+                  ].map((opt) => `
+                    <button
+                      onclick="setProfile('housing', '${opt.id}')"
+                      class="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                        housing === opt.id ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                      }"
+                    >${opt.label}</button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">3. Perfil Laboral</label>
+                <div class="space-y-1.5">
+                  ${[
+                    { id: 'asalariado', label: 'Trabajador por cuenta ajena' },
+                    { id: 'autonomo', label: 'Autónomo / Pyme' },
+                    { id: 'estudiante', label: 'Estudiante / Opositor' },
+                  ].map((opt) => `
+                    <button
+                      onclick="setProfile('work', '${opt.id}')"
+                      class="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                        work === opt.id ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                      }"
+                    >${opt.label}</button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">4. Cargas Familiares</label>
+                <div class="space-y-1.5">
+                  ${[
+                    { id: 'sin_hijos', label: 'Sin hijos a cargo' },
+                    { id: 'con_hijos', label: 'Con hijos / Dependientes' },
+                  ].map((opt) => `
+                    <button
+                      onclick="setProfile('family', '${opt.id}')"
+                      class="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                        family === opt.id ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                      }"
+                    >${opt.label}</button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-2">5. Vínculo Territorial</label>
+                <div class="space-y-1.5">
+                  ${[
+                    { id: 'galicia', label: 'Resido o voto en Galiza' },
+                    { id: 'general', label: 'Resto del Estado' },
+                  ].map((opt) => `
+                    <button
+                      onclick="setProfile('territory', '${opt.id}')"
+                      class="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                        territory === opt.id ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                      }"
+                    >${opt.label}</button>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            ${cards.map(({ party, impacts }) => `
+              <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+                <div class="h-2 w-full" style="background-color: ${party.color}"></div>
+                <div class="p-5 flex-1">
+                  <div class="flex items-center justify-between mb-4">
+                    <span class="px-2.5 py-1 rounded-md text-xs font-bold ${party.badge}">${party.name}</span>
+                    <span class="text-xs text-slate-400 italic">"${party.motto}"</span>
+                  </div>
+                  <div class="space-y-3.5">
+                    ${impacts.map((imp) => `
+                      <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-1">${imp.area}</span>
+                        <p class="text-xs text-slate-800 leading-relaxed">${imp.text}</p>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTest() {
+      const answeredIds = Object.keys(state.answers);
+      let resultsHtml = '';
+
+      if (answeredIds.length === 0) {
+        resultsHtml = `
+          <div class="py-10 text-center text-slate-400 text-sm border-2 border-dashed border-slate-200 rounded-xl p-4">
+            Selecciona una respuesta en cualquiera de las preguntas para ver tu porcentaje de coincidencia en tiempo real.
+          </div>
+        `;
+      } else {
+        const scores = {};
+        const maxPossible = {};
+        PARTIES.forEach((p) => { scores[p.id] = 0; maxPossible[p.id] = 0; });
+
+        answeredIds.forEach((qId) => {
+          const question = QUIZ_QUESTIONS.find((q) => q.id === qId);
+          const optIdx = state.answers[qId];
+          if (!question || optIdx === undefined) return;
+          const chosenOpt = question.options[optIdx];
+          PARTIES.forEach((p) => {
+            scores[p.id] += chosenOpt.weights[p.id] || 0;
+            const maxInQ = Math.max(...question.options.map((o) => o.weights[p.id] || 0));
+            maxPossible[p.id] += maxInQ > 0 ? maxInQ : 3;
+          });
+        });
+
+        const sorted = PARTIES.map((p) => ({
+          party: p,
+          pct: maxPossible[p.id] > 0 ? Math.round((scores[p.id] / maxPossible[p.id]) * 100) : 0,
+        })).sort((a, b) => b.pct - a.pct);
+
+        resultsHtml = `
+          <div class="space-y-4">
+            ${sorted.map(({ party, pct }, index) => `
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between text-xs font-bold">
+                  <span class="flex items-center gap-2 text-slate-800">
+                    ${index === 0 ? '<span class="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px]">#1</span>' : ''}
+                    ${party.name}
+                  </span>
+                  <span class="text-slate-900">${pct}%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full rounded-full transition-all duration-500" style="width: ${pct}%; background-color: ${party.color};"></div>
+                </div>
+              </div>
+            `).join('')}
+
+            <div class="pt-4 mt-4 border-t border-slate-100 text-xs text-slate-500 leading-relaxed">
+              <strong>Nota metodológica:</strong> Este índice pondera exclusivamente la coincidencia temática con los compromisos programáticos publicados para las elecciones del 29 de noviembre de 2026 (incluyendo el programa del <strong>BNG</strong> y las posiciones sobre el <strong>RDL 3/2026 de pensiones</strong>).
+            </div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-8 space-y-5">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl font-extrabold text-slate-900">Test de Afinidad Programática 29-N</h2>
+                <span class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
+                  ${answeredIds.length} / ${QUIZ_QUESTIONS.length} respondidas
+                </span>
+              </div>
+              <p class="text-sm text-slate-500">
+                Responde a los 8 dilemas reales de la campaña de noviembre de 2026 (incluyendo pensiones, vivienda, fiscalidad y agenda territorial) para calcular tu afinidad con cada fuerza política.
+              </p>
+            </div>
+
+            ${QUIZ_QUESTIONS.map((q, qIdx) => `
+              <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-600 mb-1">
+                  <span>Pregunta ${qIdx + 1}</span>
+                  <span>·</span>
+                  <span>${q.topic}</span>
+                </div>
+                <h3 class="text-base font-bold text-slate-900 mb-4">${q.question}</h3>
+                <div class="space-y-2.5">
+                  ${q.options.map((opt, oIdx) => {
+                    const selected = state.answers[q.id] === oIdx;
+                    return `
+                      <button
+                        onclick="selectQuizOption('${q.id}', ${oIdx})"
+                        class="w-full text-left p-3.5 rounded-xl border text-sm transition-all flex items-start gap-3 ${
+                          selected
+                            ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                        }"
+                      >
+                        <span
+                          class="w-5 h-5 rounded-full border flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
+                            selected
+                              ? 'bg-amber-400 border-amber-400 text-slate-950'
+                              : 'border-slate-300 text-slate-400'
+                          }"
+                        >${String.fromCharCode(65 + oIdx)}</span>
+                        <span class="leading-snug">${opt.label}</span>
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="lg:col-span-4 lg:sticky lg:top-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-extrabold text-slate-900">🧭 Tu Mapa de Afinidad</h3>
+                ${answeredIds.length > 0 ? `
+                  <button onclick="resetQuiz()" class="text-xs text-slate-400 hover:text-slate-700">↺ Reiniciar</button>
+                ` : ''}
+              </div>
+              ${resultsHtml}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ==================== ACCIONES INTERACTIVAS ====================
+    function setActiveTab(tabId) {
+      state.activeTab = tabId;
+      renderApp();
+    }
+
+    function toggleBngCard() {
+      state.showBngCard = !state.showBngCard;
+      renderApp();
+    }
+
+    function togglePactParty(id) {
+      if (state.pactParties.includes(id)) {
+        state.pactParties = state.pactParties.filter((p) => p !== id);
+      } else {
+        state.pactParties.push(id);
+      }
+      renderApp();
+    }
+
+    function handleSearchInput(val) {
+      state.searchQuery = val;
+      renderApp();
+      const input = document.getElementById('search-input');
+      if (input) {
+        input.focus();
+        input.setSelectionRange(val.length, val.length);
+      }
+    }
+
+    function clearSearch() {
+      state.searchQuery = '';
+      renderApp();
+    }
+
+    function applyQuickSearch(tag) {
+      state.searchQuery = tag;
+      renderApp();
+    }
+
+    function setViewMode(mode) {
+      state.viewMode = mode;
+      renderApp();
+    }
+
+    function selectTopic(topicId) {
+      state.selectedTopic = topicId;
+      renderApp();
+    }
+
+    function togglePartyVisibility(id) {
+      if (state.visibleParties.includes(id)) {
+        if (state.visibleParties.length > 1) {
+          state.visibleParties = state.visibleParties.filter((p) => p !== id);
+        }
+      } else {
+        state.visibleParties.push(id);
+      }
+      renderApp();
+    }
+
+    function showAllParties() {
+      state.visibleParties = PARTIES.map((p) => p.id);
+      renderApp();
+    }
+
+    function setPensionSim(key, val) {
+      state.pensionSim[key] = val;
+      renderApp();
+    }
+
+    function setDuel(side, val) {
+      if (side === 'A') state.duelA = val;
+      else state.duelB = val;
+      renderApp();
+    }
+
+    function swapDuel() {
+      const temp = state.duelA;
+      state.duelA = state.duelB;
+      state.duelB = temp;
+      renderApp();
+    }
+
+    function setProfile(key, val) {
+      state.profile[key] = val;
+      renderApp();
+    }
+
+    function selectQuizOption(qId, oIdx) {
+      state.answers[qId] = oIdx;
+      renderApp();
+    }
+
+    function resetQuiz() {
+      state.answers = {};
+      renderApp();
+    }
+
+    // Arranque inmediato al cargar el documento
+    document.addEventListener('DOMContentLoaded', renderApp);
+  </script>
+</body>
+</html>
