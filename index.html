@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Observatorio 29-N | Comparador de Programas Electorales (Noviembre 2026)</title>
+  <title>Observatorio 29-N | Comparador y Verificador de Programas Electorales (Noviembre 2026)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -16,23 +16,23 @@
   <div id="root"></div>
 
   <script>
-    // ==================== DATOS DE PARTIDOS Y PROGRAMAS ====================
+    // ==================== DATOS ACTUALIZADOS (22 NOVIEMBRE 2026) ====================
     const PARTIES = [
       {
         id: 'pp',
         name: 'PP',
-        fullName: 'Partido Popular (Programa 10-N)',
+        fullName: 'Partido Popular',
         leader: 'Alberto Núñez Feijóo',
         color: '#0056A3',
         bgLight: 'bg-blue-50',
         border: 'border-blue-200',
         text: 'text-blue-800',
         badge: 'bg-blue-600 text-white',
-        seatsEst: 137,
-        seatsRange: '132 - 143',
-        voteShare: '33,2%',
+        seatsEst: 133,
+        seatsRange: '127 - 138',
+        voteShare: '31,9%',
         axis: 'Centro-derecha / Reformismo liberal',
-        motto: 'Más empleo, menos impuestos y seguridad jurídica',
+        motto: 'Un millón de viviendas, rebaja fiscal y seguridad jurídica',
       },
       {
         id: 'psoe',
@@ -44,59 +44,59 @@
         border: 'border-red-200',
         text: 'text-red-800',
         badge: 'bg-red-600 text-white',
-        seatsEst: 112,
-        seatsRange: '108 - 118',
-        voteShare: '27,8%',
+        seatsEst: 125,
+        seatsRange: '119 - 130',
+        voteShare: '29,6%',
         axis: 'Socialdemocracia / Estado del Bienestar',
-        motto: 'Avanzar en derechos, reindustrialización y cohesión',
+        motto: '1% del PIB en vivienda, blindaje constitucional de pensiones y aborto',
       },
       {
         id: 'vox',
         name: 'Vox',
-        fullName: 'Vox',
+        fullName: 'Vox ("Es sentido común" · 115 medidas)',
         leader: 'Santiago Abascal',
         color: '#63BE21',
         bgLight: 'bg-lime-50',
         border: 'border-lime-300',
         text: 'text-lime-900',
         badge: 'bg-lime-600 text-white',
-        seatsEst: 48,
-        seatsRange: '44 - 53',
-        voteShare: '14,6%',
-        axis: 'Derecha soberanista / Conservadurismo nacional',
-        motto: 'Sentido común, fronteras seguras y soberanía nacional',
+        seatsEst: 54,
+        seatsRange: '49 - 59',
+        voteShare: '16,4%',
+        axis: 'Derecha soberanista / Prioridad nacional',
+        motto: 'Es sentido común: prioridad nacional, desregulación y remigración',
       },
       {
         id: 'frente',
         name: 'Frente Amplio',
         fullName: 'Frente Amplio (Sumar · IU · Más Madrid · Comuns)',
-        leader: 'Yolanda Díaz / Candidatura de Unidad',
+        leader: 'Ada Colau',
         color: '#E51C55',
         bgLight: 'bg-rose-50',
         border: 'border-rose-200',
         text: 'text-rose-900',
         badge: 'bg-rose-600 text-white',
-        seatsEst: 18,
-        seatsRange: '15 - 22',
-        voteShare: '8,4%',
-        axis: 'Izquierda verde, laborista y plurinacional',
-        motto: 'Tiempo de vida, vivienda garantizada y transición justa',
+        seatsEst: 12,
+        seatsRange: '10 - 14',
+        voteShare: '6,4%',
+        axis: 'Izquierda verde, municipalista y plurinacional',
+        motto: '1,5 millones de viviendas públicas, 32 horas y blindaje social',
       },
       {
         id: 'podemos',
         name: 'Podemos',
-        fullName: 'Podemos',
-        leader: 'Irene Montero / Ione Belarra',
+        fullName: 'Podemos (442 medidas)',
+        leader: 'Irene Montero',
         color: '#6B21A8',
         bgLight: 'bg-purple-50',
         border: 'border-purple-200',
         text: 'text-purple-900',
         badge: 'bg-purple-700 text-white',
-        seatsEst: 6,
-        seatsRange: '4 - 8',
-        voteShare: '4,3%',
+        seatsEst: 2,
+        seatsRange: '1 - 3',
+        voteShare: '2,0%',
         axis: 'Izquierda transformadora y antimilitarista',
-        motto: 'Intervenir los mercados para proteger a la mayoría',
+        motto: 'Bajar alquileres un 40%, jornada de 30 horas y salida de la OTAN',
       },
       {
         id: 'bng',
@@ -110,7 +110,7 @@
         badge: 'bg-sky-600 text-white',
         seatsEst: 2,
         seatsRange: '2 - 3',
-        voteShare: '0,9%',
+        voteShare: '1,0%',
         axis: 'Soberanismo gallego / Izquierda nacionalista',
         motto: 'Máis forza para Galiza: concerto económico, AP-9 galega e pensións dignas',
         isGalician: true,
@@ -118,16 +118,16 @@
       {
         id: 'territorial',
         name: 'Resto Territorial',
-        fullName: 'Resto Bloque Territorial (ERC · Junts · EH Bildu · PNV · CC)',
+        fullName: 'Resto Bloque Territorial (ERC · Junts · EH Bildu · PNV · CC · AA)',
         leader: 'Fuerzas autonómicas y nacionalistas',
         color: '#0D9488',
         bgLight: 'bg-teal-50',
         border: 'border-teal-200',
         text: 'text-teal-900',
         badge: 'bg-teal-700 text-white',
-        seatsEst: 27,
-        seatsRange: '25 - 30',
-        voteShare: '10,8%',
+        seatsEst: 22,
+        seatsRange: '20 - 25',
+        voteShare: '12,7%',
         axis: 'Soberanismo, concierto fiscal y agenda territorial',
         motto: 'Capacidad de decisión propia e inversión en el territorio',
       },
@@ -135,543 +135,640 @@
 
     const TOPICS = [
       { id: 'pensiones', label: 'Pensiones y Jubilación', desc: 'Revalorización IPC, edad de jubilación, MEI, pensiones mínimas y sostenibilidad' },
-      { id: 'vivienda', label: 'Vivienda y Alquiler', desc: 'Precios del alquiler, construcción de VPO, ocupación y fiscalidad inmobiliaria' },
-      { id: 'economia', label: 'Economía, Empleo e Impuestos', desc: 'IRPF, Sociedades, SMI, jornada laboral de 37,5h y deuda pública' },
-      { id: 'social', label: 'Sanidad y Educación', desc: 'Listas de espera, financiación autonómica sanitaria y modelo educativo' },
-      { id: 'territorio', label: 'Modelo Territorial y Justicia', desc: 'Financiación autonómica, renovación del CGPJ y descentralización' },
-      { id: 'derechos', label: 'Inmigración y Derechos', desc: 'Control fronterizo, regularización, igualdad y conciliación' },
-      { id: 'energia', label: 'Energía, Clima y Exterior', desc: 'Nucleares, renovables, PAC agraria, defensa y política europea' },
+      { id: 'vivienda', label: 'Vivienda y Alquiler', desc: 'Precios del alquiler, parque público, suelo, ocupación y fiscalidad inmobiliaria' },
+      { id: 'economia', label: 'Economía, Empleo e Impuestos', desc: 'IRPF, IVA, cuotas de autónomos, SMI y reducción de jornada laboral' },
+      { id: 'social', label: 'Sanidad y Educación', desc: 'Listas de espera, médicos, salud mental, dental y modelo educativo' },
+      { id: 'territorio', label: 'Modelo Territorial y Justicia', desc: 'Financiación autonómica, condonación de deuda, CGPJ y competencias' },
+      { id: 'derechos', label: 'Inmigración y Derechos', desc: 'Cupos, remigración, homologación de títulos, igualdad y menores en redes' },
+      { id: 'energia', label: 'Energía, Clima y Exterior', desc: 'Nucleares, renovables, PAC agraria, defensa, OTAN y política europea' },
     ];
 
     const PROGRAMS = {
       pensiones: {
         pp: {
-          headline: 'Blindaje del poder adquisitivo, "mochila austríaca" y compatibilidad plena pensión-trabajo',
+          headline: 'Blindaje del IPC, auditoría AIReF y compatibilidad plena pensión-salario',
           bullets: [
-            'Revalorización garantizada con el IPC anual (apoyó el RDL 3/2026) con auditoría independiente de la AIReF sobre cuentas de la Seguridad Social.',
-            'Incentivos a la jubilación demorada: permitir compatibilizar el 100% de la pensión con el salario activo sin penalizaciones.',
-            'Implantación gradual de cuentas individuales ("mochila austríaca") y planes de empleo de empresa para complementar la pensión pública.',
+            'Revalorización garantizada con el IPC anual (apoyó el RDL 3/2026) con auditoría independiente periódica sobre las cuentas de la Seguridad Social.',
+            'Incentivos a la jubilación demorada: permitir compatibilizar el 100% de la pensión con el trabajo activo sin penalizaciones.',
+            'Fomento de planes de empleo de empresa y ahorro complementario individual para reforzar el sistema público.',
           ],
           tag: 'Sostenibilidad e incentivos',
         },
         psoe: {
-          headline: 'Consolidación del pacto de Toledo 2021-2023, MEI al 0,9% y hucha de las pensiones',
+          headline: 'Blindaje constitucional del IPC y llevar la hucha de las pensiones a 20.000 M€',
           bullets: [
-            'Blindaje constitucional de la revalorización automática según el IPC interanual (+2,7% en 2026 y +11,4% en mínimas y no contributivas).',
-            'Despliegue del Mecanismo de Equidad Intergeneracional (0,90% en 2026 hacia el 1,2% en 2029) para nutrir el Fondo de Reserva.',
-            'Jubilación parcial y activa flexible mediante acuerdo con patronal y sindicatos, sin recortar la tasa de reemplazo.',
+            'Reforma constitucional para blindar la revalorización automática según el IPC interanual (+2,7% en 2026 y +11,4% en mínimas y no contributivas).',
+            'Despliegue del Mecanismo de Equidad Intergeneracional (0,90% en 2026) con el objetivo de alcanzar los 20.000 millones en el Fondo de Reserva.',
+            'Mejora de las pensiones de orfandad y del complemento por hijos, junto a jubilación parcial y activa flexible.',
           ],
-          tag: 'Pacto de Toledo y MEI',
+          tag: 'Blindaje constitucional e IPC',
         },
         vox: {
-          headline: 'Auditoría integral, reducción del gasto político y libertad de ahorro individual',
+          headline: 'Auditoría del gasto político, exenciones fiscales y reforma estructural',
           bullets: [
-            'Único partido que votó contra el RDL 3/2026: denuncia la insostenibilidad actuarial del sistema actual de reparto sin reformas estructurales.',
-            'Financiar las pensiones recortando subvenciones políticas, duplicidades autonómicas y gasto ideológico, y fomentando la natalidad.',
-            'Deducciones fiscales máximas en IRPF para planes de pensiones privados y ahorro familiar voluntario.',
+            'Único partido que votó contra el RDL 3/2026: cuestiona la sostenibilidad del modelo actual sin reformas de calado y apoyo a la natalidad.',
+            'Garantizar la sostenibilidad suprimiendo subvenciones políticas, duplicidades autonómicas y gasto ideológico.',
+            'Deducciones fiscales reforzadas en IRPF para ahorro familiar y planes privados voluntarios.',
           ],
           tag: 'Reforma estructural y ahorro',
         },
         frente: {
-          headline: 'Jubilación anticipada sin recortes en sectores penosos y subida de pensiones mínimas',
+          headline: 'Jubilación anticipada sin recortes en sectores penosos y subida de mínimas',
           bullets: [
-            'Equiparar las pensiones mínimas y no contributivas al 60% de la renta mediana (por encima del SMI) y eliminar la brecha de género.',
+            'Equiparar las pensiones mínimas y no contributivas al 60% de la renta mediana y cerrar la brecha de género.',
             'Coeficientes reductores para jubilación anticipada a los 60-61 años en profesiones penosas o peligrosas (construcción, cuidados, industria, transporte).',
-            'Destope completo de las cotizaciones máximas con aportación creciente de solidaridad y transferencia directa desde Presupuestos.',
+            'Destope completo de las cotizaciones máximas con aportación creciente de solidaridad y transferencia desde Presupuestos.',
           ],
           tag: 'Equidad y penosidad laboral',
         },
         podemos: {
-          headline: 'Derogación de reformas que retrasan la edad a 67 años y vuelta a los 65 años',
+          headline: 'Vuelta a los 65 años de edad ordinaria y equiparación de mínimas al SMI',
           bullets: [
-            'Restablecer la edad ordinaria de jubilación en los 65 años y el cómputo de los 15 mejores años cotizados (frente a los 25-29 actuales).',
-            'Subida por ley de todas las pensiones mínimas hasta igualar el Salario Mínimo Interprofesional (SMI) en una sola legislatura.',
-            'Prohibición de los planes de pensiones privados de empresa incentivados fiscalmente y financiación con impuestos a rentas altas y banca.',
+            'Derogar las reformas que retrasan la jubilación a 67 años para volver a los 65 años y al cómputo de los 15 mejores años cotizados.',
+            'Subida por ley de todas las pensiones mínimas hasta igualar el Salario Mínimo Interprofesional (SMI).',
+            'Fin de incentivos fiscales a planes privados de empresa; financiación mediante impuestos a banca y grandes fortunas.',
           ],
           tag: 'Jubilación a los 65 y SMI',
         },
         bng: {
-          headline: 'Subida de las pensiones mínimas galegas (las más bajas del Estado) y jubilación a los 65 años',
+          headline: 'Subida de las pensiones mínimas galegas y jubilación ordinaria a los 65 años',
           bullets: [
             'Equiparación inmediata de las pensiones mínimas al 60% del salario medio (SMI) para corregir la brecha histórica de Galiza.',
-            'Retorno de la edad legal de jubilación a los 65 años (y jubilación ordinaria sin penalización con 35 años cotizados) y coeficientes reductores para naval, pesca, conserva y cuidados.',
-            'Transferencia de la gestión del régimen económico de la Seguridad Social a Galiza y cálculo de la base reguladora sobre los 15 mejores años.',
+            'Retorno de la edad legal a los 65 años (o jubilación al 100% con 35 años cotizados) y coeficientes reductores para naval, pesca, conserva y cuidados.',
+            'Transferencia de la gestión del régimen económico de la Seguridad Social a Galiza y cálculo sobre los 15 mejores años.',
           ],
-          tag: 'Pensiones mínimas y 35 años cotizados',
+          tag: 'Pensiones mínimas y 35 años',
         },
         territorial: {
-          headline: 'Gestión autonómica de la Seguridad Social y respeto a las mutualidades profesionales',
+          headline: 'Gestión autonómica de la Seguridad Social y pasarela justa al RETA',
           bullets: [
-            'PNV y EH Bildu: culminar la transferencia de la gestión del régimen económico de la Seguridad Social al País Vasco; Bildu pide además complementar pensiones mínimas.',
-            'ERC y Junts: traspaso de la gestión de pensiones a Cataluña; Junts exige ajustar la revalorización al coste real de la vida (IPC catalán).',
-            'Consenso transversal en facilitar una pasarela voluntaria y justa al RETA para mutualistas alternativos (abogados, arquitectos, médicos).',
+            'PNV y EH Bildu: culminar la transferencia de la gestión del régimen económico de la Seguridad Social al País Vasco; Bildu pide complementar mínimas.',
+            'ERC y Junts: traspaso de la gestión a Cataluña; Junts exige ajustar la revalorización al coste real de la vida (IPC catalán).',
+            'Consenso en facilitar una pasarela voluntaria y justa al RETA para mutualistas alternativos (abogados, arquitectos, médicos).',
           ],
-          tag: 'Traspaso de gestión y pasarela RETA',
+          tag: 'Traspaso y pasarela RETA',
         },
       },
       vivienda: {
         pp: {
-          headline: 'Más oferta de suelo, avales hipotecarios y desalojo exprés en 24 horas',
+          headline: 'Un millón de viviendas, derogación de la Ley de Vivienda y programa "Tres años+"',
           bullets: [
-            'Derogación de los topes al alquiler de la Ley de Vivienda y bonificación fiscal del 100% en IRPF a propietarios que alquilen a jóvenes.',
-            'Aval público de hasta el 100% de la hipoteca para menores de 40 años y reducción del ITP al 4% en compra de primera vivienda.',
-            'Reforma penal y procesal para permitir el desalojo de ocupaciones ilegales en 24-48 horas y cortar suministros sin delito de coacciones.',
+            'Construir 1 millón de viviendas en la legislatura mediante una nueva Ley del Suelo, agilizando licencias y transformando oficinas/locales en vivienda.',
+            'Derogación de la actual Ley de Vivienda (eliminando zonas tensionadas e índice de precios) y programa "Tres años+" con deducciones IRPF a inquilinos y caseros que renueven bajo el IPC.',
+            'Rebajas fiscales para jóvenes en compra de vivienda y desalojo exprés de ocupaciones ilegales en 24-48 horas.',
           ],
-          tag: 'Liberalización y seguridad jurídica',
+          tag: '1 millón de viviendas y suelo',
         },
         psoe: {
-          headline: 'Parque público permanente, regulación del alquiler turístico y ayuda a jóvenes',
+          headline: '1% del PIB anual a vivienda, parque estatal de 100.000 pisos y congelación de rentas abusivas',
           bullets: [
-            'Consolidar un parque público de 184.000 viviendas protegidas con blindaje permanente para que no puedan venderse a fondos privados.',
-            'Ventanilla única digital para limitar pisos turísticos en zonas tensionadas y reforma de la Ley de Propiedad Horizontal para vetarlos.',
-            'Ampliación del Bono Alquiler Joven y línea de avales ICO para compra en municipios pequeños y áreas urbanas.',
+            'Movilizar el 1% del PIB cada año (con apoyo del ICO y el Fondo España Crece) y crear un parque estatal de 100.000 viviendas (Casa 47) más 550.000 rehabilitaciones.',
+            'Congelar temporalmente los alquileres que superen los índices de referencia y aprobar un impuesto progresivo contra la especulación de fondos buitre y grandes tenedores.',
+            'Reconocer la vivienda como derecho fundamental en la Constitución y aprobar una Ley de Sostenibilidad y Movilización del Suelo.',
           ],
-          tag: 'Parque público y regulación',
+          tag: '1% PIB y Casa 47',
         },
         vox: {
-          headline: 'Liberalización total del suelo, bajada de IVA y prioridad nacional en ayudas',
+          headline: 'IVA al 0% en primera vivienda nueva, ITP bonificado al 100% y prioridad nacional',
           bullets: [
-            'Declarar urbanizable todo el suelo que no esté expresamente protegido por razones ambientales o estratégicas.',
-            'Reducción del IVA al tipo superreducido (4%) en la adquisición de primera vivienda habitual y eliminación de impuestos autonómicos.',
-            'Prioridad nacional en el acceso a viviendas de protección oficial y expulsión inmediata de okupas e inquiokupas.',
+            'Tipo 0% de IVA para la compra de primera vivienda habitual de obra nueva y bonificación del 100% del ITP en segunda mano, más recuperación de la deducción en IRPF.',
+            'Reforma de la Ley del Suelo para liberalizar suelo disponible y reducción drástica de impuestos durante todo el proceso edificatorio.',
+            'Principio de prioridad nacional para españoles en el acceso a vivienda protegida, social y ayudas al alquiler, más expulsión inmediata de okupas.',
           ],
-          tag: 'Suelo libre y rebaja fiscal',
+          tag: 'IVA 0% y prioridad nacional',
         },
         frente: {
-          headline: 'Regulación estatal de precios de alquiler y límite a la compra especulativa',
+          headline: '1,5 millones de viviendas públicas, tope al alquiler y veto a fondos especulativos',
           bullets: [
-            'Aplicación obligatoria de los índices de precios del alquiler en todas las comunidades autónomas, sancionando a quienes lo incumplan.',
-            'Prohibición de compra de vivienda a fondos buitre y no residentes en zonas tensionadas, y movilización de pisos vacíos de la Sareb.',
-            'Impuesto progresivo sobre grandes tenedores (a partir de 5 inmuebles) para financiar alquiler social asequible.',
+            'Objetivo de 1,5 millones de viviendas públicas, traspaso de activos de la Sareb a Casa 47 y reforma constitucional de urgencia para blindar el derecho a la vivienda.',
+            'Prohibir la compra de vivienda residencial a fondos, bancos y SOCIMI salvo para alquiler asequible regulado, e impuesto a corporaciones desde el primer inmueble.',
+            'Exención de ITP en primera vivienda habitual, recargos del 200% y 1.000% en 2ª y 3ª vivienda y escudo hipotecario de hasta 300 €/mes.',
           ],
-          tag: 'Intervención de precios',
+          tag: '1,5M públicas y veto a fondos',
         },
         podemos: {
-          headline: 'Bajada por ley del 40% en los alquileres y expropiación de uso a grandes tenedores',
+          headline: 'Bajada por ley del 40% en alquileres, contratos indefinidos y expropiación a fondos',
           bullets: [
-            'Reducción obligatoria por decreto de todos los contratos de alquiler vigentes y prohibición de subidas vinculadas al IPC.',
-            'Cesión forzosa del usufructo del 50% de las viviendas vacías en manos de bancos y fondos de inversión para alquiler social.',
-            'Prohibición total de los pisos turísticos en ciudades con déficit habitacional y prohibición de desahucios sin alternativa.',
+            'Reducir por ley un 40% los precios de los alquileres vigentes y convertir los contratos de vivienda habitual en indefinidos.',
+            'Expropiar viviendas vacías en manos de bancos y fondos de inversión para alquiler social e ilegalizar las empresas de desokupación.',
+            'Crear un registro público obligatorio de todas las viviendas y contratos de alquiler y prohibir desahucios sin alternativa.',
           ],
-          tag: 'Control estricto de mercado',
+          tag: 'Bajada 40% y expropiación',
         },
         bng: {
-          headline: 'Transferencia de las viviendas de la Sareb al IGVS y freno a los pisos turísticos',
+          headline: 'Cesión de pisos de la Sareb al IGVS y freno a los pisos turísticos',
           bullets: [
-            'Cesión gratuita al Instituto Galego da Vivenda e Solo (IGVS) de todas las viviendas y solares de la Sareb en Galiza para alquiler social.',
-            'Regulación estatal que permita a los concellos gallegos limitar las viviendas de uso turístico y gravar los pisos vacíos de grandes tenedores.',
-            'Deducciones fiscales específicas para rehabilitación de vivienda en cascos históricos y núcleos rurales gallegos.',
+            'Transferencia gratuita al Instituto Galego da Vivenda e Solo (IGVS) de todas las viviendas y solares de la Sareb en Galiza para alquiler social.',
+            'Habilitar a los concellos gallegos para limitar las viviendas de uso turístico y gravar los pisos vacíos de grandes tenedores.',
+            'Incentivos fiscales específicos para rehabilitación de vivienda en cascos históricos y núcleos rurales gallegos.',
           ],
           tag: 'Sareb galega y control turístico',
         },
         territorial: {
-          headline: 'Plena competencia autonómica sin invasión estatal y control del turismo',
+          headline: 'Competencia autonómica plena, control turístico y límites a no residentes',
           bullets: [
-            'PNV y Junts rechazan la invasión competencial de la Ley de Vivienda estatal y defienden incentivos fiscales propios.',
-            'ERC y EH Bildu impulsan el control de alquileres con índices propios y el gravamen a pisos vacíos de grandes tenedores.',
-            'Coalición Canaria reclama limitar la compra de vivienda por extranjeros no residentes en las islas.',
+            'Junts y PNV rechazan la invasión competencial estatal y apuestan por incentivos fiscales propios y reforma del Código Civil.',
+            'ERC y EH Bildu defienden topar alquileres con índices autonómicos y regular alquileres de temporada.',
+            'Coalición Canaria exige limitar la compra de vivienda por extranjeros no residentes en las islas.',
           ],
           tag: 'Competencia autonómica',
         },
       },
       economia: {
         pp: {
-          headline: 'Deflactación del IRPF, rebaja de cotizaciones y mochila austríaca',
+          headline: '4 años de rebajas IRPF a jóvenes, exención de IVA a autónomos (<85.000 €) y flexibilidad',
           bullets: [
-            'Deflactación inmediata de la tarifa del IRPF para rentas inferiores a 40.000 euros y bajada del tipo mínimo.',
-            'Reducción del Impuesto de Sociedades para pymes y exención de cotizaciones durante dos años a nuevos autónomos.',
-            'Flexibilización del mercado laboral frente a la reducción rígida de jornada por ley, primando la negociación colectiva sectorial.',
+            'Cuatro años de rebajas del IRPF para jóvenes, rebaja a rentas medias/bajas y actualización automática de mínimos personales ligada al SMI.',
+            'Exención de cobrar y declarar el IVA para autónomos cuya facturación anual no supere los 85.000 euros.',
+            'Flexibilización laboral pactada en negociación colectiva sectorial frente a la reducción rígida de jornada por decreto.',
           ],
-          tag: 'Alivio fiscal y pymes',
+          tag: 'IVA exento autónomos e IRPF',
         },
         psoe: {
-          headline: 'Jornada de 37,5 horas, fiscalidad verde y permanente a banca y energéticas',
+          headline: 'Jornada de 37,5h camino de las 35h, SMI >60% salario medio e impuestos a grandes rentas',
           bullets: [
-            'Culminación de la reducción de la jornada laboral máxima a 37,5 horas semanales sin merma salarial y registro horario digital.',
-            'Consolidación de los gravámenes extraordinarios a grandes entidades financieras y compañías energéticas.',
-            'Mantener la senda de reducción del déficit público por debajo del 3% compatible con la subida del SMI al 60% del salario medio.',
+            'Implantar la jornada de 37,5 horas semanales camino de las 35 horas y situar el Salario Mínimo por encima del 60% del salario medio.',
+            'Más impuestos a grandes rentas del capital, riqueza y cotizadas con sueldos desorbitados, junto a rebajas fiscales para familias con hijos.',
+            'Consolidar la reducción del déficit y reforzar el empleo indefinido y la reindustrialización verde.',
           ],
-          tag: '37,5 horas y consolidación fiscal',
+          tag: '37,5h hacia 35h y SMI >60%',
         },
         vox: {
-          headline: 'IRPF simplificado en dos tramos, fin de subvenciones y cuota cero de autónomos',
+          headline: 'Rebaja masiva de IRPF/IVA/Sociedades y cuota cero de autónomos por debajo del SMI',
           bullets: [
-            'Reforma radical del IRPF con solo dos tramos (15% hasta 70.000 € y 25% a partir de esa cifra) con fuertes deducciones por hijo.',
-            'Eliminación de cuota de autónomos cuando los ingresos netos no alcancen el Salario Mínimo Interprofesional.',
-            'Recorte drástico del gasto político, subvenciones a sindicatos, patronal y estructuras duplicadas.',
+            'Reducción del IRPF según número de hijos, rebaja del IVA general y reducido en bienes esenciales y menor Impuesto de Sociedades.',
+            'Cuota de 0 euros para autónomos con ingresos por debajo del SMI y, superado ese umbral, cuota progresiva desde 50 euros.',
+            'Auditoría sistemática de administraciones para eliminar subvenciones a partidos, sindicatos, patronales y ONG ideológicas.',
           ],
-          tag: 'Recorte fiscal y gasto político',
+          tag: 'Cuota 0 autónomos y recorte gasto',
         },
         frente: {
-          headline: 'Rumbo a las 35 horas, reforma fiscal de rentas del capital y herencia universal',
+          headline: '37,5h en 2026 rumbo a las 32 horas, rebaja IRPF (<27.000 €) e IVA 0% sin gluten',
           bullets: [
-            'Tras las 37,5 horas, iniciar el calendario hacia las 35 horas semanales en 2028 y reforma del despido improcedente para hacerlo disuasorio.',
-            'Equiparación de la tributación de las rentas del capital con las del trabajo e impuesto permanente a las grandes fortunas.',
-            'Despliegue de una herencia universal de 20.000 euros al cumplir 23 años para formación o emprendimiento.',
+            'Implantación inmediata de la jornada de 37,5 horas en 2026 con reducción progresiva hasta las 32 horas semanales y registro horario digital.',
+            'Bajada del IRPF para rentas inferiores a 27.000 euros, impuestos a superricos, IVA progresivo en la luz y 0% en productos sin gluten.',
+            'Blindar en el Estatuto de los Trabajadores que el SMI alcance como mínimo el 60% del salario medio.',
           ],
-          tag: '35 horas y justicia fiscal',
+          tag: '32 horas e IRPF <27.000 €',
         },
         podemos: {
-          headline: 'SMI en 1.800 euros, jornada de 32 horas y empresa pública de alimentación',
+          headline: 'Jornada de 30 horas semanales, SMI a 1.800 € e intervención de mercados básicos',
           bullets: [
-            'Subida progresiva del Salario Mínimo hasta los 1.800 euros mensuales en 14 pagas y jornada laboral de 32 horas (4 días).',
-            'Creación de una cadena pública de supermercados y una banca pública a partir de participación estatal para topar márgenes.',
-            'Impuesto extraordinario a grandes patrimonios y endurecimiento de penas contra el fraude fiscal corporativo.',
+            'Reducir la jornada laboral a 30 horas semanales sin merma salarial (empezando por 35h y semana de 4 días cuando sea posible).',
+            'Subida progresiva del Salario Mínimo hasta 1.800 euros mensuales e intervención de mercados de bienes y servicios esenciales.',
+            'Impuesto extraordinario a grandes fortunas y creación de empresas públicas en alimentación y banca.',
           ],
-          tag: '32 horas y sector público',
+          tag: '30 horas y SMI 1.800 €',
         },
         bng: {
-          headline: 'Concierto económico gallego, tarifa eléctrica propia y freno a Altri',
+          headline: 'Concierto económico gallego, tarifa eléctrica propia y veto a Altri',
           bullets: [
-            'Nuevo sistema de financiación con Concierto Económico para que Galiza recaude y gestione el 100% de sus impuestos, más quita de 4.000 M€ de deuda.',
-            'Creación de una Tarifa Eléctrica Galega que abarate la luz a familias e industria electrointensiva al ser Galiza excedentaria en generación.',
-            'Reindustrialización sostenible: veto a proyectos de alto impacto como la macrocelulosa de Altri en Palas de Rei y apoyo al naval y automoción.',
+            'Concierto Económico para que Galiza recaude y gestione el 100% de sus impuestos, más quita de 4.000 M€ de deuda gallega.',
+            'Creación de una Tarifa Eléctrica Galega que abarate la luz a familias e industria electrointensiva al ser Galiza excedentaria.',
+            'Reindustrialización sostenible: oposición a la macrocelulosa de Altri en Palas de Rei y apoyo al naval y automoción.',
           ],
           tag: 'Concierto económico y tarifa propia',
         },
         territorial: {
-          headline: 'Financiación singular, blindaje del concierto y apoyo a la industria local',
+          headline: 'Financiación singular, blindaje del Cupo/REF y apoyo industrial territorial',
           bullets: [
-            'ERC y Junts exigen el despliegue efectivo de la recaudación del 100% de impuestos en Cataluña con cuota de solidaridad pactada.',
-            'PNV y EH Bildu defienden la actualización del Cupo Vasco y el Convenio Navarro, además de incentivos industriales de I+D+i.',
-            'Coalición Canaria prioriza el blindaje del Régimen Económico y Fiscal (REF) y bonificaciones al transporte de mercancías.',
+            'ERC y Junts reclaman la recaudación integral de impuestos en Cataluña con cuota de solidaridad pactada.',
+            'PNV y EH Bildu defienden la actualización del Cupo Vasco y el Convenio Navarro e incentivos industriales.',
+            'Coalición Canaria prioriza blindar el Régimen Económico y Fiscal (REF) y diversificar la economía insular.',
           ],
           tag: 'Soberanía fiscal territorial',
         },
       },
       social: {
         pp: {
-          headline: 'Plan de choque contra listas de espera, MIR extraordinario y EBAU única',
+          headline: 'Objetivo de 4.500 médicos, plan contra listas de espera y EBAU única',
           bullets: [
-            'Convocatoria extraordinaria de 1.000 plazas MIR adicionales de Medicina Familiar y homologación ágil de médicos extracomunitarios.',
-            'Gratuidad universal de la educación infantil de 0 a 3 años cofinanciada al 50% por el Estado y las comunidades autónomas.',
-            'Prueba de acceso a la universidad (EBAU) común en toda España, libertad de elección de centro y refuerzo de la concertada.',
+            'Incorporación de 4.500 médicos adicionales (ampliación MIR y homologación ágil) y plan de choque específico contra listas de espera.',
+            'Gratuidad universal de la educación infantil de 0 a 3 años cofinanciada al 50% por Estado y CCAA.',
+            'Prueba de acceso a la universidad (EBAU) común en toda España y libertad de elección de centro (público y concertado).',
           ],
-          tag: 'Choque sanitario y EBAU común',
+          tag: '4.500 médicos y EBAU común',
         },
         psoe: {
-          headline: 'Tiempos máximos de espera por ley y ampliación de cartera dental y óptica',
+          headline: '7% del PIB en sanidad, psicólogo en 30 días y ayudas de hasta 200 € en dentista',
           bullets: [
-            'Ley de Tiempos Máximos de Atención Sanitaria: garantía por ley de espera máxima de 30 días para intervenciones oncológicas y 60 para cirugía general.',
-            'Incorporación progresiva de la salud bucodental, óptica (gafas y lentillas para menores y rentas bajas) y salud mental a la cartera pública.',
-            'Aumento de becas universitarias y creación de 250.000 nuevas plazas públicas de Formación Profesional dual.',
+            'Elevar el gasto sanitario público al 7% del PIB, priorizar la gestión directa y limitar nuevas privatizaciones sanitarias.',
+            'Garantizar atención psicológica gratuita en la sanidad pública con primera consulta en un máximo de 30 días y dentista básico (ayudas hasta 200 €).',
+            'Aumento de becas universitarias y ampliación de plazas públicas de Formación Profesional dual.',
           ],
-          tag: 'Garantía de tiempos y cartera pública',
+          tag: '7% PIB y psicólogo en 30 días',
         },
         vox: {
-          headline: 'Devolución de competencias al Estado, tarjeta sanitaria única y cheque escolar',
+          headline: 'Centralización sanitaria y educativa, tarjeta única y cheque escolar',
           bullets: [
-            'Recuperación de las competencias de Sanidad y Educación para el Estado central, eliminando 17 sistemas distintos.',
-            'Tarjeta sanitaria única válida en todo el territorio nacional y centralización de compras de medicamentos y tecnología.',
-            'Implantación del cheque escolar para que las familias elijan libremente centro público, concertado o privado y PIN parental.',
+            'Recuperar para el Estado las competencias de Sanidad y Educación para garantizar la igualdad en toda España.',
+            'Tarjeta sanitaria única nacional, compra centralizada de medicamentos y mejora de condiciones para médicos.',
+            'Cheque escolar de libre elección, prohibición de menús halal en colegios y del programa de Lengua Árabe y Cultura Marroquí.',
           ],
           tag: 'Centralización y cheque escolar',
         },
         frente: {
-          headline: 'Blindaje del 7% del PIB en sanidad, dentista y psicólogo en atención primaria',
+          headline: 'Salud bucodental, visual y auditiva pública y reversión de privatizaciones',
           bullets: [
-            'Inversión mínima blindada por ley del 7% del PIB para la sanidad pública y derogación de la Ley 15/97 que permite privatizaciones.',
-            'Incorporación de odontólogos, fisioterapeutas, nutricionistas y psicólogos clínicos en todos los centros de atención primaria.',
-            'Reducción de ratios en las aulas (máximo 15-20 alumnos) y eliminación progresiva de conciertos educativos donde haya oferta pública.',
+            'Ampliación de la cartera sanitaria pública a salud bucodental, visual y auditiva, más atención integral a la menopausia.',
+            'Revisión de contratos con la sanidad privada con planes de reversión e internalización paulatina y control de precio de medicamentos.',
+            'Reducción de ratios en las aulas y refuerzo de la escuela pública y servicios básicos a menos de 30 minutos en zonas rurales.',
           ],
-          tag: '100% pública y atención primaria',
+          tag: 'Cartera dental/visual/auditiva',
         },
         podemos: {
-          headline: 'Farmacéutica pública, eliminación de conciertos y blindaje de lo público',
+          headline: 'Farmacéutica pública, fin de conciertos privados y universidad gratuita',
           bullets: [
-            'Creación de una empresa farmacéutica pública para fabricar medicamentos esenciales y reducir la factura farmacéutica.',
-            'Fin de las derivaciones a la sanidad privada y absorción de hospitales concesionados hacia gestión pública directa.',
-            'Eliminación gradual de todos los conciertos educativos privados y gratuidad completa de las tasas universitarias.',
+            'Creación de una farmacéutica pública para fabricar medicamentos esenciales y absorción de hospitales privatizados.',
+            'Eliminación gradual de todos los conciertos educativos privados y gratuidad total de tasas universitarias.',
+            'Refuerzo masivo de plantillas en Atención Primaria y salud mental.',
           ],
           tag: 'Desprivatización integral',
         },
         bng: {
-          headline: 'Transferencia de formación MIR, rescate de sanidad pública e inmersión en galego',
+          headline: 'Traspaso MIR a Galiza, refuerzo del SERGAS e inmersión en galego',
           bullets: [
-            'Traspaso a Galiza de la gestión y acreditación de plazas MIR y creación de 2.000 plazas estructurales para acabar con la precariedad del SERGAS.',
-            'Plan de choque contra listas de espera hospitalarias, apertura de PAC cerrados en el rural y blindaje de la Atención Primaria.',
-            'Derogación del decreto que limita el gallego en las aulas, gratuidad de libros de texto y financiación suficiente para las tres universidades gallegas.',
+            'Transferencia a Galiza de la gestión y acreditación de plazas MIR y creación de 2.000 plazas estructurales en el SERGAS.',
+            'Apertura de PAC cerrados en el rural gallego, plan contra listas de espera y blindaje de Atención Primaria.',
+            'Derogación del decreto que limita el gallego en la enseñanza, libros gratuitos y financiación para las 3 universidades gallegas.',
           ],
           tag: 'MIR galego, SERGAS y lengua',
         },
         territorial: {
-          headline: 'Blindaje competencial, inmersión lingüística y financiación sanitaria insular',
+          headline: 'Blindaje competencial, inmersión lingüística y compensación insular',
           bullets: [
-            'ERC, Junts y EH Bildu blindan los modelos propios de inmersión lingüística en las aulas y rechazan cualquier prueba estatal única.',
-            'PNV reclama transferencias pendientes en homologación de títulos universitarios y financiación per cápita ajustada al envejecimiento.',
-            'Coalición Canaria pide un fondo específico por sobrecoste de la doble insularidad en hospitales y medicamentos.',
+            'ERC, Junts y EH Bildu blindan la inmersión lingüística propia y rechazan una EBAU estatal única.',
+            'PNV reclama la homologación autonómica de títulos universitarios y financiación ajustada al envejecimiento.',
+            'Coalición Canaria pide fondos específicos por sobrecoste sanitario de la doble insularidad.',
           ],
-          tag: 'Blindaje lingüístico y competencial',
+          tag: 'Blindaje competencial',
         },
       },
       territorio: {
         pp: {
-          headline: 'Financiación multilateral sin privilegios, elección judicial por jueces y sedición',
+          headline: 'Financiación multilateral, veto político de 5 años en el TC y reforma del CGPJ',
           bullets: [
-            'Reforma del sistema de financiación autonómica negociada en el Consejo de Política Fiscal y Financiera con todos los territorios a la vez.',
-            'Reforma de la LOPJ para que los 12 vocales jueces del CGPJ sean elegidos directamente por los propios jueces y magistrados.',
-            'Recuperación del delito de sedición en el Código Penal y tipificación del referéndum ilegal.',
+            'Financiación autonómica negociada multilateralmente entre todas las CCAA en el CPFF, sin privilegios bilaterales.',
+            'Impedir que accedan al Tribunal Constitucional quienes hayan ocupado cargos políticos en los 5 años previos y plazo de 90 días para resolver recursos de derechos fundamentales.',
+            'Elección directa de vocales jueces del CGPJ y ampliación de la prisión permanente revisable en supuestos graves.',
           ],
-          tag: 'Multilateralidad y reforma judicial',
+          tag: 'Multilateralidad y reforma TC',
         },
         psoe: {
-          headline: 'España federal, quita parcial de deuda autonómica y justicia digital',
+          headline: '21.000 M€ más para CCAA, asunción de 83.000 M€ de deuda y fin de aforamientos ajenos',
           bullets: [
-            'Nuevo modelo de financiación autonómica que combine multilateralidad con el reconocimiento de singularidades y la asunción estatal de parte de la deuda.',
-            'Consolidación de los Tribunales de Instancia, digitalización judicial y acceso mediante becas públicas a la carrera judicial y fiscal.',
-            'Impulso a la cogobernanza mediante Conferencias de Presidentes semestrales y descentralización de sedes institucionales.',
+            'Nuevo modelo de financiación con 21.000 millones adicionales para las CCAA y asunción estatal de 83.000 millones de deuda autonómica.',
+            'Instrucción penal a cargo de fiscales, Fiscal General con mandato de 5 años sin instrucciones del Gobierno y agencia anticorrupción independiente.',
+            'Convertir el Senado en cámara territorial y suprimir los aforamientos políticos ajenos al ejercicio del cargo.',
           ],
-          tag: 'Cogobernanza y alivio de deuda',
+          tag: '+21.000 M€ CCAA y quita deuda',
         },
         vox: {
-          headline: 'Supresión de autonomías, ilegalización de partidos separatistas y tribunal único',
+          headline: 'Estado unitario, independencia judicial y endurecimiento penal',
           bullets: [
-            'Promoción de una reforma constitucional para sustituir el Estado de las Autonomías por un Estado unitario administrativamente descentralizado.',
-            'Ilegalización de los partidos políticos que persigan la ruptura de la unidad nacional y supresión de policías autonómicas.',
-            'Elección directa por los jueces del órgano de gobierno judicial y endurecimiento de penas por delitos contra la Constitución.',
+            'Sustitución del Estado autonómico por un Estado unitario administrativamente descentralizado y supresión de duplicidades.',
+            'Ampliación de la prisión permanente revisable, considerar los crímenes de ETA de lesa humanidad y reforma del CGPJ.',
+            'Defensa reforzada de la soberanía española sobre Ceuta, Melilla y presión diplomática para recuperar Gibraltar.',
           ],
-          tag: 'Estado unitario',
+          tag: 'Estado unitario y soberanía',
         },
         frente: {
-          headline: 'Estado plurinacional, democratización de la judicatura y reforma del Senado',
+          headline: '+2,3% del PIB en financiación autonómica y quita de deuda contra el dumping fiscal',
           bullets: [
-            'Reconocimiento constitucional de la plurinacionalidad del Estado y reforma del Senado como verdadera cámara de representación territorial.',
-            'Reforma profunda del acceso a la carrera judicial mediante oposición pública sin memorización arcaica y escuela judicial abierta.',
-            'Suelo fiscal común entre comunidades autónomas para evitar el dumping fiscal en Patrimonio y Sucesiones.',
+            'Reforma de la financiación autonómica dotada con un 2,3% del PIB adicional y reconocimiento de la plurinacionalidad.',
+            'Condonación de deuda autonómica y municipal condicionada a prohibir el dumping fiscal (rebajas de impuestos a rentas altas).',
+            'Plan contra la despoblación con servicios públicos a menos de 30 minutos e internet de alta velocidad rural.',
           ],
-          tag: 'Plurinacionalidad y armonización',
+          tag: '+2,3% PIB y fin dumping fiscal',
         },
         podemos: {
-          headline: 'Referéndums pactados, elección popular del CGPJ y república plurinacional',
+          headline: 'Referéndums pactados, democratización judicial y fin de aforamientos',
           bullets: [
-            'Reconocimiento del derecho a decidir mediante referéndums acordados en Cataluña y Euskadi dentro de un marco plurinacional.',
-            'Reforma del sistema de elección del CGPJ para abrirlo a la participación ciudadana y fin de los aforamientos políticos.',
-            'Derogación de la Ley Mordaza y reforma de los delitos de opinión en el Código Penal.',
+            'Reconocimiento del derecho a decidir mediante referéndums pactados en un marco plurinacional.',
+            'Reforma del acceso a la judicatura y del CGPJ, fin de los aforamientos políticos y derogación de la Ley Mordaza.',
+            'Reforma de delitos de opinión y blindaje de derechos civiles.',
           ],
-          tag: 'Derecho a decidir y fin aforamientos',
+          tag: 'Derecho a decidir y Ley Mordaza',
         },
         bng: {
-          headline: 'Galiza como nación, traspaso de competencias pendientes y deuda cero',
+          headline: 'Galiza como nación, traspaso de competencias estatutarias y quita de 4.000 M€',
           bullets: [
-            'Reconocimiento de Galiza como nación con capacidad de decisión propia y estatus equiparable al de Cataluña y Euskadi.',
-            'Transferencia inmediata de competencias recogidas en el Estatuto: tráfico y seguridad vial, salvamento marítimo, dominio público marítimo-terrestre y puertos.',
-            'Quita de al menos 4.000 millones de euros de la deuda pública gallega y reforma del sistema de financiación basado en población envejecida y dispersa.',
+            'Reconocimiento de Galiza como nación con estatus político y financiero equiparable al de Cataluña y Euskadi.',
+            'Transferencia inmediata de tráfico, salvamento marítimo, dominio público marítimo-terrestre y puertos.',
+            'Quita de al menos 4.000 M€ de deuda pública gallega y financiación ponderada por envejecimiento y dispersión.',
           ],
           tag: 'Nación galega y traspasos',
         },
         territorial: {
-          headline: 'Reconocimiento nacional, referéndum acordado y traspaso integral de Cercanías',
+          headline: 'Referéndum acordado, bilateralidad y traspaso integral de infraestructuras',
           bullets: [
-            'ERC y Junts sitúan la celebración de un referéndum de autodeterminación pactado y el traspaso integral de Rodalies como ejes centrales.',
-            'EH Bildu y PNV reclaman un nuevo estatus político para Euskadi basado en la bilateralidad y el reconocimiento nacional.',
-            'Todos exigen el blindaje del uso oficial de las lenguas cooficiales en el Congreso, la justicia y las instituciones de la UE.',
+            'ERC y Junts priorizan un referéndum de autodeterminación pactado y el traspaso integral de Rodalies.',
+            'EH Bildu y PNV reclaman un nuevo estatus político bilateral para Euskadi.',
+            'Defensa del uso pleno de lenguas cooficiales en el Congreso, la justicia y la UE.',
           ],
-          tag: 'Bilateralidad y autodeterminación',
+          tag: 'Bilateralidad y estatus propio',
         },
       },
       derechos: {
         pp: {
-          headline: 'Inmigración ordenada vinculada a contrato, Ley de Conciliación y custodia compartida',
+          headline: 'Cupos laborales por sectores, determinación de edad en 72h y conciliación',
           bullets: [
-            'Control estricto de fronteras exteriores con refuerzo de Frontex, contratación en origen y retorno ágil de quienes cometan delitos.',
-            'Ley Nacional de Conciliación: ampliación de permisos por nacimiento para familias monoparentales y deducciones fiscales por hijo.',
-            'Reforma de la Ley del "Solo sí es sí" y garantía de igualdad efectiva sin cuotas obligatorias en consejos privados.',
+            'Fijar cupos migratorios anuales por sectores en función del paro, requisitos de integración y expulsiones ágiles por delitos.',
+            'Priorizar la reunificación familiar y el retorno seguro de menores extranjeros no acompañados resolviendo la determinación de edad en 72 horas.',
+            'Consecuencias legales para padres que incumplan gravemente su deber de vigilancia ante violencia reiterada de menores.',
           ],
-          tag: 'Control de flujos y natalidad',
+          tag: 'Cupos laborales y 72h menores',
         },
         psoe: {
-          headline: 'Vías legales seguras, reforma de extranjería y abolición de la prostitución',
+          headline: 'Plan de integración de 500 M€, 16 años mínimo en redes y "Unión de amistad"',
           bullets: [
-            'Aplicación del nuevo Reglamento de Extranjería para agilizar permisos de arraigo y trabajo en sectores con vacantes.',
-            'Aprobación definitiva de la Ley Orgánica para la abolición del proxenetismo y la prostitución y blindaje del derecho al aborto en la Constitución.',
-            'Ampliación de permisos retribuidos de cuidados y equiparación plena de familias monoparentales.',
+            'Migración legal con contratación en origen, homologación ágil de títulos y un plan de integración de 500 millones de euros.',
+            'Fijar en 16 años la edad mínima para usar redes sociales, tipificar los deepfakes sexuales y aprobar leyes de gobernanza de la IA.',
+            'Blindar el aborto en la Constitución, abolir la prostitución, ley de violencia vicaria y crear la figura civil de la "Unión de amistad".',
           ],
-          tag: 'Integración y derechos feministas',
+          tag: '16 años redes y Unión de amistad',
         },
         vox: {
-          headline: 'Deportación de inmigrantes irregulares, fin de subvenciones a ONG y ley de familia',
+          headline: 'Remigración, impuesto a remesas, IMV solo para españoles y prohibición del burka',
           bullets: [
-            'Expulsión inmediata de todos los inmigrantes en situación irregular y de los residentes legales que cometan delitos graves o reincidan.',
-            'Derogación de la Ley Integral contra la Violencia de Género y de la Ley Trans, sustituyéndolas por una Ley de Violencia Intrafamiliar.',
-            'Cierre de centros de menores extranjeros no acompañados (menas) y repatriación con sus familias en países de origen.',
+            'Eje central de "remigración": repatriación de inmigrantes irregulares, supresión de ayudas y gravamen a las remesas al extranjero.',
+            'Reservar el Ingreso Mínimo Vital y ayudas sociales exclusivamente a españoles, prohibir el burka y el niqab en espacios públicos.',
+            'Fuerzas Armadas en fronteras, restablecer OCON-Sur contra el narcotráfico y políticas contra el derecho al aborto.',
           ],
-          tag: 'Fronteras cerradas y familia tradicional',
+          tag: 'Remigración y prioridad nacional',
         },
         frente: {
-          headline: 'Regularización extraordinaria, permisos de cuidados pagados y ley LGTBI+',
+          headline: 'Regularización extraordinaria (ILP), permisos pagados y derechos LGTBI+',
           bullets: [
-            'Aprobación de la Iniciativa Legislativa Popular (ILP) para la regularización extraordinaria de personas migrantes residentes en España.',
-            'Remuneración al 100% de las 8 semanas de permiso parental para el cuidado de hijos hasta los 8 años.',
-            'Pacto de Estado contra los discursos de odio y despliegue de protocolos LGTBI+ en todas las empresas.',
+            'Aprobación de la ILP de regularización extraordinaria de personas migrantes residentes en España.',
+            'Remuneración al 100% de las 8 semanas de permiso parental para cuidado de hijos hasta los 8 años.',
+            'Pacto de Estado contra los discursos de odio y protección integral de derechos feministas y LGTBI+.',
           ],
-          tag: 'Regularización ILP y permisos pagados',
+          tag: 'ILP migratoria y cuidados',
         },
         podemos: {
-          headline: 'Cierre de los CIE, derecho a voto de residentes y renta básica feminista',
+          headline: 'Vías legales ampliadas, reagrupación flexible, cierre de CIE y renta crianza',
           bullets: [
-            'Cierre definitivo de los Centros de Internamiento de Extranjeros (CIE), fin de las devoluciones en caliente y papeles para todos.',
-            'Reconocimiento del derecho al sufragio activo y pasivo en todas las elecciones para personas residentes de larga duración.',
-            'Prestación universal por crianza de 200 euros mensuales por hijo hasta los 18 años sin requisitos previos.',
+            'Ampliar las vías legales de entrada a España, flexibilizar los requisitos de reagrupación familiar y cerrar los CIE.',
+            'Derecho al voto para personas residentes de larga duración en todas las elecciones.',
+            'Prestación universal por crianza de 200 euros mensuales por hijo hasta los 18 años.',
           ],
-          tag: 'Cierre de CIE y renta crianza',
+          tag: 'Vías legales y renta crianza',
         },
         bng: {
-          headline: 'Acogida digna, retorno de la emigración joven galega y memoria democrática',
+          headline: 'Acogida digna, plan de retorno joven galego y memoria democrática',
           bullets: [
-            'Política migratoria basada en derechos humanos, agilización de homologación de títulos y lucha contra la explotación laboral.',
-            'Plan de retorno para la juventud galega emigrada con incentivos de empleo estable, investigación y acceso a vivienda.',
-            'Devolución al patrimonio público gallego de bienes expoliados por el franquismo (Casa Cornide, Pazo de Meirás) y ley de memoria.',
+            'Política migratoria garantista, homologación ágil de títulos y combate contra la explotación laboral.',
+            'Plan de retorno para la juventud galega emigrada con empleo estable, ciencia y vivienda.',
+            'Recuperación del patrimonio público expoliado por el franquismo (Casa Cornide, Pazo de Meirás).',
           ],
-          tag: 'Retorno joven y derechos humanos',
+          tag: 'Retorno joven y derechos',
         },
         territorial: {
-          headline: 'Traspaso de competencias de inmigración y acogida humanitaria corresponsable',
+          headline: 'Gestión migratoria descentralizada y reparto obligatorio de menores',
           bullets: [
-            'Junts y ERC exigen la delegación integral de las competencias de gestión migratoria y permisos de residencia a la Generalitat.',
-            'Coalición Canaria demanda un mecanismo permanente y obligatorio de reparto solidario de menores migrantes entre todas las CCAA.',
-            'PNV y EH Bildu apuestan por itinerarios propios de acogida, aprendizaje lingüístico e inserción sociolaboral.',
+            'Junts y ERC exigen la delegación integral de competencias migratorias a la Generalitat.',
+            'Coalición Canaria reclama un mecanismo permanente y obligatorio de reparto solidario de menores entre CCAA.',
+            'PNV y EH Bildu defienden itinerarios autonómicos de acogida e inserción sociolaboral.',
           ],
-          tag: 'Gestión autonómica y reparto solidario',
+          tag: 'Gestión autonómica y reparto',
         },
       },
       energia: {
         pp: {
-          headline: 'Prórroga de centrales nucleares, apoyo a la PAC y compromiso OTAN',
+          headline: 'Fin del cierre nuclear (plazo 100 días), fin al impuesto del 7% eléctrico y defensa',
           bullets: [
-            'Extensión de la vida útil de las centrales nucleares operativas (Almaraz, Ascó, Vandellòs) como respaldo clave del mix eléctrico.',
-            'Flexibilización de las exigencias ambientales de la PAC europea y bajada del IVA en insumos agrarios y ganaderos.',
-            'Cumplimiento estricto del compromiso de inversión en defensa del 2% del PIB en el marco de la OTAN y la UE.',
+            'Eliminar expresamente el calendario de cierre nuclear y fijar un plazo de 100 días para tramitar la ampliación de vida útil de las centrales.',
+            'Suprimir el impuesto del 7% a la producción eléctrica y flexibilizar exigencias ambientales de la PAC al campo.',
+            'Reforzar el gasto en defensa dentro de los compromisos con la OTAN y la UE (sin fijar explícitamente un 5% del PIB en el programa).',
           ],
-          tag: 'Mix nuclear-renovable y OTAN',
+          tag: 'Nucleares 100 días y fin 7%',
         },
         psoe: {
-          headline: '81% de electricidad renovable en 2030, hidrógeno verde y autonomía estratégica UE',
+          headline: 'Rechazo al 5% PIB en defensa, transición verde y autonomía estratégica UE',
           bullets: [
-            'Mantener el calendario acordado de cierre ordenado de nucleares (2027-2035) sustituyéndolas por almacenamiento, eólica marina e hidrógeno verde.',
-            'Liderazgo español en la transición ecológica europea, leyes de restauración de la naturaleza y cláusulas espejo en acuerdos comerciales.',
-            'Refuerzo de la industria europea de defensa, apoyo continuado a Ucrania y reconocimiento efectivo del Estado de Palestina.',
+            'Rechazar el objetivo del 5% del PIB en defensa apostando por una defensa europea común, deuda común europea y 0,7% en ayuda al desarrollo.',
+            'Mantener el cierre ordenado de nucleares sustituyéndolas por renovables, almacenamiento e hidrógeno verde.',
+            'Apoyo continuado a Ucrania y a Palestina, impuesto global a grandes fortunas e inversión en mantenimiento ferroviario.',
           ],
-          tag: 'Transición verde y europeísmo',
+          tag: 'Defensa europea y renovables',
         },
         vox: {
-          headline: 'Derogación del Pacto Verde Europeo, soberanía energética y defensa nacional',
+          headline: 'Plan nuclear nacional (nuevos reactores), redes sin topes y rechazo al Pacto Verde',
           bullets: [
-            'Derogación de la Ley de Cambio Climático y oposición frontal al Pacto Verde Europeo por encarecer el campo y la industria.',
-            'Exploración y aprovechamiento de recursos nacionales propios (gas, tierras raras) y construcción de nuevos reactores nucleares.',
-            'Aumento de la inversión en Fuerzas Armadas y control nacional de infraestructuras críticas frente a capital extranjero.',
+            'Derogar el calendario de cierre nuclear y estudiar la instalación de nuevas centrales en emplazamientos adyacentes a las actuales.',
+            'Eliminar el tope regulatorio a la inversión en redes eléctricas con silencio administrativo positivo y oposición al Pacto Verde Europeo.',
+            'Aumento de la inversión en Fuerzas Armadas y Plan Nacional de Reindustrialización contra deslocalizaciones.',
           ],
-          tag: 'Soberanía energética y anti-Pacto Verde',
+          tag: 'Nuevas nucleares y redes libres',
         },
         frente: {
-          headline: 'Empresa pública de energía, bono transporte único y diplomacia de paz',
+          headline: 'Energía pública, billete único de transporte y freno a la escalada militar',
           bullets: [
-            'Creación de una comercializadora pública de electricidad para ofrecer energía renovable a precio de coste a hogares y pymes.',
-            'Billete único mensual de 30 euros para todo el transporte público estatal y reducción drástica de vuelos cortos con alternativa ferroviaria.',
-            'Freno a la escalada del gasto militar, embargo de compraventa de armas a zonas en conflicto y fortalecimiento de la ONU.',
+            'Comercializadora pública de electricidad renovable a precio de coste e IVA progresivo a la luz según consumo.',
+            'Billete único mensual para el transporte público estatal y reducción de vuelos cortos con alternativa ferroviaria.',
+            'Freno al gasto militar, diplomacia de paz y diversificación económica de Baleares y Canarias.',
           ],
-          tag: 'Energía pública y transporte 30€',
+          tag: 'Energía pública y paz',
         },
         podemos: {
-          headline: 'Nacionalización de eléctricas estratégicas, salida de la OTAN y decrecimiento',
+          headline: 'Salida de la OTAN, cierre de bases de Rota y Morón y eléctricas públicas',
           bullets: [
-            'Recuperación para el sector público de las concesiones hidroeléctricas caducadas y nacionalización de redes estratégicas.',
-            'Referéndum sobre la permanencia de España en la OTAN, cierre de bases militares extranjeras y recorte del presupuesto de Defensa.',
-            'Moratoria a macroplantas renovables especulativas que destruyan suelo agrario y apuesta por autoconsumo comunitario.',
+            'Impulsar la salida de España de la OTAN y cerrar las bases militares estadounidenses de Rota y Morón.',
+            'Recuperación pública de concesiones hidroeléctricas y nacionalización de redes energéticas estratégicas.',
+            'Moratoria a macroplantas renovables especulativas sobre suelo agrario y apuesta por autoconsumo.',
           ],
-          tag: 'Nacionalización y antimilitarismo',
+          tag: 'Salida OTAN y nacionalización',
         },
         bng: {
-          headline: 'Gratuidad de la AP-9 y AP-53, freno al espolio eólico y no al acuerdo UE-Mercosur',
+          headline: 'Gratuidad de la AP-9/AP-53, no al rearme UE que recorta PAC/FEMPA y no a Mercosur',
           bullets: [
-            'Rescate inmediato y gratuidad total de las autopistas AP-9 y AP-53, más despliegue real del tren de cercanías galego y conexión Vigo-Oporto.',
-            'Ordenación eólica con participación pública gallega y moratoria contra macroparques que invadan espacios naturales o tierras agrarias.',
-            'Oposición frontal al acuerdo UE-Mercosur y defensa de la flota pesquera y el sector lácteo galego frente a cuotas injustas de Bruselas.',
+            'Rescate y gratuidad total de las autopistas AP-9 y AP-53, cercanías ferroviarias en Galiza y conexión Vigo-Oporto.',
+            'Oposición a la propuesta de rearme de la UE por recortar Fondos de Cohesión, PAC, FEADER y el fondo pesquero FEMPA; defensa de soberanía alimentaria.',
+            'Ordenación eólica con participación pública gallega y veto al acuerdo comercial UE-Mercosur.',
           ],
-          tag: 'AP-9 gratuita, eólica y pesca',
+          tag: 'AP-9 gratis y defensa PAC/FEMPA',
         },
         territorial: {
-          headline: 'Corredores ferroviarios, gestión de puertos/aeropuertos y sector primario local',
+          headline: 'Corredores ferroviarios, soberanía alimentaria y exenciones insulares',
           bullets: [
-            'PNV, ERC y Junts priorizan la ejecución acelerada del Corredor Atlántico y el Corredor Mediterráneo con conexión europea.',
-            'Junts y PNV reclaman la gestión descentralizada de puertos y aeropuertos de interés general (El Prat, Bilbao).',
-            'Coalición Canaria pide exenciones en los derechos de emisión de CO2 para el transporte aéreo y marítimo con el archipiélago.',
+            'PNV, ERC y Junts priorizan la ejecución acelerada de los corredores Atlántico y Mediterráneo.',
+            'EH Bildu y BNG reclaman capacidad de decisión propia sobre la PAC y sus fondos rurales.',
+            'Coalición Canaria vincula la soberanía alimentaria a más financiación estatal/europea para producción local y exenciones CO2 en transporte.',
           ],
-          tag: 'Infraestructuras y conectividad',
+          tag: 'Corredores y soberanía alimentaria',
         },
       },
     };
+
+    // ==================== FACT-CHECKING Y VERIFICACIÓN 29-N ====================
+    const FACT_CHECKS = [
+      {
+        id: 'fc1',
+        partyId: 'pp',
+        partyName: 'PP',
+        verdict: 'FALSO',
+        verdictStyle: 'bg-red-100 text-red-800 border-red-300',
+        source: 'Newtral (Comprobado 29N · 20/11/2026)',
+        claim: 'Feijóo afirmó en el cara a cara que el ministro de Economía, Carlos Cuerpo, dijo en Onda Cero que el sistema público de pensiones "está a punto de petar".',
+        reality: 'No existe tal declaración en la entrevista de Onda Cero. Carlos Cuerpo afirmó exactamente lo contrario: que "la sostenibilidad de las pensiones está garantizada".',
+      },
+      {
+        id: 'fc2',
+        partyId: 'pp',
+        partyName: 'PP',
+        verdict: 'ENGAÑOSO',
+        verdictStyle: 'bg-amber-100 text-amber-900 border-amber-300',
+        source: 'Newtral (Comprobado 29N · 20/11/2026)',
+        claim: 'Feijóo acusó al Gobierno de haber "excarcelado a 1.400 violadores" con la ley del "solo sí es sí" y aseguró que España debe devolver los 80.000 M€ de fondos Next Generation en 30 años.',
+        reality: 'El dato del CGPJ registra al menos 1.233 rebajas de pena, pero no todas implicaron excarcelación (al menos 126). En cuanto a los fondos Next Generation, una gran parte son subvenciones a fondo perdido que no se devuelven, no solo préstamos.',
+      },
+      {
+        id: 'fc3',
+        partyId: 'pp',
+        partyName: 'PP',
+        verdict: 'FALSO / SIN DATOS',
+        verdictStyle: 'bg-red-100 text-red-800 border-red-300',
+        source: 'Newtral (Comprobado 29N · 20/11/2026)',
+        claim: 'Feijóo sostuvo que el Gobierno no dio explicaciones sobre el apagón de abril de 2025, que construyó más hospitales públicos en Galicia que nadie y que el PSOE tiene "131 imputados".',
+        reality: 'Hasta cuatro organismos (incluido el Gobierno dos meses después) publicaron informes sobre el apagón; Manuel Fraga construyó más hospitales públicos en Galicia; y no existe ningún registro oficial que respalde la cifra de 131 imputados.',
+      },
+      {
+        id: 'fc4',
+        partyId: 'psoe',
+        partyName: 'PSOE',
+        verdict: 'ENGAÑOSO',
+        verdictStyle: 'bg-amber-100 text-amber-900 border-amber-300',
+        source: 'Newtral (Comprobado 29N · 20/11/2026)',
+        claim: 'Pedro Sánchez afirmó en el cara a cara que el programa electoral del PP para el 29-N "plantea elevar el gasto en defensa al 5% del PIB".',
+        reality: 'El programa del PP (pág. 26) promete reforzar el gasto en defensa, pero no fija en ningún punto la cifra del 5% del PIB. Esa cifra procedía de una declaración pública previa del diputado Carlos Rojas en marzo, no del programa oficial.',
+      },
+      {
+        id: 'fc5',
+        partyId: 'psoe',
+        partyName: 'PSOE',
+        verdict: 'MATIZABLE / RECICLADO',
+        verdictStyle: 'bg-amber-100 text-amber-900 border-amber-300',
+        source: 'Newtral · La Razón (Nov 2026)',
+        claim: 'Sánchez presentó la subida de 6.000 € en pensiones de forma ambigua y el programa del PSOE vuelve a prometer la abolición de la prostitución y el fin de los aforamientos.',
+        reality: 'La subida de 6.000 € corresponde al acumulado del periodo 2018-2026, no a un solo año. Además, cerca de una veintena de promesas del programa 29-N (como abolir la prostitución o suprimir aforamientos) ya fueron prometidas sin aprobarse durante los últimos ocho años de gobierno.',
+      },
+      {
+        id: 'fc6',
+        partyId: 'frente',
+        partyName: 'Frente Amplio',
+        verdict: 'SIN MEMORIA ECONÓMICA',
+        verdictStyle: 'bg-purple-100 text-purple-900 border-purple-300',
+        source: 'DatosClaros · Idealista (Nov 2026)',
+        claim: 'Compromiso de alcanzar 1,5 millones de viviendas públicas y movilizar el 1% del PIB anual en vivienda junto a exenciones y escudos hipotecarios.',
+        reality: 'Los verificadores y analistas sectoriales señalan que las grandes cifras de construcción pública (tanto el 1,5M de Frente Amplio como el millón del PP) carecen de un desglose presupuestario y calendario de suelo verificable para una sola legislatura.',
+      },
+      {
+        id: 'fc7',
+        partyId: 'podemos',
+        partyName: 'Podemos',
+        verdict: 'VIABILIDAD DISPUTADA',
+        verdictStyle: 'bg-purple-100 text-purple-900 border-purple-300',
+        source: 'DatosClaros (Nov 2026)',
+        claim: 'Financiar la expropiación de viviendas a fondos de inversión recuperando el dinero del rescate bancario de 2009 y bajar por ley un 40% los alquileres.',
+        reality: 'No existe mecanismo jurídico ni contable vigente para reclamar retroactivamente el rescate bancario ya liquidado o contabilizado como pérdida por el Banco de España; además, una rebaja forzosa del 40% en contratos privados afrontaría altos obstáculos constitucionales.',
+      },
+      {
+        id: 'fc8',
+        partyId: 'vox',
+        partyName: 'Vox',
+        verdict: 'SIN CUANTIFICAR',
+        verdictStyle: 'bg-amber-100 text-amber-900 border-amber-300',
+        source: 'Idealista · Newtral (Nov 2026)',
+        claim: 'Promete una "rebaja masiva" de impuestos (IVA 0% en vivienda, ITP 0%, bajada IRPF y Sociedades) financiada únicamente recortando "gasto político y subvenciones".',
+        reality: 'El programa de Vox no cuantifica el coste fiscal de suprimir impuestos estructurales (IVA/ITP vivienda, rebaja IRPF) ni demuestra que el recorte de subvenciones políticas y organismos baste para cubrir esa caída de ingresos y sostener las pensiones.',
+      },
+    ];
+
+    const VIRAL_HOAXES = [
+      {
+        title: 'Bulos sobre fraude en el voto por correo y tarjetas censales',
+        detail: 'Correos y la Junta Electoral Central (JEC) han desmentido mensajes virales (replicados por redes prorrusas como Pravda) sobre manipulación de votos por correo o empadronamientos masivos falsos. Las papeletas marcadas enviadas por partidos son propaganda legal permitida por la JEC.',
+        source: 'Newtral (21/11/2026)',
+      },
+      {
+        title: 'Vídeos y fotos creados con Inteligencia Artificial (IA)',
+        detail: 'Circulan entrevistas falsas generadas con IA (como una supuesta votante socialista en laSexta), fotos sintéticas de un mitin vacío del Frente Amplio en Burgos y banderolas falsas del PSOE generadas por IA.',
+        source: 'Newtral / Comprobado 29N (21/11/2026)',
+      },
+      {
+        title: 'Encuestas inventadas y vídeos sacados de contexto',
+        detail: 'Se difunden sondeos falsos sin empresa demoscópica ni ficha técnica y vídeos antiguos (de 2019 o 2024) presentados como incidencias actuales de la campaña del 29-N.',
+        source: 'Comprobado 29N (Nov 2026)',
+      },
+    ];
 
     const DUEL_INSIGHTS = {
       'pp-psoe': {
         agreements: [
           'Ambas formaciones respaldaron en febrero de 2026 la subida del +2,7% de las pensiones contributivas con el IPC (RDL 3/2026).',
           'Respaldo compartido a los compromisos de España dentro de la Unión Europea, la OTAN y el apoyo a Ucrania.',
-          'Voluntad declarada de agilizar la homologación de médicos extracomunitarios para paliar el déficit sanitario.',
+          'Voluntad declarada de agilizar la homologación de médicos extracomunitarios para reforzar la sanidad.',
         ],
         clashes: [
-          'Modelo fiscal y laboral: rebaja de IRPF y flexibilización (PP) frente a jornada de 37,5h e impuestos a banca y energéticas (PSOE).',
-          'Vivienda: libertad de precios y desalojo exprés (PP) frente a topes en zonas tensionadas y parque público blindado (PSOE).',
-          'Energía: prórroga de centrales nucleares (PP) frente a calendario de cierre y apuesta 100% renovable (PSOE).',
+          'Vivienda: 1 millón de casas, derogar la Ley de Vivienda y deducciones (PP) frente a 1% PIB, Casa 47 (100.000 pisos) y congelación de rentas abusivas (PSOE).',
+          'Energía: eliminar el calendario de cierre nuclear en 100 días (PP) frente a cierre ordenado y apuesta renovable (PSOE).',
+          'Modelo fiscal y laboral: rebaja IRPF a jóvenes y exención IVA a autónomos <85.000 € (PP) frente a jornada de 37,5h hacia 35h y mayores impuestos al capital (PSOE).',
         ],
       },
       'pp-vox': {
         agreements: [
-          'Rebaja fiscal generalizada, reducción del gasto político y eliminación de regulaciones ambientales consideradas excesivas.',
-          'Endurecimiento penal contra la ocupación ilegal de viviendas y reforma de leyes ideológicas aprobadas en la última legislatura.',
-          'Defensa de la prórroga nuclear, apoyo al sector primario frente a las restricciones del Pacto Verde y control estricto de fronteras.',
+          'Derogación de la Ley de Vivienda, nueva Ley del Suelo y endurecimiento contra la ocupación ilegal.',
+          'Rebaja fiscal generalizada y prolongación de la vida útil de las centrales nucleares.',
+          'Endurecimiento del control migratorio y ampliación de la prisión permanente revisable.',
         ],
         clashes: [
-          'Pensiones: el PP votó a favor de subir las pensiones +2,7% con el IPC (RDL 3/2026), mientras Vox fue el único partido en votar en contra.',
-          'Modelo de Estado: el PP defiende el Estado autonómico constitucional, mientras Vox propone suprimir las autonomías.',
-          'Política europea: el PP forma parte del núcleo institucional del PPE en Bruselas, frente al euroescepticismo soberanista de Vox.',
+          'Pensiones: el PP votó a favor del RDL 3/2026 (+2,7% IPC), mientras Vox fue el único partido en votar en contra.',
+          'Modelo de Estado: Estado autonómico multilateral (PP) frente a Estado unitario y centralización total (Vox).',
+          'Inmigración: cupos laborales por sectores (PP) frente a remigración, impuesto a remesas y IMV solo para españoles (Vox).',
         ],
       },
       'psoe-frente': {
         agreements: [
-          'Consolidación de la subida del Salario Mínimo, revalorización de pensiones con el IPC y defensa de la jornada máxima de 37,5 horas.',
-          'Regulación del mercado del alquiler, limitación de pisos turísticos y ampliación de permisos de conciliación.',
-          'Impulso a la transición ecológica, las energías renovables y ampliación de prestaciones de salud bucodental y mental.',
+          'Ambas fuerzas defienden regular alquileres, movilizar suelo/vivienda pública (Casa 47) y blindar el derecho a la vivienda en la Constitución.',
+          'Subida del SMI al 60% del salario medio, ampliación de cobertura dental/psicológica y defensa de los servicios públicos.',
+          'Revalorización de pensiones con el IPC y reducción de la jornada laboral.',
         ],
         clashes: [
-          'Defensa y política exterior: cumplimiento de compromisos OTAN (PSOE) frente al freno al gasto militar y diplomacia de paz (Frente Amplio).',
-          'Alcance de la intervención económica: incentivos mixtos (PSOE) frente a tope obligatorio de alquileres en todas las CCAA y herencia universal (Frente Amplio).',
-          'Horizonte laboral: consolidar las 37,5 horas (PSOE) frente a fijar por ley el camino inmediato a las 35 horas (Frente Amplio).',
+          'Horizonte de jornada: 37,5h camino de las 35h (PSOE) frente a 37,5h en 2026 rumbo a las 32 horas semanales (Frente Amplio).',
+          'Alcance en vivienda: parque de 100.000 pisos y congelación temporal (PSOE) frente a 1,5 millones de viviendas, veto a compra de fondos y recargos del 200%-1.000% en 2ª/3ª vivienda (Frente Amplio).',
+          'Defensa: defensa europea común (PSOE) frente a freno explícito al gasto militar (Frente Amplio).',
         ],
       },
       'frente-podemos': {
         agreements: [
-          'Fuerte intervención pública en vivienda, impuestos permanentes a grandes fortunas y banca, y defensa de lo 100% público.',
-          'Oposición al incremento del gasto militar y defensa de la regularización extraordinaria de personas migrantes.',
-          'Reducción de la jornada laboral por debajo de las 37,5 horas semanales y blindaje de derechos feministas y LGTBI+.',
+          'Fuerte intervención en el mercado de la vivienda, tope a alquileres, impuestos a grandes fortunas y defensa de lo público.',
+          'Reducción de la jornada laboral por debajo de las 35 horas y oposición al rearme militar.',
+          'Regularización y ampliación de derechos de personas migrantes.',
         ],
         clashes: [
-          'Estrategia y ritmos: reformas graduales desde el gobierno de coalición (Frente Amplio) frente a ruptura y nacionalizaciones directas (Podemos).',
-          'Política internacional: europeísmo crítico (Frente Amplio) frente a salida de la OTAN y cierre de bases militares (Podemos).',
-          'Medidas de choque: índice de precios del alquiler y transporte a 30€ (Frente Amplio) frente a bajada por decreto del 40% y supermercados públicos (Podemos).',
+          'Medidas de choque: 32h y veto a compra especulativa de fondos (Frente Amplio) frente a 30h, bajada por ley del 40% en alquileres y expropiación directa (Podemos).',
+          'Política exterior: europeísmo crítico (Frente Amplio) frente a salida de la OTAN y cierre de bases de Rota y Morón (Podemos).',
         ],
       },
       'bng-psoe': {
         agreements: [
-          'Revalorización automática de las pensiones con el IPC (ambos votaron sí al RDL 3/2026) y defensa de los servicios públicos.',
-          'Apoyo a la reducción de jornada laboral a 37,5 horas, subida del SMI y ampliación de derechos laborales y feministas.',
-          'Quita parcial de deuda autonómica y necesidad de reformar el modelo de financiación caducado.',
+          'Ambos votaron a favor del RDL 3/2026 de subida de pensiones con el IPC y defienden la sanidad y educación públicas.',
+          'Coincidencia en la necesidad de reducir la jornada laboral, subir el SMI y aliviar la deuda autonómica.',
         ],
         clashes: [
-          'Financiación y estatus: Concierto Económico propio y reconocimiento de Galiza como nación (BNG) frente a modelo multilateral común (PSOE).',
-          'Infraestructuras gallegas: rescate y gratuidad inmediata de la AP-9 y AP-53 y cercanías ferroviarias (BNG) frente a bonificaciones parciales (PSOE).',
-          'Modelo energético y agrario: freno a macroeólicos, veto a Altri y rechazo al acuerdo UE-Mercosur (BNG) frente al respaldo de Bruselas (PSOE).',
+          'Financiación y estatus: Concierto Económico gallego y reconocimiento nacional (BNG) frente a reforma multilateral con +21.000 M€ (PSOE).',
+          'Infraestructuras y agro: gratuidad total de AP-9/AP-53, veto a Altri y no a UE-Mercosur ni al rearme europeo (BNG) frente a la línea gubernamental (PSOE).',
         ],
       },
       'bng-pp': {
         agreements: [
-          'Preocupación por la escasez de médicos en Atención Primaria y necesidad de ampliar plazas de formación MIR.',
-          'Defensa del sector pesquero y agroganadero gallego frente a cuotas restrictivas y exigencias burocráticas.',
-          'Necesidad de mejorar las conexiones ferroviarias de alta velocidad y mercancías en el noroeste peninsular.',
+          'Diagnóstico común sobre la falta de médicos en Atención Primaria y necesidad de ampliar plazas MIR.',
+          'Defensa de los intereses del sector pesquero y ganadero gallego ante normativas restrictivas.',
         ],
         clashes: [
-          'Modelo territorial y lengua: Concierto Económico, nación gallega e inmersión en galego (BNG) frente a financiación común y trilingüismo (PP).',
-          'Vivienda e industria: cesión de pisos de la Sareb al IGVS y veto a Altri (BNG) frente a desregulación y respaldo industrial (PP).',
-          'Pensiones y trabajo: vuelta a la jubilación a los 65 años y 35 años cotizados (BNG) frente a mochila austríaca e incentivos de demora (PP).',
+          'Modelo territorial y lengua: Concierto Económico e inmersión en galego (BNG) frente a financiación multilateral y EBAU única (PP).',
+          'Vivienda y pensiones: cesión de Sareb al IGVS y jubilación a los 65 años / 35 cotizados (BNG) frente a desregulación y demora voluntaria (PP).',
         ],
       },
     };
@@ -682,31 +779,31 @@
         topic: 'Pensiones y Jubilación',
         question: '¿Cómo debe garantizarse el futuro y la cuantía de las pensiones públicas?',
         options: [
-          { label: 'Revalorizar con el IPC, fomentar la jubilación demorada voluntaria y crear cuentas individuales tipo "mochila austríaca"', weights: { pp: 3, vox: 1, territorial: 1 } },
-          { label: 'Mantener el Pacto de Toledo 2021-2023: revalorización con IPC y nutrir la hucha con el MEI (0,9%-1,2%)', weights: { psoe: 3, frente: 1, bng: 1, territorial: 1 } },
-          { label: 'Volver a la jubilación ordinaria a los 65 años (o con 35 cotizados), subir mínimas al SMI y jubilar antes en sectores penosos', weights: { bng: 3, podemos: 3, frente: 2 } },
-          { label: 'Auditar el sistema, recortar gasto político y autonómico para financiarlas y dar exenciones máximas al ahorro privado', weights: { vox: 3, pp: 1 } },
+          { label: 'Revalorizar con el IPC, premiar la jubilación demorada compatible al 100% con el salario y fomentar planes de empresa', weights: { pp: 3, vox: 1, territorial: 1 } },
+          { label: 'Blindar el IPC en la Constitución y llevar la hucha de las pensiones a 20.000 M€ mediante el MEI', weights: { psoe: 3, frente: 1, bng: 1, territorial: 1 } },
+          { label: 'Volver a los 65 años (o 35 cotizados), subir mínimas al SMI y jubilar antes sin recortes en sectores penosos', weights: { bng: 3, podemos: 3, frente: 2 } },
+          { label: 'Recortar drásticamente gasto político y autonómico para sostenerlas y dar deducciones máximas al ahorro privado', weights: { vox: 3, pp: 1 } },
         ],
       },
       {
         id: 'q1',
         topic: 'Vivienda y Alquiler',
-        question: '¿Cuál es la mejor receta para frenar la subida de los alquileres en España?',
+        question: '¿Cuál es la mejor receta para afrontar la crisis de la vivienda?',
         options: [
-          { label: 'Eliminar los topes al alquiler, dar incentivos fiscales a propietarios y agilizar el desalojo de okupas', weights: { pp: 3, vox: 2, territorial: 1 } },
-          { label: 'Construir un parque público permanente, limitar pisos turísticos y dar avales a jóvenes', weights: { psoe: 3, bng: 1, territorial: 1 } },
-          { label: 'Aplicar topes obligatorios al alquiler en toda España, movilizar pisos de la Sareb y gravar a grandes tenedores', weights: { frente: 3, bng: 3, podemos: 2 } },
-          { label: 'Bajar por ley un 40% los alquileres actuales y expropiar el uso de pisos vacíos a fondos', weights: { podemos: 3, frente: 1 } },
+          { label: 'Construir 1 millón de casas, derogar la Ley de Vivienda, dar deducciones fiscales y desalojar okupas en 24-48h', weights: { pp: 3, vox: 2, territorial: 1 } },
+          { label: 'IVA al 0% en primera vivienda nueva, ITP al 0% en segunda mano y prioridad nacional en vivienda pública', weights: { vox: 3, pp: 1 } },
+          { label: 'Invertir el 1% del PIB al año, crear 100.000 pisos públicos (Casa 47) y congelar alquileres abusivos', weights: { psoe: 3, bng: 1, territorial: 1 } },
+          { label: 'Prohibir la compra a fondos especulativos, bajar por ley los alquileres (hasta un 40%) y movilizar pisos de la Sareb', weights: { frente: 3, podemos: 3, bng: 2 } },
         ],
       },
       {
         id: 'q2',
-        topic: 'Impuestos y Economía',
+        topic: 'Impuestos y Autónomos',
         question: '¿Qué política fiscal debería aplicarse en la próxima legislatura?',
         options: [
-          { label: 'Bajar el IRPF a rentas medias, reducir Sociedades y eliminar impuestos extraordinarios', weights: { pp: 3, vox: 2 } },
-          { label: 'Recorte radical del IRPF en dos tramos (15% y 25%) y eliminación masiva del gasto político', weights: { vox: 3, pp: 1 } },
-          { label: 'Consolidar la reducción de déficit manteniendo impuestos permanentes a banca, energéticas y grandes fortunas', weights: { psoe: 3, frente: 2, bng: 1 } },
+          { label: 'Rebaja de IRPF a jóvenes y rentas medias y exención de IVA para autónomos que facturen menos de 85.000 €', weights: { pp: 3, vox: 1 } },
+          { label: 'Cuota cero de autónomos por debajo del SMI y rebaja masiva de IRPF, IVA y Sociedades recortando gasto público', weights: { vox: 3, pp: 1 } },
+          { label: 'Más impuestos a grandes rentas del capital y fondos buitre, bajando el IRPF a rentas bajas y familias', weights: { psoe: 3, frente: 3, podemos: 2 } },
           { label: 'Concierto económico o soberanía fiscal territorial para gestionar el 100% de los impuestos recaudados en el territorio', weights: { bng: 3, territorial: 3, frente: 1 } },
         ],
       },
@@ -716,9 +813,9 @@
         question: '¿Qué debe hacerse con la duración de la jornada laboral y el Salario Mínimo?',
         options: [
           { label: 'Dejar que la jornada se pacte en negociación colectiva por sectores sin imposiciones legales', weights: { pp: 3, vox: 3 } },
-          { label: 'Consolidar las 37,5 horas semanales y mantener el SMI en el 60% del salario medio', weights: { psoe: 3, bng: 2, territorial: 1 } },
-          { label: 'Avanzar por ley hacia las 35 horas semanales y endurecer el coste del despido improcedente', weights: { frente: 3, bng: 2, podemos: 2 } },
-          { label: 'Implantar la semana laboral de 32 horas (4 días) y subir el SMI a 1.800 euros', weights: { podemos: 3, frente: 1 } },
+          { label: 'Implantar las 37,5 horas semanales camino de las 35h y mantener el SMI por encima del 60% del salario medio', weights: { psoe: 3, bng: 2, territorial: 1 } },
+          { label: 'Aplicar 37,5 horas en 2026 y avanzar progresivamente por ley hasta las 32 horas semanales', weights: { frente: 3, bng: 2, podemos: 1 } },
+          { label: 'Reducir la jornada a 30 horas semanales sin recorte salarial y subir el SMI a 1.800 euros', weights: { podemos: 3, frente: 1 } },
         ],
       },
       {
@@ -726,10 +823,10 @@
         topic: 'Energía y Transición Ecológica',
         question: '¿Cuál debe ser el papel de la energía nuclear y el Pacto Verde Europeo?',
         options: [
-          { label: 'Prorrogar las centrales nucleares operativas y flexibilizar las exigencias ambientales al campo', weights: { pp: 3, vox: 2 } },
-          { label: 'Derogar la Ley de Cambio Climático, rechazar el Pacto Verde y construir nuevas nucleares', weights: { vox: 3, pp: 1 } },
-          { label: 'Mantener el cierre ordenado de nucleares y acelerar renovables, hidrógeno verde y autoconsumo', weights: { psoe: 3, frente: 2, territorial: 1 } },
-          { label: 'Tarifa eléctrica propia en territorios excedentarios, freno a macroparques especulativos y empresa pública energética', weights: { bng: 3, podemos: 3, frente: 2 } },
+          { label: 'Eliminar el calendario de cierre nuclear en 100 días y suprimir el impuesto del 7% a la producción eléctrica', weights: { pp: 3, vox: 2 } },
+          { label: 'Rechazar el Pacto Verde Europeo, construir nuevas centrales nucleares y eliminar topes a inversión en redes', weights: { vox: 3, pp: 1 } },
+          { label: 'Mantener el cierre ordenado de nucleares y acelerar renovables, almacenamiento e hidrógeno verde', weights: { psoe: 3, frente: 2, territorial: 1 } },
+          { label: 'Tarifa eléctrica propia en territorios excedentarios, comercializadora pública y moratoria a macroparques especulativos', weights: { bng: 3, podemos: 3, frente: 2 } },
         ],
       },
       {
@@ -738,9 +835,9 @@
         question: '¿Cómo debe organizarse la relación entre el Estado y las Comunidades Autónomas?',
         options: [
           { label: 'Sustituir el Estado autonómico por un Estado unitario con sanidad y educación centralizadas', weights: { vox: 3, pp: 1 } },
-          { label: 'Financiación autonómica negociada entre todas las CCAA por igual, sin acuerdos bilaterales', weights: { pp: 3, psoe: 1 } },
-          { label: 'Cogobernanza federal, quita parcial de deuda autonómica y reconocimiento de singularidades', weights: { psoe: 3, frente: 2 } },
-          { label: 'Reconocimiento plurinacional, traspaso integral de competencias (AP-9, Rodalies, MIR) y bilateralidad fiscal', weights: { bng: 3, territorial: 3, podemos: 2, frente: 1 } },
+          { label: 'Financiación autonómica negociada entre todas las CCAA por igual en el CPFF, sin privilegios bilaterales', weights: { pp: 3, psoe: 1 } },
+          { label: 'Aportar 21.000 M€ más a las CCAA, asumir 83.000 M€ de deuda y frenar el dumping fiscal', weights: { psoe: 3, frente: 3 } },
+          { label: 'Reconocimiento plurinacional, concierto económico, traspaso integral de competencias (AP-9, Rodalies, MIR)', weights: { bng: 3, territorial: 3, podemos: 2 } },
         ],
       },
       {
@@ -748,10 +845,10 @@
         topic: 'Inmigración',
         question: '¿Qué enfoque debe seguir España en política migratoria?',
         options: [
-          { label: 'Deportación inmediata de inmigrantes irregulares y cierre de centros de menores extranjeros', weights: { vox: 3 } },
-          { label: 'Control estricto de fronteras, contratación exclusivamente en origen y retorno de delincuentes', weights: { pp: 3, vox: 1 } },
-          { label: 'Vías legales y seguras vinculadas al empleo, reforma de extranjería y reparto solidario', weights: { psoe: 3, territorial: 2, bng: 1 } },
-          { label: 'Aprobar la regularización extraordinaria (ILP), cerrar los CIE y ampliar derechos de ciudadanía', weights: { frente: 3, podemos: 3, bng: 2 } },
+          { label: 'Remigración de irregulares, impuesto a remesas al extranjero y ayudas sociales solo para españoles', weights: { vox: 3 } },
+          { label: 'Cupos laborales anuales por sectores según el paro, requisitos de integración y determinación de edad en 72h', weights: { pp: 3, vox: 1 } },
+          { label: 'Contratación en origen, homologación ágil de títulos y plan de integración dotado con 500 M€', weights: { psoe: 3, territorial: 2, bng: 1 } },
+          { label: 'Regularización extraordinaria (ILP), vías legales ampliadas, reagrupación flexible y cierre de CIE', weights: { frente: 3, podemos: 3, bng: 2 } },
         ],
       },
       {
@@ -759,10 +856,10 @@
         topic: 'Defensa y Política Exterior',
         question: '¿Qué posición debe mantener España ante la OTAN, el gasto en defensa y acuerdos comerciales?',
         options: [
-          { label: 'Cumplir el 2% del PIB en defensa dentro de la OTAN y reforzar la alianza atlántica y europea', weights: { pp: 3, psoe: 2, vox: 2 } },
-          { label: 'Aumentar el presupuesto militar nacional priorizando la soberanía de fronteras frente a Bruselas', weights: { vox: 3, pp: 1 } },
-          { label: 'Frenar la escalada militar, exigir cláusulas espejo en acuerdos agrarios y defender una diplomacia de paz', weights: { frente: 3, bng: 3, psoe: 1 } },
-          { label: 'Convocar un referéndum para salir de la OTAN, cerrar bases militares y vetar tratados como UE-Mercosur', weights: { podemos: 3, bng: 2 } },
+          { label: 'Reforzar el gasto en defensa dentro de la OTAN y la UE y flexibilizar la PAC europea para el campo', weights: { pp: 3, vox: 2 } },
+          { label: 'Rechazar el 5% del PIB en defensa apostando por una defensa europea común y el 0,7% en cooperación', weights: { psoe: 3, frente: 1 } },
+          { label: 'Oponerse al rearme europeo que recorta PAC y fondos pesqueros (FEMPA) y vetar UE-Mercosur', weights: { bng: 3, frente: 3 } },
+          { label: 'Salir de la OTAN y cerrar las bases militares estadounidenses de Rota y Morón', weights: { podemos: 3, bng: 1 } },
         ],
       },
     ];
@@ -788,7 +885,7 @@
     const PENSION_MATRIX = [
       {
         axis: 'Revalorización y poder adquisitivo',
-        pp: 'Sí por ley con el IPC (votó sí al RDL 3/2026) + auditoría AIReF cada 3 años.',
+        pp: 'Sí por ley con el IPC (votó sí al RDL 3/2026) + auditoría independiente periódica.',
         psoe: 'Blindaje constitucional del IPC anual (+2,7% en 2026) como eje central.',
         vox: 'Votó NO al RDL 3/2026: cuestiona la sostenibilidad actual y pide reforma integral.',
         frente: 'IPC garantizado + revalorización extra por encima del IPC para rentas bajas.',
@@ -797,7 +894,7 @@
       },
       {
         axis: 'Edad legal de jubilación',
-        pp: 'Mantiene la senda hacia 67 años (2027) pero premia demorarla voluntariamente.',
+        pp: 'Mantiene la senda hacia 67 años (2027) pero premia demorarla con 100% pensión + salario.',
         psoe: '66 años y 10 meses en 2026 (67 años en 2027 si se cotizan menos de 38,5 años).',
         vox: 'Flexibilidad ligada a años cotizados y reducción de penalizaciones por trabajar.',
         frente: 'Jubilación anticipada sin recortes a los 60-61 años en profesiones penosas.',
@@ -807,17 +904,17 @@
       {
         axis: 'Pensiones mínimas y no contributivas',
         pp: 'Complementos focalizados y compatibilidad con rentas del ahorro.',
-        psoe: 'Senda de convergencia hacia el umbral de pobreza (+11,4% aprobado en 2026).',
-        vox: 'Exención total de IRPF para pensionistas y mejora financiada recortando gasto político.',
-        frente: 'Equiparación inmediata al 60% de la renta mediana (por encima del SMI).',
+        psoe: 'Senda de convergencia hacia el umbral de pobreza (+11,4% aprobado en 2026) y mejora de orfandad.',
+        vox: 'Exención fiscal en IRPF y mejora financiada recortando gasto político y autonómico.',
+        frente: 'Equiparación inmediata al 60% de la renta mediana y fin de la brecha de género.',
         podemos: 'Igualar por ley todas las pensiones mínimas al Salario Mínimo (SMI).',
         bng: 'Subida inmediata al 60% del salario medio (SMI) y complemento autonómico gallego.',
       },
       {
         axis: 'Financiación, MEI y ahorro privado',
-        pp: 'Cuentas individuales ("mochila austríaca") y planes de empleo de empresa.',
-        psoe: 'Mecanismo de Equidad Intergeneracional (MEI al 0,9% en 2026) para nutrir la hucha.',
-        vox: 'Deducciones máximas en IRPF para planes privados y ahorro familiar.',
+        pp: 'Planes de empleo de empresa y ahorro complementario individual.',
+        psoe: 'MEI al 0,90% en 2026 para llevar la hucha de las pensiones hasta 20.000 M€.',
+        vox: 'Deducciones reforzadas en IRPF para ahorro familiar y planes privados.',
         frente: 'Destope total de cotizaciones máximas con cuota de solidaridad y vía Presupuestos.',
         podemos: 'Fin de incentivos fiscales a planes privados; financiación vía impuestos a banca y fortunas.',
         bng: 'Transferencia de la gestión económica de la Seguridad Social a Galiza y destope.',
@@ -826,14 +923,14 @@
 
     const TERRITORIAL_PENSION_DETAILS = [
       {
-        party: 'BNG (Programa 3-N)',
+        party: 'BNG (Galiza)',
         badge: 'bg-sky-600 text-white',
         border: 'border-sky-200',
         bg: 'bg-sky-50/70',
         points: [
-          'Galiza registra la pensión media más baja del Estado (~1.160 € frente a los 1.360 € de media estatal): el BNG exige equiparar las mínimas al SMI.',
-          'Jubilación ordinaria a los 65 años o con 35 años cotizados sin coeficientes reductores, y aplicación inmediata de coeficientes en naval, pesca, conserva y cuidados.',
-          'Traspaso de la gestión del régimen económico de la Seguridad Social a Galiza y cálculo de la pensión sobre los 15 mejores años cotizados.',
+          'Galiza registra la pensión media más baja del Estado: el BNG exige equiparar las mínimas al 60% del salario medio (SMI).',
+          'Jubilación ordinaria a los 65 años o con 35 años cotizados sin coeficientes reductores, y aplicación inmediata en naval, pesca, conserva y cuidados.',
+          'Traspaso de la gestión del régimen económico de la Seguridad Social a Galiza y cálculo sobre los 15 mejores años cotizados.',
         ],
       },
       {
@@ -842,9 +939,9 @@
         border: 'border-amber-200',
         bg: 'bg-amber-50/60',
         points: [
-          'Ambas formaciones votaron a favor del RDL 3/2026 de revalorización de pensiones y reclaman el traspaso de la gestión a la Generalitat.',
+          'Ambas formaciones votaron a favor del RDL 3/2026 de revalorización y reclaman el traspaso de la gestión a la Generalitat.',
           'Junts exige que el cálculo de las pensiones y el SMI tenga en cuenta el diferencial del coste de la vida (IPC catalán).',
-          'ERC prioriza el incremento de las pensiones no contributivas y la pasarela voluntaria al RETA para mutualistas.',
+          'ERC prioriza incrementar las no contributivas y habilitar la pasarela voluntaria al RETA para mutualistas.',
         ],
       },
       {
@@ -854,8 +951,8 @@
         bg: 'bg-emerald-50/60',
         points: [
           'Consenso en culminar la transferencia estatutaria de la gestión del régimen económico de la Seguridad Social al País Vasco.',
-          'EH Bildu defiende complementar con fondos propios las pensiones mínimas hasta alcanzar el umbral de suficiencia en Hego Euskal Herria.',
-          'El PNV impulsa las Entidades de Previsión Social Voluntaria (EPSV) como segundo pilar complementario negociado en empresa.',
+          'EH Bildu defiende complementar con fondos propios las pensiones mínimas en Hego Euskal Herria.',
+          'El PNV impulsa las Entidades de Previsión Social Voluntaria (EPSV) como segundo pilar complementario.',
         ],
       },
       {
@@ -864,8 +961,8 @@
         border: 'border-yellow-200',
         bg: 'bg-yellow-50/60',
         points: [
-          'Apoyó el RDL 3/2026 y reclama coeficientes reductores de jubilación anticipada para sectores de alta penosidad en el archipiélago (camareras de piso / "kellys" y hostelería).',
-          'Exige un complemento específico por el sobrecoste de la cesta de la compra y la doble insularidad para pensionistas con rentas bajas.',
+          'Apoyó el RDL 3/2026 y reclama coeficientes reductores de jubilación anticipada para camareras de piso ("kellys") y hostelería.',
+          'Exige un complemento específico por el sobrecoste de la cesta de la compra y la doble insularidad.',
         ],
       },
     ];
@@ -873,14 +970,15 @@
     // ==================== ESTADO DE LA APLICACIÓN ====================
     const state = {
       activeTab: 'comparador',
-      selectedTopic: 'pensiones',
+      selectedTopic: 'vivienda',
       searchQuery: '',
       visibleParties: ['pp', 'psoe', 'vox', 'frente', 'podemos', 'bng', 'territorial'],
       viewMode: 'cards',
-      pactParties: ['psoe', 'frente', 'bng', 'territorial'],
+      pactParties: ['pp', 'vox'],
       showBngCard: false,
+      factCheckFilter: 'all',
       pensionSim: { years: '35a38', sector: 'penoso', bracket: 'minima' },
-      duelA: 'bng',
+      duelA: 'pp',
       duelB: 'psoe',
       profile: { age: 'joven', housing: 'alquiler', work: 'asalariado', family: 'sin_hijos', territory: 'galicia' },
       answers: {},
@@ -911,28 +1009,28 @@
               <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 <div>
                   <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-semibold tracking-wide uppercase mb-2">
-                    📅 Elecciones Generales · Domingo 29 de Noviembre de 2026
+                    📅 Elecciones Generales · Domingo 29 de Noviembre de 2026 · Actualizado 22 Nov
                   </div>
                   <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-2.5">
                     Observatorio 29-N
                     <span class="text-slate-400 font-normal text-lg sm:text-xl hidden sm:inline">
-                      | Comparador de Programas Electorales
+                      | Comparador y Verificador Electoral
                     </span>
                   </h1>
                   <p class="text-slate-300 text-sm mt-1 max-w-2xl">
-                    Analiza, cruza y filtra las propuestas verificadas de las principales candidaturas al Congreso de los Diputados (incluyendo el programa del <strong>BNG</strong> y el <strong>Especial Pensiones 29-N</strong>).
+                    Programas oficiales contrastados (PP, PSOE, Vox, Frente Amplio de Ada Colau, Podemos de Irene Montero, BNG y fuerzas territoriales) con módulo de <strong>Verificación / Fact-Check 29-N</strong>.
                   </p>
                 </div>
 
                 <!-- Hitos clave del calendario -->
                 <div class="grid grid-cols-3 gap-2 sm:gap-3 bg-slate-900/90 border border-slate-800 p-3 rounded-xl text-xs">
                   <div class="px-2">
-                    <span class="text-slate-400 block">Convocatoria BOE</span>
-                    <span class="font-bold text-white">6 Oct 2026</span>
+                    <span class="text-slate-400 block">Debate a 8 RTVE</span>
+                    <span class="font-bold text-white">23 Nov 2026</span>
                   </div>
                   <div class="px-2 border-l border-slate-800">
-                    <span class="text-slate-400 block">Inicio Campaña</span>
-                    <span class="font-bold text-white">13 Nov 2026</span>
+                    <span class="text-slate-400 block">Cierre Campaña</span>
+                    <span class="font-bold text-white">27 Nov 2026</span>
                   </div>
                   <div class="px-2 border-l border-slate-800">
                     <span class="text-slate-400 block">Urnas (350 esc.)</span>
@@ -947,7 +1045,7 @@
                   <div class="flex flex-wrap items-center gap-2">
                     <span class="text-amber-400 font-bold">📊</span>
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-200">
-                      Media de Sondeos y Calculadora de Investidura (Mayoría absoluta: 176 escaños)
+                      Tracking 40dB / Sondaxe (22 Nov) y Calculadora de Investidura (Mayoría: 176)
                     </span>
                   </div>
                   <div class="flex items-center gap-3">
@@ -959,7 +1057,7 @@
                           : 'bg-slate-800 border-slate-700 text-sky-300 hover:border-sky-500'
                       }"
                     >
-                      📍 ${state.showBngCard ? 'Ocultar Ficha BNG' : 'Ficha BNG (11 Ejes)'}
+                      📍 ${state.showBngCard ? 'Ocultar Ficha BNG' : 'Ficha BNG (Galiza)'}
                     </button>
                     <span class="text-xs text-slate-400 hidden sm:inline">
                       Pulsa en los partidos para simular pactos
@@ -972,14 +1070,14 @@
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-sky-800/60">
                       <div>
                         <span class="inline-block px-2 py-0.5 rounded bg-sky-600 text-white font-bold uppercase text-[10px] mr-2">
-                          Bloque Nacionalista Galego · Programa 3-N
+                          Bloque Nacionalista Galego · Xerais 29-N
                         </span>
-                        <span class="font-bold text-white text-sm">«Máis forza para Galiza» (11 ejes estratégicos)</span>
+                        <span class="font-bold text-white text-sm">«Máis forza para Galiza»</span>
                       </div>
                       <span class="text-sky-300 font-semibold">Portavoz Nacional: Ana Pontón</span>
                     </div>
                     <p class="text-slate-300 mb-2">
-                      <strong>Candidaturas por circunscripción:</strong> Néstor Rego (A Coruña), Carme da Silva (Pontevedra), Olalla Rodil (Lugo) y Noa Presas (Ourense).
+                      <strong>Cabezas de lista oficiales al Congreso:</strong> Néstor Rego (A Coruña), Carme da Silva (Pontevedra), Olalla Rodil (Lugo) y Noa Presas (Ourense).
                     </p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-[11px]">
                       <div class="bg-slate-900/80 p-2 rounded-lg border border-sky-800/50">
@@ -995,8 +1093,8 @@
                         Subida de mínimas al SMI, jubilación a los 65 años y coeficientes en naval/pesca.
                       </div>
                       <div class="bg-slate-900/80 p-2 rounded-lg border border-sky-800/50">
-                        <strong class="text-sky-300 block">4. Energía y Territorio</strong>
-                        Tarifa Eléctrica Galega, veto a Altri, pisos Sareb al IGVS y no a UE-Mercosur.
+                        <strong class="text-sky-300 block">4. Agro, Pesca y UE</strong>
+                        Rechazo al rearme europeo que recorta PAC/FEADER/FEMPA y no a UE-Mercosur.
                       </div>
                     </div>
                   </div>
@@ -1059,18 +1157,21 @@
               <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto no-scrollbar">
                 ${[
                   { id: 'comparador', label: '1. Comparador por Temas' },
-                  { id: 'pensiones_hub', label: '2. Especial Pensiones 29-N', highlight: true },
-                  { id: 'duelo', label: '3. Duelo Cara a Cara' },
-                  { id: 'simulador', label: '4. ¿Cómo te afecta?' },
-                  { id: 'test', label: '5. Test de Afinidad (8 Dilemas)' },
+                  { id: 'factcheck', label: '2. Verificación / Fact-Check 29-N', alert: true },
+                  { id: 'pensiones_hub', label: '3. Especial Pensiones 29-N', highlight: true },
+                  { id: 'duelo', label: '4. Duelo Cara a Cara' },
+                  { id: 'simulador', label: '5. ¿Cómo te afecta?' },
+                  { id: 'test', label: '6. Test de Afinidad' },
                 ].map((tab) => {
                   const isActive = state.activeTab === tab.id;
                   return `
                     <button
                       onclick="setActiveTab('${tab.id}')"
-                      class="flex items-center gap-2 px-5 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors ${
+                      class="flex items-center gap-2 px-4 sm:px-5 py-3.5 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors ${
                         isActive
                           ? 'border-amber-400 text-amber-400 bg-slate-950/50'
+                          : tab.alert
+                          ? 'border-transparent text-rose-300 hover:text-rose-200 hover:border-slate-700'
                           : tab.highlight
                           ? 'border-transparent text-amber-200 hover:text-amber-300 hover:border-slate-700'
                           : 'border-transparent text-slate-400 hover:text-white hover:border-slate-700'
@@ -1096,14 +1197,13 @@
                 <strong>Observatorio 29-N</strong> · Herramienta cívica e imparcial de análisis programático · Elecciones Generales de España (29 de noviembre de 2026).
               </div>
               <div>
-                Síntesis elaborada a partir de los programas marco oficiales (incluyendo PP 10-N, BNG 3-N y votaciones parlamentarias del RDL 3/2026).
+                Fuentes: Programas oficiales 29-N, RTVE, 40dB/El País, Sondaxe, bng.gal, Newtral (Comprobado 29N), Maldita.es y DatosClaros.
               </div>
             </div>
           </footer>
         </div>
       `;
 
-      // Restaurar foco en el buscador si estaba escribiendo
       if (state.activeTab === 'comparador' && document.activeElement?.id === 'search-input') {
         const input = document.getElementById('search-input');
         if (input) {
@@ -1115,11 +1215,117 @@
 
     function renderTabContent() {
       if (state.activeTab === 'comparador') return renderComparador();
+      if (state.activeTab === 'factcheck') return renderFactCheck();
       if (state.activeTab === 'pensiones_hub') return renderPensionesHub();
       if (state.activeTab === 'duelo') return renderDuelo();
       if (state.activeTab === 'simulador') return renderSimulador();
       if (state.activeTab === 'test') return renderTest();
       return '';
+    }
+
+    // ==================== NUEVO MÓDULO: FACT-CHECK 29-N ====================
+    function renderFactCheck() {
+      const filteredChecks = state.factCheckFilter === 'all'
+        ? FACT_CHECKS
+        : FACT_CHECKS.filter((fc) => fc.partyId === state.factCheckFilter);
+
+      return `
+        <div class="space-y-8">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+              <div>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-900 text-xs font-bold uppercase mb-1.5">
+                  🔍 Verificación Independiente · Alianza Comprobado 29N
+                </span>
+                <h2 class="text-2xl font-extrabold text-slate-900">
+                  Afirmaciones falsas, datos engañosos y promesas sin memoria económica
+                </h2>
+                <p class="text-sm text-slate-500 mt-1">
+                  Recopilación imparcial de verificaciones publicadas durante la campaña y el debate cara a cara del 19 de noviembre de 2026 por verificadores independientes (Newtral, Maldita.es, DatosClaros).
+                </p>
+              </div>
+            </div>
+
+            <!-- Filtro por partido -->
+            <div class="flex flex-wrap items-center gap-2 mt-4">
+              <span class="text-xs font-bold text-slate-500 mr-1">Filtrar por partido:</span>
+              <button
+                onclick="setFactCheckFilter('all')"
+                class="px-3 py-1 rounded-full text-xs font-semibold border transition-colors ${
+                  state.factCheckFilter === 'all'
+                    ? 'bg-slate-900 text-white border-slate-900'
+                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                }"
+              >Todos (${FACT_CHECKS.length})</button>
+              ${['pp', 'psoe', 'vox', 'frente', 'podemos'].map((pId) => {
+                const p = PARTIES.find((x) => x.id === pId);
+                const active = state.factCheckFilter === pId;
+                return `
+                  <button
+                    onclick="setFactCheckFilter('${pId}')"
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-colors ${
+                      active
+                        ? `${p.bgLight} ${p.border} ${p.text}`
+                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                    }"
+                  >
+                    <span class="w-2 h-2 rounded-full" style="background-color: ${p.color}"></span>
+                    ${p.name}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <!-- Tarjetas de verificación -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+              ${filteredChecks.map((fc) => {
+                const party = PARTIES.find((p) => p.id === fc.partyId);
+                return `
+                  <article class="rounded-2xl border border-slate-200 bg-slate-50/60 overflow-hidden flex flex-col">
+                    <div class="h-1.5 w-full" style="background-color: ${party ? party.color : '#334155'}"></div>
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+                      <div>
+                        <div class="flex items-center justify-between gap-2 mb-2.5">
+                          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold ${party ? party.badge : 'bg-slate-800 text-white'}">${fc.partyName}</span>
+                          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border ${fc.verdictStyle}">${fc.verdict}</span>
+                        </div>
+                        <p class="text-sm font-bold text-slate-900 leading-snug mb-2">«${fc.claim}»</p>
+                        <p class="text-xs text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-slate-200">
+                          <strong class="text-slate-900">Qué dicen los datos:</strong> ${fc.reality}
+                        </p>
+                      </div>
+                      <div class="text-[11px] text-slate-400 font-medium pt-1">
+                        Fuente verificadora: ${fc.source}
+                      </div>
+                    </div>
+                  </article>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Alerta de Bulos Virales e IA en el 29-N -->
+          <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-sm">
+            <div class="mb-4">
+              <span class="inline-block px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-xs font-bold uppercase mb-1.5">
+                ⚠ Alerta de Desinformación en Redes y WhatsApp
+              </span>
+              <h3 class="text-xl font-extrabold">Bulos virales e Inteligencia Artificial detectados en la campaña 29-N</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              ${VIRAL_HOAXES.map((h) => `
+                <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4 flex flex-col justify-between">
+                  <div>
+                    <h4 class="font-bold text-amber-300 text-sm mb-2">${h.title}</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">${h.detail}</p>
+                  </div>
+                  <span class="text-[11px] text-slate-400 mt-3 block">Verificado por: ${h.source}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
     }
 
     function renderComparador() {
@@ -1145,6 +1351,7 @@
               ({ party, data }) =>
                 party.name.toLowerCase().includes(q) ||
                 party.fullName.toLowerCase().includes(q) ||
+                party.leader.toLowerCase().includes(q) ||
                 data.headline.toLowerCase().includes(q) ||
                 data.tag.toLowerCase().includes(q) ||
                 data.bullets.some((b) => b.toLowerCase().includes(q))
@@ -1165,7 +1372,7 @@
                   type="text"
                   value="${escapeHtml(state.searchQuery)}"
                   oninput="handleSearchInput(this.value)"
-                  placeholder="Busca en todos los programas: 'IPC', '65 años', 'Sareb', 'AP-9', 'IRPF', '37,5 horas', 'nucleares'..."
+                  placeholder="Busca en todos los programas: 'IVA 0%', 'Casa 47', '30 horas', '32 horas', 'Sareb', 'AP-9', 'nucleares'..."
                   class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white"
                 />
                 ${state.searchQuery ? `
@@ -1200,7 +1407,7 @@
             <!-- Etiquetas rápidas -->
             <div class="flex flex-wrap items-center gap-1.5 text-xs">
               <span class="text-slate-400 mr-1">Búsquedas rápidas:</span>
-              ${['IPC', 'MEI', '65 años', '35 años cotizados', 'Sareb', 'AP-9', 'MIR', '37,5 horas', 'IRPF'].map((tag) => `
+              ${['0% de IVA', 'Casa 47', '32 horas', '30 horas', 'IPC', 'Sareb', 'AP-9', 'FEMPA', '85.000'].map((tag) => `
                 <button
                   onclick="applyQuickSearch('${tag}')"
                   class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-colors"
@@ -1323,7 +1530,7 @@
                               <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${party.color}"></span>
                               <span>${party.name}</span>
                             </div>
-                            <span class="block text-xs font-normal text-slate-400 mt-0.5">${party.seatsEst} esc. est.</span>
+                            <span class="block text-xs font-normal text-slate-400 mt-0.5">${party.leader}</span>
                           </td>
                           <td class="p-4 align-top">
                             <span class="inline-block px-2 py-1 rounded bg-slate-100 text-slate-700 text-xs font-semibold">${data.tag}</span>
@@ -1349,7 +1556,6 @@
     function renderPensionesHub() {
       return `
         <div class="space-y-8">
-          <!-- Radiografía del Sistema en 2026 -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
             <div class="pb-5 border-b border-slate-100">
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase mb-1.5">
@@ -1357,7 +1563,7 @@
               </span>
               <h2 class="text-2xl font-extrabold text-slate-900">¿De dónde partimos en noviembre de 2026?</h2>
               <p class="text-sm text-slate-500 mt-1">
-                Hitos aprobados en el Congreso durante 2026 que marcan el debate electoral sobre el sistema público de pensiones.
+                Datos oficiales de la Seguridad Social y votaciones parlamentarias de 2026 sobre el sistema público de pensiones.
               </p>
             </div>
 
@@ -1366,7 +1572,15 @@
                 <span class="text-xs font-bold uppercase text-slate-400 block">Revalorización 2026 (RDL 3/2026)</span>
                 <span class="text-2xl font-black text-slate-900 mt-1 block">+2,7% <span class="text-sm font-semibold text-emerald-700">(+11,4% mínimas)</span></span>
                 <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                  Aprobado el 26/02/2026 con <strong>317 síes</strong> (PSOE, PP, Sumar, Podemos, BNG, ERC, Junts, PNV, Bildu, CC) y <strong>33 noes (Vox)</strong> tras caer el decreto ómnibus el 27 de enero.
+                  Aprobado el 26/02/2026 con <strong>317 síes</strong> (PSOE, PP, Sumar, Podemos, BNG, ERC, Junts, PNV, Bildu, CC) y <strong>33 noes (Vox)</strong>.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="text-xs font-bold uppercase text-slate-400 block">Pensión Media Jubilación (Oct 2026)</span>
+                <span class="text-2xl font-black text-slate-900 mt-1 block">1.577,61 €/mes</span>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Dato oficial de octubre de 2026 (19.265,96 € anuales), frente a la brecha territorial gallega que denuncia el <strong>BNG</strong>.
                 </p>
               </div>
 
@@ -1374,29 +1588,20 @@
                 <span class="text-xs font-bold uppercase text-slate-400 block">Edad Legal Ordinaria 2026</span>
                 <span class="text-2xl font-black text-slate-900 mt-1 block">66 años y 10 meses</span>
                 <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                  Exige <strong>38 años y 3 meses</strong> cotizados para jubilarse a los 65 años. En 2027 culmina el calendario llegando a los <strong>67 años</strong>.
-                </p>
-              </div>
-
-              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <span class="text-xs font-bold uppercase text-slate-400 block">Mecanismo Equidad (MEI 2026)</span>
-                <span class="text-2xl font-black text-slate-900 mt-1 block">0,90% <span class="text-sm font-semibold text-slate-500">cotización</span></span>
-                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                  Sobrecotización finalista (0,75% empresa / 0,15% trabajador) para nutrir la «hucha de las pensiones» ante la jubilación del <em>baby boom</em>.
+                  Exige <strong>38 años y 3 meses</strong> cotizados para jubilarse a los 65 años. En 2027 culmina el calendario llegando a <strong>67 años</strong>.
                 </p>
               </div>
 
               <div class="p-4 rounded-xl bg-sky-50 border border-sky-200">
-                <span class="text-xs font-bold uppercase text-sky-700 block">Brecha Territorial (Dato Galiza)</span>
-                <span class="text-2xl font-black text-sky-950 mt-1 block">~200 €/mes menos</span>
+                <span class="text-xs font-bold uppercase text-sky-700 block">Mecanismo Equidad (MEI 2026)</span>
+                <span class="text-2xl font-black text-sky-950 mt-1 block">0,90% <span class="text-sm font-semibold text-sky-700">cotización</span></span>
                 <p class="text-xs text-sky-900 mt-1.5 leading-relaxed">
-                  Galiza registra la pensión media más baja del Estado (~1.160 € frente a 1.360 € estatal), eje central de la propuesta de pensiones del <strong>BNG</strong>.
+                  Sobrecotización finalista (0,75% empresa / 0,15% trabajador) para nutrir la hucha de las pensiones.
                 </p>
               </div>
             </div>
           </div>
 
-          <!-- Simulador Interactivo de Jubilación -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
             <h3 class="text-xl font-extrabold text-slate-900">
               Simulador de Jubilación 29-N: ¿Cómo te jubilarías con cada partido?
@@ -1467,21 +1672,21 @@
                   else if (party.id === 'frente') customOutcome = 'Jubilación anticipada a los 60-61 años sin penalización económica mediante coeficientes de penosidad.';
                   else if (party.id === 'podemos') customOutcome = 'Retorno general a la jubilación ordinaria a los 65 años y anticipada sin recortes en trabajos duros.';
                   else if (party.id === 'psoe') customOutcome = 'Activación caso a caso del procedimiento aprobado con agentes sociales para reconocer coeficientes reductores.';
-                  else if (party.id === 'pp') customOutcome = 'Evaluación técnica por sectores e incentivo de compatibilidad salario-pensión si decides prolongar la actividad.';
+                  else if (party.id === 'pp') customOutcome = 'Evaluación técnica por sectores e incentivo de compatibilidad 100% salario-pensión si decides prolongar la actividad.';
                   else customOutcome = 'Revisión actuarial de coeficientes y libertad de retiro ligada a años efectivos cotizados.';
                 } else if (sector === 'autonomo') {
-                  if (party.id === 'pp') customOutcome = 'Pasarela voluntaria al RETA para mutualistas, exención de cuotas 2 años a nuevos autónomos y mochila austríaca.';
+                  if (party.id === 'pp') customOutcome = 'Exención de IVA si facturas <85.000 €, pasarela voluntaria al RETA para mutualistas y planes de empleo.';
                   else if (party.id === 'psoe') customOutcome = 'Pasarela al RETA para mutualistas vulnerables, cotización por ingresos reales y cobertura de cese.';
-                  else if (party.id === 'vox') customOutcome = 'Cuota cero si tus ingresos no llegan al SMI y deducción máxima en IRPF para ahorro privado de jubilación.';
+                  else if (party.id === 'vox') customOutcome = 'Cuota cero si tus ingresos no llegan al SMI (desde 50 € por encima) y deducciones en IRPF para ahorro privado.';
                   else if (party.id === 'bng') customOutcome = 'Pasarela justa al RETA para mutualistas, subida de pensiones mínimas de autónomos al SMI y gestión gallega.';
                   else if (party.id === 'frente') customOutcome = 'Pasarela integral al RETA con reconocimiento de años cotizados en mutualidades y mejora de base mínima.';
                   else customOutcome = 'Equiparación de derechos de jubilación con el régimen general y pasarela voluntaria al RETA.';
                 } else if (bracket === 'minima') {
                   if (party.id === 'bng' || party.id === 'podemos') customOutcome = 'Subida inmediata por ley de tu pensión mínima hasta igualar el Salario Mínimo Interprofesional (SMI).';
-                  else if (party.id === 'frente') customOutcome = 'Equiparación al 60% de la renta mediana (por encima del SMI) y revalorización superior al IPC.';
-                  else if (party.id === 'psoe') customOutcome = 'Subidas por encima del IPC (+11,4% en 2026) hasta converger con el umbral de pobreza.';
+                  else if (party.id === 'frente') customOutcome = 'Equiparación al 60% de la renta mediana y revalorización superior al IPC.';
+                  else if (party.id === 'psoe') customOutcome = 'Subidas por encima del IPC (+11,4% en 2026) hasta converger con el umbral de pobreza y mejora de orfandad.';
                   else if (party.id === 'pp') customOutcome = 'Revalorización garantizada con el IPC y complementos focalizados manteniendo el equilibrio presupuestario.';
-                  else customOutcome = 'Exención total de IRPF y mejora financiada mediante el recorte del gasto político y autonómico.';
+                  else customOutcome = 'Exención fiscal en IRPF y mejora financiada mediante el recorte del gasto político y autonómico.';
                 } else if (years === '35a38') {
                   if (party.id === 'bng' || party.id === 'podemos') customOutcome = 'Podrías jubilarte a los 65 años con el 100% de la pensión sin tener que esperar a los 67 años en 2027.';
                   else if (party.id === 'psoe') customOutcome = 'Tu edad ordinaria sube a 67 años en 2027 (66 y 10 meses en 2026), con opción de jubilación parcial o activa.';
@@ -1507,7 +1712,6 @@
             </div>
           </div>
 
-          <!-- Tabla Comparativa Multidimensional -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-5 border-b border-slate-200">
               <h3 class="text-lg font-extrabold text-slate-900">Matriz Comparativa: Los 4 Ejes del Debate de Pensiones</h3>
@@ -1543,7 +1747,6 @@
             </div>
           </div>
 
-          <!-- Desglose de Fuerzas Territoriales -->
           <div class="space-y-4">
             <h3 class="text-lg font-extrabold text-slate-900">Posición de las Fuerzas Territoriales (BNG, ERC, Junts, PNV, EH Bildu y CC)</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1600,7 +1803,7 @@
                 >
                   ${PARTIES.map((p) => `
                     <option value="${p.id}" ${p.id === state.duelA ? 'selected' : ''} ${p.id === state.duelB ? 'disabled' : ''}>
-                      ${p.fullName} (${p.seatsEst} esc. est.)
+                      ${p.fullName} — ${p.leader} (${p.seatsEst} esc.)
                     </option>
                   `).join('')}
                 </select>
@@ -1622,7 +1825,7 @@
                 >
                   ${PARTIES.map((p) => `
                     <option value="${p.id}" ${p.id === state.duelB ? 'selected' : ''} ${p.id === state.duelA ? 'disabled' : ''}>
-                      ${p.fullName} (${p.seatsEst} esc. est.)
+                      ${p.fullName} — ${p.leader} (${p.seatsEst} esc.)
                     </option>
                   `).join('')}
                 </select>
@@ -1631,29 +1834,19 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pt-6 border-t border-slate-100">
               <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl p-4">
-                <h3 class="text-xs font-extrabold uppercase tracking-wider text-emerald-800 mb-2.5">
-                  ✓ Puntos de posible acuerdo
-                </h3>
+                <h3 class="text-xs font-extrabold uppercase tracking-wider text-emerald-800 mb-2.5">✓ Puntos de posible acuerdo</h3>
                 <ul class="space-y-2 text-xs text-emerald-950">
                   ${insight.agreements.map((item) => `
-                    <li class="flex items-start gap-2">
-                      <span class="font-bold text-emerald-600">•</span>
-                      <span>${item}</span>
-                    </li>
+                    <li class="flex items-start gap-2"><span class="font-bold text-emerald-600">•</span><span>${item}</span></li>
                   `).join('')}
                 </ul>
               </div>
 
               <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-4">
-                <h3 class="text-xs font-extrabold uppercase tracking-wider text-rose-800 mb-2.5">
-                  ⚠ Principales choques programáticos
-                </h3>
+                <h3 class="text-xs font-extrabold uppercase tracking-wider text-rose-800 mb-2.5">⚠ Principales choques programáticos</h3>
                 <ul class="space-y-2 text-xs text-rose-950">
                   ${insight.clashes.map((item) => `
-                    <li class="flex items-start gap-2">
-                      <span class="font-bold text-rose-600">•</span>
-                      <span>${item}</span>
-                    </li>
+                    <li class="flex items-start gap-2"><span class="font-bold text-rose-600">•</span><span>${item}</span></li>
                   `).join('')}
                 </ul>
               </div>
@@ -1716,8 +1909,8 @@
         const impacts = [];
         const pId = party.id;
 
-        if (housing === 'alquiler') impacts.push({ area: 'Vivienda (Alquiler)', text: PROGRAMS.vivienda[pId].bullets[0] });
-        else if (housing === 'compra') impacts.push({ area: 'Vivienda (Compra)', text: PROGRAMS.vivienda[pId].bullets[1] });
+        if (housing === 'alquiler') impacts.push({ area: 'Vivienda (Alquiler)', text: PROGRAMS.vivienda[pId].bullets[1] || PROGRAMS.vivienda[pId].bullets[0] });
+        else if (housing === 'compra') impacts.push({ area: 'Vivienda (Compra)', text: PROGRAMS.vivienda[pId].bullets[0] });
         else impacts.push({ area: 'Vivienda (Propiedad)', text: PROGRAMS.vivienda[pId].bullets[2] });
 
         if (age === 'jubilado') {
@@ -1726,8 +1919,8 @@
           impacts.push({
             area: 'Autónomos e Impuestos',
             text:
-              pId === 'vox' ? 'Cuota cero de autónomos si los ingresos netos no alcanzan el SMI y rebaja de IRPF al 15%-25%.' :
-              pId === 'pp' ? 'Exención de cotizaciones durante 2 años a nuevos autónomos y deflactación del IRPF.' :
+              pId === 'vox' ? 'Cuota de 0 euros si los ingresos no llegan al SMI y cuota progresiva desde 50 € por encima.' :
+              pId === 'pp' ? 'Exención de cobrar y declarar el IVA si la facturación anual no supera los 85.000 euros.' :
               pId === 'bng' ? 'Cotización por ingresos reales adaptada al rural galego y Tarifa Eléctrica Galega para pymes.' :
               'Cotización por ingresos reales, deducción de gastos afectos y acceso a prestaciones de cese.',
           });
@@ -1739,12 +1932,12 @@
           impacts.push({
             area: 'Familia y Conciliación',
             text:
-              pId === 'pp' ? 'Gratuidad universal de educación infantil 0-3 años y deducciones fiscales por hijo.' :
+              pId === 'pp' ? 'Gratuidad universal de educación infantil 0-3 años y actualización de mínimos familiares en IRPF.' :
               pId === 'frente' ? 'Remuneración al 100% de las 8 semanas de permiso parental para cuidado hasta los 8 años.' :
               pId === 'podemos' ? 'Prestación universal por crianza de 200 euros al mes por hijo hasta los 18 años.' :
-              pId === 'vox' ? 'Fuertes deducciones en IRPF por cada hijo y cheque escolar de libre elección.' :
+              pId === 'vox' ? 'Reducción del IRPF en función del número de hijos y cheque escolar de libre elección.' :
               pId === 'bng' ? 'Gratuidad de libros de texto, refuerzo de escuelas infantiles públicas y plan de retorno joven.' :
-              'Ampliación de permisos retribuidos de cuidados y cobertura óptica y bucodental infantil.',
+              'Rebajas fiscales a familias con hijos, 4 semanas pagadas al 100% del permiso parental y edad mínima de 16 años en redes.',
           });
         } else {
           impacts.push({ area: 'Servicios Públicos', text: PROGRAMS.social[pId].bullets[0] });
@@ -1754,12 +1947,12 @@
           impacts.push({
             area: 'Impacto en Galiza',
             text:
-              pId === 'bng' ? 'Gratuidad total de AP-9 y AP-53, concierto económico gallego, cesión de pisos Sareb al IGVS y veto a Altri.' :
-              pId === 'psoe' ? 'Bonificaciones de peajes en la AP-9, quita parcial de deuda autonómica y despliegue de fondos europeos.' :
+              pId === 'bng' ? 'Gratuidad total de AP-9 y AP-53, concierto económico gallego, cesión de pisos Sareb al IGVS y defensa de PAC/FEMPA.' :
+              pId === 'psoe' ? 'Nuevo modelo de financiación (+21.000 M€), quita parcial de deuda autonómica y bonificaciones en la AP-9.' :
               pId === 'pp' ? 'Financiación autonómica multilateral con peso del envejecimiento y dispersión, e impulso al corredor noroeste.' :
-              pId === 'frente' ? 'Suelo fiscal común, defensa de los servicios públicos del SERGAS y apoyo al sector naval y eólico marino.' :
+              pId === 'frente' ? 'Financiación autonómica (+2,3% PIB), condonación de deuda contra el dumping fiscal y servicios a menos de 30 min.' :
               pId === 'podemos' ? 'Intervención pública de autopistas y eléctricas y moratoria a macroparques eólicos en suelo agrario.' :
-              pId === 'vox' ? 'Centralización de competencias sanitarias y educativas y rebaja de impuestos al sector primario.' :
+              pId === 'vox' ? 'Centralización de competencias sanitarias y educativas y rebaja de impuestos en zonas despobladas.' :
               'Agenda centrada en sus respectivos territorios (Cataluña, Euskadi, Canarias) sin representación gallega.',
           });
         }
@@ -1873,7 +2066,7 @@
                 <div class="p-5 flex-1">
                   <div class="flex items-center justify-between mb-4">
                     <span class="px-2.5 py-1 rounded-md text-xs font-bold ${party.badge}">${party.name}</span>
-                    <span class="text-xs text-slate-400 italic">"${party.motto}"</span>
+                    <span class="text-xs text-slate-400 font-medium">${party.leader}</span>
                   </div>
                   <div class="space-y-3.5">
                     ${impacts.map((imp) => `
@@ -1941,7 +2134,7 @@
             `).join('')}
 
             <div class="pt-4 mt-4 border-t border-slate-100 text-xs text-slate-500 leading-relaxed">
-              <strong>Nota metodológica:</strong> Este índice pondera exclusivamente la coincidencia temática con los compromisos programáticos publicados para las elecciones del 29 de noviembre de 2026 (incluyendo el programa del <strong>BNG</strong> y las posiciones sobre el <strong>RDL 3/2026 de pensiones</strong>).
+              <strong>Nota metodológica:</strong> Este índice pondera exclusivamente la coincidencia temática con los programas oficiales del 29-N (actualizados a 22 de noviembre de 2026).
             </div>
           </div>
         `;
@@ -1958,7 +2151,7 @@
                 </span>
               </div>
               <p class="text-sm text-slate-500">
-                Responde a los 8 dilemas reales de la campaña de noviembre de 2026 (incluyendo pensiones, vivienda, fiscalidad y agenda territorial) para calcular tu afinidad con cada fuerza política.
+                Responde a los 8 dilemas reales de la campaña de noviembre de 2026 para calcular tu afinidad con cada candidatura.
               </p>
             </div>
 
@@ -2014,25 +2207,15 @@
     }
 
     // ==================== ACCIONES INTERACTIVAS ====================
-    function setActiveTab(tabId) {
-      state.activeTab = tabId;
-      renderApp();
-    }
-
-    function toggleBngCard() {
-      state.showBngCard = !state.showBngCard;
-      renderApp();
-    }
-
+    function setActiveTab(tabId) { state.activeTab = tabId; renderApp(); }
+    function toggleBngCard() { state.showBngCard = !state.showBngCard; renderApp(); }
+    function setFactCheckFilter(f) { state.factCheckFilter = f; renderApp(); }
     function togglePactParty(id) {
-      if (state.pactParties.includes(id)) {
-        state.pactParties = state.pactParties.filter((p) => p !== id);
-      } else {
-        state.pactParties.push(id);
-      }
+      state.pactParties = state.pactParties.includes(id)
+        ? state.pactParties.filter((p) => p !== id)
+        : [...state.pactParties, id];
       renderApp();
     }
-
     function handleSearchInput(val) {
       state.searchQuery = val;
       renderApp();
@@ -2042,27 +2225,10 @@
         input.setSelectionRange(val.length, val.length);
       }
     }
-
-    function clearSearch() {
-      state.searchQuery = '';
-      renderApp();
-    }
-
-    function applyQuickSearch(tag) {
-      state.searchQuery = tag;
-      renderApp();
-    }
-
-    function setViewMode(mode) {
-      state.viewMode = mode;
-      renderApp();
-    }
-
-    function selectTopic(topicId) {
-      state.selectedTopic = topicId;
-      renderApp();
-    }
-
+    function clearSearch() { state.searchQuery = ''; renderApp(); }
+    function applyQuickSearch(tag) { state.searchQuery = tag; renderApp(); }
+    function setViewMode(mode) { state.viewMode = mode; renderApp(); }
+    function selectTopic(topicId) { state.selectedTopic = topicId; renderApp(); }
     function togglePartyVisibility(id) {
       if (state.visibleParties.includes(id)) {
         if (state.visibleParties.length > 1) {
@@ -2073,46 +2239,14 @@
       }
       renderApp();
     }
+    function showAllParties() { state.visibleParties = PARTIES.map((p) => p.id); renderApp(); }
+    function setPensionSim(key, val) { state.pensionSim[key] = val; renderApp(); }
+    function setDuel(side, val) { if (side === 'A') state.duelA = val; else state.duelB = val; renderApp(); }
+    function swapDuel() { const t = state.duelA; state.duelA = state.duelB; state.duelB = t; renderApp(); }
+    function setProfile(key, val) { state.profile[key] = val; renderApp(); }
+    function selectQuizOption(qId, oIdx) { state.answers[qId] = oIdx; renderApp(); }
+    function resetQuiz() { state.answers = {}; renderApp(); }
 
-    function showAllParties() {
-      state.visibleParties = PARTIES.map((p) => p.id);
-      renderApp();
-    }
-
-    function setPensionSim(key, val) {
-      state.pensionSim[key] = val;
-      renderApp();
-    }
-
-    function setDuel(side, val) {
-      if (side === 'A') state.duelA = val;
-      else state.duelB = val;
-      renderApp();
-    }
-
-    function swapDuel() {
-      const temp = state.duelA;
-      state.duelA = state.duelB;
-      state.duelB = temp;
-      renderApp();
-    }
-
-    function setProfile(key, val) {
-      state.profile[key] = val;
-      renderApp();
-    }
-
-    function selectQuizOption(qId, oIdx) {
-      state.answers[qId] = oIdx;
-      renderApp();
-    }
-
-    function resetQuiz() {
-      state.answers = {};
-      renderApp();
-    }
-
-    // Arranque inmediato al cargar el documento
     document.addEventListener('DOMContentLoaded', renderApp);
   </script>
 </body>
